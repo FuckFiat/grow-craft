@@ -52,37 +52,68 @@
         /* Content */
         .content { flex: 1; overflow-y: auto; padding: 6px; padding-bottom: 55px; -webkit-overflow-scrolling: touch; }
         
-        /* Grow Room - Minecraft Style */
-        .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        /* Grow Room - Just Plants */
+        .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         @media (max-width: 340px) { .room { grid-template-columns: repeat(2, 1fr); } }
         
-        .pot { background: var(--stone); border: 3px solid #3d2914; border-radius: 4px; padding: 6px; min-height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; image-rendering: pixelated; }
-        .pot.sel { border-color: var(--gold); box-shadow: 0 0 8px rgba(240, 136, 62, 0.5), inset 0 0 4px rgba(240, 136, 62, 0.3); }
-        .pot.ready { border-color: #4CAF50; animation: pot-ready 1s infinite; }
-        @keyframes pot-ready { 0%, 100% { box-shadow: 0 0 4px #4CAF50; } 50% { box-shadow: 0 0 12px #4CAF50; } }
+        .plant-slot { background: transparent; padding: 4px; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; }
+        .plant-slot.sel { filter: drop-shadow(0 0 8px var(--gold)); }
+        .plant-slot.ready { animation: ready-glow 1.5s infinite; }
+        @keyframes ready-glow { 0%, 100% { filter: drop-shadow(0 0 6px #4CAF50); } 50% { filter: drop-shadow(0 0 16px #4CAF50); } }
         
-        /* Minecraft Plant Sprites */
+        /* Realistic Plant Growth Animation */
         .plant-sprite {
-            image-rendering: pixelated;
             position: relative;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
         
-        /* Stage 0: Seed - small dirt mound */
+        /* Stage 0: Seed - crack in soil */
         .plant-stage-0 {
-            width: 16px;
+            width: 24px;
+            height: 32px;
+            position: relative;
+        }
+        .plant-stage-0::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
             height: 8px;
-            background: linear-gradient(90deg, #3d2914 0%, #5d3a1a 50%, #3d2914 100%);
-            border-radius: 0 0 4px 4px;
-            margin-top: 30px;
+            background: radial-gradient(ellipse 12px 8px at center, #5d3a1a 0%, #3d2914 100%);
+            border-radius: 4px;
+            animation: seed-crack 2s ease-in-out infinite;
+        }
+        .plant-stage-0::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 2px;
+            background: #8b4513;
+            opacity: 0;
+            animation: seed-open 2s ease-in-out infinite;
+        }
+        @keyframes seed-crack {
+            0%, 30% { transform: translateX(-50%) scaleX(1); }
+            50% { transform: translateX(-50%) scaleX(1.2); }
+            70%, 100% { transform: translateX(-50%) scaleX(1); }
+        }
+        @keyframes seed-open {
+            0%, 30% { opacity: 0; bottom: 6px; }
+            50% { opacity: 1; bottom: 8px; }
+            70%, 100% { opacity: 0; bottom: 10px; }
         }
         
-        /* Stage 1: Sprout - tiny green stem */
+        /* Stage 1: Sprout - breaking through */
         .plant-stage-1 {
-            width: 8px;
-            height: 16px;
-            margin-top: 22px;
+            width: 28px;
+            height: 40px;
             position: relative;
+            animation: sprout 1.5s ease-in-out infinite;
         }
         .plant-stage-1::before {
             content: '';
@@ -90,28 +121,34 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 12px;
-            background: linear-gradient(to top, #2d5a2d, #4a8);
+            width: 24px;
+            height: 6px;
+            background: radial-gradient(ellipse 12px 6px at center, #5d3a1a 0%, #3d2914 100%);
+            border-radius: 4px;
         }
         .plant-stage-1::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 4px;
             left: 50%;
             transform: translateX(-50%);
-            width: 12px;
-            height: 8px;
-            background: linear-gradient(135deg, #3a8a3a 0%, #5aaa5a 50%, #3a8a3a 100%);
-            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(to top, #2d5a2d 0%, #4a8 50%, #6b8 100%);
+            border-radius: 2px;
+            box-shadow: inset -1px 0 0 rgba(255,255,255,0.2);
+        }
+        @keyframes sprout {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
         }
         
-        /* Stage 2: Seedling - small plant */
+        /* Stage 2: Seedling - first leaves */
         .plant-stage-2 {
-            width: 20px;
-            height: 24px;
-            margin-top: 14px;
+            width: 36px;
+            height: 48px;
             position: relative;
+            animation: seedling 2s ease-in-out infinite;
         }
         .plant-stage-2::before {
             content: '';
@@ -119,28 +156,36 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 16px;
-            background: linear-gradient(to top, #2d5a2d, #4a8);
+            width: 28px;
+            height: 6px;
+            background: radial-gradient(ellipse 14px 6px at center, #5d3a1a 0%, #3d2914 100%);
+            border-radius: 4px;
         }
         .plant-stage-2::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 14px;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 28px;
             background: 
-                radial-gradient(ellipse 8px 6px at 6px 8px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 8px 6px at 14px 8px, #5aaa5a 0%, #3a8a3a 100%);
+                linear-gradient(135deg, transparent 50%, #3a8a3a 50%) 0 0/18px 28px,
+                linear-gradient(225deg, transparent 50%, #4a9a4a 50%) 18px 0/18px 28px;
+            border-radius: 4px;
+            box-shadow: inset 0 -8px 0 #2d5a2d;
+        }
+        @keyframes seedling {
+            0%, 100% { transform: rotate(-0.5deg) scale(1); }
+            50% { transform: rotate(0.5deg) scale(1.02); }
         }
         
-        /* Stage 3: Vegetative - bushy plant */
+        /* Stage 3: Vegetative - bushy */
         .plant-stage-3 {
-            width: 32px;
-            height: 36px;
-            margin-top: 6px;
+            width: 48px;
+            height: 56px;
             position: relative;
+            animation: veg-grow 3s ease-in-out infinite;
         }
         .plant-stage-3::before {
             content: '';
@@ -148,29 +193,41 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 5px;
-            height: 20px;
-            background: linear-gradient(to top, #2d5a2d, #4a8);
+            width: 32px;
+            height: 6px;
+            background: radial-gradient(ellipse 16px 6px at center, #5d3a1a 0%, #3d2914 100%);
+            border-radius: 4px;
         }
         .plant-stage-3::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 32px;
-            height: 28px;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 36px;
             background: 
-                radial-gradient(ellipse 10px 8px at 8px 10px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 10px 8px at 24px 10px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 12px 10px at 16px 16px, #6aba6a 0%, #4a9a4a 100%);
+                radial-gradient(ellipse 24px 18px at 50% 70%, #6aba6a 0%, #4a9a4a 60%, #3a8a3a 100%),
+                radial-gradient(ellipse 16px 12px at 20% 40%, #5aaa5a 0%, #3a8a3a 100%),
+                radial-gradient(ellipse 16px 12px at 80% 40%, #5aaa5a 0%, #3a8a3a 100%);
+            border-radius: 8px;
+            box-shadow: 
+                inset -4px -4px 8px rgba(0,0,0,0.2),
+                inset 4px 4px 8px rgba(255,255,255,0.1);
+        }
+        @keyframes veg-grow {
+            0%, 100% { transform: rotate(-0.5deg); }
+            25% { transform: rotate(0.5deg); }
+            50% { transform: rotate(-0.3deg) translateY(-2px); }
+            75% { transform: rotate(0.3deg); }
         }
         
-        /* Stage 4: Pre-flower - bigger with some pistils */
+        /* Stage 4: Pre-flower - pistols appearing */
         .plant-stage-4 {
-            width: 40px;
-            height: 44px;
-            margin-top: 0;
+            width: 56px;
+            height: 64px;
             position: relative;
+            animation: preflower 2.5s ease-in-out infinite;
         }
         .plant-stage-4::before {
             content: '';
@@ -178,30 +235,39 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 6px;
-            height: 24px;
-            background: linear-gradient(to top, #2d5a2d, #4a8);
+            width: 36px;
+            height: 6px;
+            background: radial-gradient(ellipse 18px 6px at center, #5d3a1a 0%, #3d2914 100%);
+            border-radius: 4px;
         }
         .plant-stage-4::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 40px;
-            height: 36px;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 56px;
+            height: 44px;
             background: 
-                radial-gradient(ellipse 12px 10px at 8px 12px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 12px 10px at 32px 12px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 16px 12px at 20px 20px, #6aba6a 0%, #4a9a4a 100%),
-                radial-gradient(ellipse 4px 4px at 12px 8px, #f8a 0%, transparent 100%),
-                radial-gradient(ellipse 4px 4px at 28px 8px, #f8a 0%, transparent 100%);
+                radial-gradient(ellipse 28px 22px at 50% 70%, #6aba6a 0%, #4a9a4a 60%, #3a8a3a 100%),
+                radial-gradient(ellipse 18px 14px at 25% 35%, #5aaa5a 0%, #3a8a3a 100%),
+                radial-gradient(ellipse 18px 14px at 75% 35%, #5aaa5a 0%, #3a8a3a 100%),
+                radial-gradient(ellipse 4px 6px at 35% 25%, #f8a 0%, #d6a 100%),
+                radial-gradient(ellipse 4px 6px at 65% 25%, #f8a 0%, #d6a 100%);
+            border-radius: 10px;
+            box-shadow: inset -4px -4px 8px rgba(0,0,0,0.2);
+        }
+        @keyframes preflower {
+            0%, 100% { transform: rotate(-0.3deg); }
+            50% { transform: rotate(0.3deg) scale(1.01); }
         }
         
-        /* Stage 5: Flowering - big with buds */
+        /* Stage 5: Flowering - buds forming */
         .plant-stage-5 {
-            width: 48px;
-            height: 52px;
+            width: 64px;
+            height: 72px;
             position: relative;
+            animation: flowering 2s ease-in-out infinite;
         }
         .plant-stage-5::before {
             content: '';
@@ -209,133 +275,127 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 6px;
-            height: 28px;
-            background: linear-gradient(to top, #2d5a2d, #4a8);
+            width: 40px;
+            height: 6px;
+            background: radial-gradient(ellipse 20px 6px at center, #5d3a1a 0%, #3d2914 100%);
+            border-radius: 4px;
         }
         .plant-stage-5::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 48px;
-            height: 44px;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 52px;
             background: 
-                radial-gradient(ellipse 14px 12px at 10px 14px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 14px 12px at 38px 14px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 20px 16px at 24px 24px, #6aba6a 0%, #4a9a4a 100%),
-                radial-gradient(ellipse 8px 6px at 16px 10px, #f4a 0%, #d3a 100%),
-                radial-gradient(ellipse 8px 6px at 32px 10px, #f4a 0%, #d3a 100%),
-                radial-gradient(ellipse 6px 6px at 24px 18px, #f8a 0%, #d7a 100%);
+                radial-gradient(ellipse 32px 26px at 50% 65%, #6aba6a 0%, #4a9a4a 50%, #3a8a3a 100%),
+                radial-gradient(ellipse 20px 16px at 28% 30%, #5aaa5a 0%, #3a8a3a 100%),
+                radial-gradient(ellipse 20px 16px at 72% 30%, #5aaa5a 0%, #3a8a3a 100%),
+                radial-gradient(ellipse 10px 12px at 35% 20%, #f4a 0%, #d3a 70%),
+                radial-gradient(ellipse 10px 12px at 65% 20%, #f4a 0%, #d3a 70%),
+                radial-gradient(ellipse 8px 10px at 50% 35%, #f8a 0%, #d7a 80%);
+            border-radius: 12px;
+            box-shadow: 
+                inset -4px -4px 8px rgba(0,0,0,0.2),
+                inset 4px 4px 8px rgba(255,255,255,0.05);
+        }
+        @keyframes flowering {
+            0%, 100% { transform: rotate(-0.5deg); }
+            33% { transform: rotate(0.3deg); }
+            66% { transform: rotate(-0.2deg) scale(1.01); }
         }
         
         /* Stage 6: Harvest - big buds with crystals */
         .plant-stage-6 {
-            width: 56px;
-            height: 60px;
+            width: 72px;
+            height: 80px;
             position: relative;
-            animation: sway-harvest 3s ease-in-out infinite;
+            animation: harvest 2.5s ease-in-out infinite;
         }
-        @keyframes sway-harvest { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
         .plant-stage-6::before {
             content: '';
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 7px;
-            height: 30px;
-            background: linear-gradient(to top, #2d5a2d, #4a8);
+            width: 44px;
+            height: 8px;
+            background: radial-gradient(ellipse 22px 8px at center, #5d3a1a 0%, #3d2914 100%);
+            border-radius: 4px;
         }
         .plant-stage-6::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 56px;
-            height: 50px;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 72px;
+            height: 58px;
             background: 
-                radial-gradient(ellipse 16px 14px at 12px 16px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 16px 14px at 44px 16px, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 24px 20px at 28px 28px, #6aba6a 0%, #4a9a4a 100%),
-                radial-gradient(ellipse 10px 8px at 16px 12px, #f4a 0%, #d3a 100%),
-                radial-gradient(ellipse 10px 8px at 40px 12px, #f4a 0%, #d3a 100%),
-                radial-gradient(ellipse 12px 10px at 28px 20px, #f8a 0%, #d7a 100%),
-                radial-gradient(ellipse 8px 6px at 22px 8px, #fff 0%, transparent 100%),
-                radial-gradient(ellipse 6px 5px at 34px 10px, #fff 0%, transparent 100%),
-                radial-gradient(ellipse 4px 4px at 28px 15px, #fff 0%, transparent 100%);
+                radial-gradient(ellipse 36px 30px at 50% 60%, #6aba6a 0%, #4a9a4a 40%, #3a8a3a 100%),
+                radial-gradient(ellipse 22px 18px at 26% 25%, #5aaa5a 0%, #3a8a3a 100%),
+                radial-gradient(ellipse 22px 18px at 74% 25%, #5aaa5a 0%, #3a8a3a 100%),
+                radial-gradient(ellipse 14px 18px at 38% 18%, #f4a 0%, #d3a 60%, #c9a 100%),
+                radial-gradient(ellipse 14px 18px at 62% 18%, #f4a 0%, #d3a 60%, #c9a 100%),
+                radial-gradient(ellipse 10px 14px at 50% 28%, #f8a 0%, #d7a 70%);
+            border-radius: 14px;
+            box-shadow: 
+                inset -5px -5px 10px rgba(0,0,0,0.25),
+                inset 5px 5px 10px rgba(255,255,255,0.08);
+        }
+        /* Crystals animation */
+        .plant-stage-6::before {
+            animation: crystals 1.5s ease-in-out infinite;
+        }
+        @keyframes harvest {
+            0%, 100% { transform: rotate(-0.3deg) translateY(0); }
+            25% { transform: rotate(0.2deg) translateY(-1px); }
+            50% { transform: rotate(-0.2deg) scale(1.01); }
+            75% { transform: rotate(0.3deg) translateY(0); }
+        }
+        @keyframes crystals {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
         
-        /* Empty pot */
-        .pot-empty {
-            width: 36px;
-            height: 20px;
-            position: relative;
-            margin-top: 30px;
-        }
-        .pot-empty::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 36px;
-            height: 8px;
-            background: linear-gradient(90deg, #3d2914 0%, #8b4513 25%, #a0522d 50%, #8b4513 75%, #3d2914 100%);
-            border-radius: 0 0 4px 4px;
-        }
-        .pot-empty::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 32px;
-            height: 4px;
-            background: linear-gradient(90deg, #3d2914 0%, #5d3a1a 50%, #3d2914 100%);
-            border-radius: 2px;
-        }
+        .plant-name { font-size: 7px; color: var(--text-bright); margin-top: 4px; text-align: center; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .plant-progress { font-size: 6px; color: var(--muted); }
         
-        /* Pot under plant */
-        .pot-visual {
-            width: 36px;
-            height: 16px;
-            position: relative;
-            margin-top: 2px;
+        /* Bottom Actions - Minecraft Style */
+        .actions { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, #3d2914 0%, #2d1f0f 100%); border-top: 3px solid #5d3a1a; padding: 4px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+        .act { 
+            background: linear-gradient(180deg, #6b4423 0%, #5d3a1a 50%, #4a3520 100%);
+            border: 2px solid #8b5a2b;
+            border-top-color: #a0522d;
+            border-left-color: #8b4513;
+            border-right-color: #5d3a1a;
+            border-bottom-color: #3d2914;
+            border-radius: 0;
+            padding: 8px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: #fff;
+            text-shadow: 2px 2px 0 #000;
+            box-shadow: inset -2px -4px 0 rgba(0,0,0,0.3), inset 2px 2px 0 rgba(255,255,255,0.1);
         }
-        .pot-visual::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 36px;
-            height: 12px;
-            background: linear-gradient(90deg, #3d2914 0%, #5d3a1a 20%, #8b4513 50%, #5d3a1a 80%, #3d2914 100%);
-            border-radius: 0 0 4px 4px;
-            border: 2px solid #2d1f0f;
+        .act:active { 
+            background: linear-gradient(180deg, #5d3a1a 0%, #4a3520 50%, #3d2914 100%);
+            transform: translateY(2px);
+            box-shadow: inset 2px 4px 0 rgba(0,0,0,0.3);
         }
-        .pot-visual::after {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 4px;
-            background: linear-gradient(90deg, #3d2914 0%, #a0522d 50%, #3d2914 100%);
+        .act.on { 
+            background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 50%, #2d5a2d 100%);
+            border-color: #5aaa5a;
+            border-top-color: #6aba6a;
+            border-left-color: #5aaa5a;
+            border-right-color: #3a7a3a;
+            border-bottom-color: #2d5a2d;
         }
-        
-        .pot-name { font-size: 7px; color: var(--text-bright); margin-top: 4px; text-align: center; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .pot-progress { font-size: 6px; color: var(--muted); }
-        
-        /* Bottom Actions */
-        .actions { position: fixed; bottom: 0; left: 0; right: 0; background: var(--dark); border-top: 2px solid #2d1f0f; padding: 4px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
-        .act { background: linear-gradient(180deg, #5d3a1a, #3d2914); border: 2px solid #2d1f0f; border-radius: 4px; padding: 6px 2px; display: flex; flex-direction: column; align-items: center; color: var(--text-bright); }
-        .act:active { background: linear-gradient(180deg, #8b4513, #5d3a1a); }
-        .act.on { background: linear-gradient(180deg, var(--green), #1a5a1a); }
-        .act .i { font-size: 14px; }
-        .act .t { font-size: 5px; margin-top: 2px; }
+        .act .i { font-size: 16px; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
+        .act .t { font-size: 6px; text-shadow: 1px 1px 0 #000; }
         
         /* Plant Detail Modal - Full Screen */
         .plant-modal { position: fixed; inset: 0; background: linear-gradient(180deg, #1a3d1a 0%, #0d1117 100%); display: none; flex-direction: column; z-index: 1000; }
@@ -761,16 +821,15 @@
                     const ready = p && p.stage >= 6 ? 'ready' : '';
                     
                     if (p) {
-                        html += `<div class="pot ${sel} ${ready}" data-slot="${i}">
+                        html += `<div class="plant-slot ${sel} ${ready}" data-slot="${i}">
                             <div class="plant-sprite plant-stage-${p.stage}"></div>
-                            <div class="pot-visual"></div>
-                            <div class="pot-name">${p.strain.name.slice(0, 8)}</div>
-                            <div class="pot-progress">${Math.floor(p.progress)}%</div>
+                            <div class="plant-name">${p.strain.name.slice(0, 8)}</div>
+                            <div class="plant-progress">${Math.floor(p.progress)}%</div>
                         </div>`;
                     } else {
-                        html += `<div class="pot ${sel}" data-slot="${i}">
-                            <div class="pot-empty"></div>
-                            <div class="pot-name">ПУСТО</div>
+                        html += `<div class="plant-slot ${sel}" data-slot="${i}">
+                            <div class="plant-name" style="opacity:0.5;margin-top:20px">🌱</div>
+                            <div class="plant-name" style="opacity:0.5">ПУСТО</div>
                         </div>`;
                     }
                 }
