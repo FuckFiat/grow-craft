@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>🌱 Grow Simulator 4.0 Mobile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        :root {
+            --mc-green: #5D8C3D;
+            --mc-dark-green: #3D5C27;
+            --mc-brown: #8B5A2B;
+            --mc-stone: #7F7F7F;
+            --mc-dirt: #866043;
+            --mc-grass: #7CBD4F;
+            --mc-water: #3B7EB0;
+            --mc-gold: #F5C71A;
+            --mc-obsidian: #1B1B2B;
+            --mc-enchanted: #7D4BBD;
+        }
+        
+        html, body {
+            font-family: 'Press Start 2P', monospace;
+            background: #0a0a1a;
+            color: #FFF;
+            overflow: hidden;
+            touch-action: manipulation;
+            height: 100%;
+            width: 100%;
+            position: fixed;
+        }
+        
+        /* Main Layout - Mobile First */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        /* Header - Compact */
+        .header {
+            background: linear-gradient(180deg, var(--mc-obsidian), #0f0f1f);
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #000;
+            flex-shrink: 0;
+        }
+        
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .day-badge {
+            background: var(--mc-green);
+            color: #000;
+            padding: 4px 8px;
+            font-size: 10px;
+            border: 2px solid #000;
+        }
+        
+        .time-speed {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        
+        .speed-btn {
+            width: 28px;
+            height: 24px;
+            background: var(--mc-stone);
+            border: 2px solid #000;
+            color: #FFF;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .speed-btn.active {
+            background: var(--mc-gold);
+            color: #000;
+        }
+        
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+        
+        .currency-display {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+        }
+        
+        .level-badge {
+            font-size: 8px;
+            background: var(--mc-enchanted);
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+        
+        /* Stats Bar - Horizontal Scroll */
+        .stats-bar {
+            background: var(--mc-obsidian);
+            padding: 8px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+        }
+        
+        .stat-icon {
+            font-size: 16px;
+        }
+        
+        .stat-value {
+            font-size: 10px;
+            color: var(--mc-gold);
+        }
+        
+        .stat-bar-mini {
+            width: 40px;
+            height: 4px;
+            background: #000;
+            border: 1px solid #333;
+            margin-top: 2px;
+        }
+        
+        .stat-bar-fill-mini {
+            height: 100%;
+            transition: width 0.3s;
+        }
+        
+        /* Plant Grid - Main Area */
+        .plants-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+            background: linear-gradient(180deg, #1a1a2e, #0f0f1f);
+        }
+        
+        .plants-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        @media (min-width: 600px) {
+            .plants-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        .plant-card {
+            background: var(--mc-stone);
+            border: 3px solid #000;
+            padding: 8px;
+            position: relative;
+            min-height: 120px;
+        }
+        
+        .plant-card.empty {
+            background: #3a3a4a;
+            border-style: dashed;
+        }
+        
+        .plant-card.selected {
+            border-color: var(--mc-gold);
+            box-shadow: 0 0 10px var(--mc-gold);
+        }
+        
+        .plant-card.harvest {
+            border-color: var(--mc-green);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 5px var(--mc-green); }
+            50% { box-shadow: 0 0 15px var(--mc-green); }
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .card-phase {
+            font-size: 6px;
+            color: #999;
+        }
+        
+        .card-health {
+            font-size: 12px;
+        }
+        
+        .card-icon {
+            text-align: center;
+            font-size: 32px;
+            margin: 8px 0;
+        }
+        
+        .card-progress {
+            height: 8px;
+            background: #000;
+            border: 1px solid #333;
+        }
+        
+        .card-progress-fill {
+            height: 100%;
+            background: var(--mc-green);
+        }
+        
+        .card-progress-fill.flowering {
+            background: var(--mc-enchanted);
+        }
+        
+        .card-progress-fill.harvest {
+            background: var(--mc-gold);
+        }
+        
+        .card-name {
+            font-size: 8px;
+            text-align: center;
+            margin-top: 4px;
+            color: #FFF;
+        }
+        
+        .card-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 4px;
+            font-size: 7px;
+        }
+        
+        .card-stat {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        /* Action Buttons - Fixed Bottom */
+        .actions-bar {
+            background: var(--mc-obsidian);
+            border-top: 3px solid #000;
+            padding: 8px;
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        
+        .action-btn {
+            width: 52px;
+            height: 52px;
+            background: var(--mc-stone);
+            border: 3px solid #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #FFF;
+            position: relative;
+        }
+        
+        .action-btn:active {
+            background: #999;
+            transform: scale(0.95);
+        }
+        
+        .action-btn span {
+            font-size: 6px;
+            margin-top: 2px;
+        }
+        
+        .action-btn.highlight {
+            background: var(--mc-gold);
+            color: #000;
+        }
+        
+        .action-btn.highlight span {
+            color: #000;
+        }
+        
+        /* Modals - Full Screen on Mobile */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            display: none;
+            overflow-y: auto;
+        }
+        
+        .modal-overlay.visible {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            background: var(--mc-obsidian);
+            padding: 12px;
+            border-bottom: 3px solid #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+        
+        .modal-title {
+            font-size: 14px;
+            color: var(--mc-gold);
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: #f44;
+            border: 2px solid #000;
+            color: #FFF;
+            font-size: 16px;
+        }
+        
+        .modal-content {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+        }
+        
+        /* Shop Tabs */
+        .shop-tabs {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .shop-tab {
+            padding: 8px 12px;
+            background: var(--mc-stone);
+            border: 2px solid #000;
+            color: #FFF;
+            font-size: 9px;
+            white-space: nowrap;
+        }
+        
+        .shop-tab.active {
+            background: var(--mc-gold);
+            color: #000;
+        }
+        
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        @media (min-width: 500px) {
+            .shop-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        .shop-item {
+            background: var(--mc-stone);
+            border: 2px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .shop-item:active {
+            background: #999;
+        }
+        
+        .shop-item.disabled {
+            opacity: 0.4;
+        }
+        
+        .shop-item.owned {
+            border-color: var(--mc-green);
+        }
+        
+        .item-icon {
+            font-size: 24px;
+        }
+        
+        .item-name {
+            font-size: 8px;
+            margin: 4px 0;
+        }
+        
+        .item-price {
+            font-size: 10px;
+            color: var(--mc-gold);
+        }
+        
+        /* Plant Selection */
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        @media (min-width: 500px) {
+            .plant-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        .plant-card-select {
+            background: var(--mc-stone);
+            border: 2px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .plant-card-select:active {
+            background: #999;
+        }
+        
+        .plant-card-select.locked {
+            opacity: 0.4;
+        }
+        
+        .plant-card-select.selected {
+            border-color: var(--mc-green);
+            box-shadow: 0 0 10px var(--mc-green);
+        }
+        
+        /* Info Panel */
+        .info-panel {
+            background: var(--mc-obsidian);
+            border: 2px solid #000;
+            padding: 12px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #333;
+            font-size: 10px;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-value {
+            color: var(--mc-gold);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--mc-obsidian);
+            border: 4px solid var(--mc-gold);
+            padding: 20px;
+            text-align: center;
+            z-index: 2000;
+            max-width: 90%;
+        }
+        
+        .notification.hidden {
+            display: none;
+        }
+        
+        .notification-title {
+            font-size: 14px;
+            color: var(--mc-gold);
+            margin-bottom: 10px;
+        }
+        
+        .notification-text {
+            font-size: 10px;
+            line-height: 1.5;
+        }
+        
+        /* Tutorial */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--mc-obsidian);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .tutorial-overlay.hidden {
+            display: none;
+        }
+        
+        .tutorial-title {
+            font-size: 18px;
+            color: var(--mc-green);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tutorial-tips {
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .tutorial-tip {
+            background: var(--mc-stone);
+            border: 2px solid #000;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--mc-green);
+            color: #000;
+            border: 3px solid #000;
+            padding: 12px 24px;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        
+        .btn-primary:active {
+            background: var(--mc-grass);
+        }
+        
+        /* Environment Display */
+        .environment-bar {
+            background: #1a1a2a;
+            padding: 6px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 8px;
+            border-bottom: 2px solid #000;
+            flex-shrink: 0;
+        }
+        
+        .env-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .env-value {
+            color: var(--mc-gold);
+        }
+        
+        /* Reservoir */
+        .reservoir-bar {
+            background: var(--mc-obsidian);
+            padding: 8px;
+            margin: 8px;
+            border: 2px solid #000;
+        }
+        
+        .reservoir-title {
+            font-size: 10px;
+            color: var(--mc-gold);
+            margin-bottom: 6px;
+        }
+        
+        .reservoir-stats {
+            display: flex;
+            justify-content: space-around;
+            font-size: 9px;
+        }
+        
+        .res-stat {
+            text-align: center;
+        }
+        
+        .res-value {
+            color: var(--mc-water);
+        }
+        
+        /* Responsive */
+        @media (max-width: 360px) {
+            .action-btn { width: 44px; height: 44px; font-size: 18px; }
+            .action-btn span { font-size: 5px; }
+            .plant-card { min-height: 100px; }
+            .card-icon { font-size: 24px; }
+        }
+        
+        @media (min-width: 768px) {
+            .plants-grid { grid-template-columns: repeat(3, 1fr); }
+            .shop-grid { grid-template-columns: repeat(4, 1fr); }
+            .plant-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tutorial -->
+    <div class="tutorial-overlay" id="tutorial">
+        <div class="tutorial-title">🌱 GROW SIMULATOR<br>Mobile Edition</div>
+        <div class="tutorial-tips">
+            <div class="tutorial-tip"><span style="font-size:20px">📱</span><div>Тапни на слот → выбери семя</div></div>
+            <div class="tutorial-tip"><span style="font-size:20px">⏩</span><div>Ускоряй время кнопками 1x-10x</div></div>
+            <div class="tutorial-tip"><span style="font-size:20px">🌱</span><div>До 6 растений одновременно</div></div>
+            <div class="tutorial-tip"><span style="font-size:20px">📊</span><span>EC, pH, CO₂, влажность</span></div>
+            <div class="tutorial-tip"><span style="font-size:20px">🏪</span><div>30+ товаров в магазине</div></div>
+        </div>
+        <button class="btn-primary" onclick="startGame()">▶️ ИГРАТЬ</button>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="day-badge" id="dayBadge">🌱 ДЕНЬ 1</div>
+                <div class="time-speed">
+                    <button class="speed-btn active" onclick="setSpeed(1)" id="s1">1x</button>
+                    <button class="speed-btn" onclick="setSpeed(2)" id="s2">2x</button>
+                    <button class="speed-btn" onclick="setSpeed(5)" id="s5">5x</button>
+                    <button class="speed-btn" onclick="setSpeed(10)" id="s10">10x</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="currency-display">💰 <span id="currency">500</span></div>
+                <div class="level-badge">⭐ УР <span id="level">1</span></div>
+            </div>
+        </div>
+        
+        <!-- Environment Bar -->
+        <div class="environment-bar">
+            <div class="env-item">🌡️ <span class="env-value" id="temp">24°C</span></div>
+            <div class="env-item">💧 <span class="env-value" id="humidity">60%</span></div>
+            <div class="env-item">💨 <span class="env-value" id="co2">400ppm</span></div>
+            <div class="env-item">💡 <span class="env-value" id="light">ON</span></div>
+        </div>
+        
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-icon">❤️</div>
+                <div class="stat-value" id="healthV">100</div>
+                <div class="stat-bar-mini"><div class="stat-bar-fill-mini" id="healthB" style="width:100%;background:var(--mc-green)"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">💧</div>
+                <div class="stat-value" id="waterV">50</div>
+                <div class="stat-bar-mini"><div class="stat-bar-fill-mini" id="waterB" style="width:50%;background:var(--mc-water)"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">🧪</div>
+                <div class="stat-value" id="ecV">0.0</div>
+                <div class="stat-bar-mini"><div class="stat-bar-fill-mini" id="ecB" style="width:0%;background:var(--mc-enchanted)"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">⚗️</div>
+                <div class="stat-value" id="phV">6.0</div>
+                <div class="stat-bar-mini"><div class="stat-bar-fill-mini" id="phB" style="width:60%;background:#8BC34A"></div></div>
+            </div>
+        </div>
+        
+        <!-- Plants Area -->
+        <div class="plants-area">
+            <!-- Reservoir -->
+            <div class="reservoir-bar">
+                <div class="reservoir-title">💦 РЕЗЕРВУАР</div>
+                <div class="reservoir-stats">
+                    <div class="res-stat">Уровень<div class="res-value" id="resLevel">80%</div></div>
+                    <div class="res-stat">EC<div class="res-value" id="resEC">0.8</div></div>
+                    <div class="res-stat">pH<div class="res-value" id="resPH">6.0</div></div>
+                    <div class="res-stat">T°<div class="res-value" id="resTemp">24°</div></div>
+                </div>
+            </div>
+            
+            <div class="plants-grid" id="plantsGrid"></div>
+        </div>
+        
+        <!-- Actions Bar -->
+        <div class="actions-bar">
+            <button class="action-btn highlight" onclick="openPlantModal()">🌱<span>Садить</span></button>
+            <button class="action-btn" onclick="waterAll()">💧<span>Полив</span></button>
+            <button class="action-btn" onclick="openNutrientModal()">🧪<span>NPK</span></button>
+            <button class="action-btn" onclick="toggleLight()">💡<span>Свет</span></button>
+            <button class="action-btn" onclick="toggleCO2()">💨<span>CO₂</span></button>
+            <button class="action-btn" onclick="openShop()">🏪<span>Магазин</span></button>
+            <button class="action-btn" onclick="openInfo()">📊<span>Инфо</span></button>
+        </div>
+    </div>
+    
+    <!-- Plant Selection Modal -->
+    <div class="modal-overlay" id="plantModal">
+        <div class="modal-header">
+            <div class="modal-title">🌱 ВЫБЕРИ СОРТ</div>
+            <button class="modal-close" onclick="closeModal('plantModal')">✕</button>
+        </div>
+        <div class="modal-content">
+            <div class="plant-grid" id="plantGrid"></div>
+        </div>
+    </div>
+    
+    <!-- Shop Modal -->
+    <div class="modal-overlay" id="shopModal">
+        <div class="modal-header">
+            <div class="modal-title">🏪 МАГАЗИН</div>
+            <button class="modal-close" onclick="closeModal('shopModal')">✕</button>
+        </div>
+        <div class="modal-content">
+            <div class="shop-tabs" id="shopTabs">
+                <button class="shop-tab active" onclick="switchShop('seeds')">🌱</button>
+                <button class="shop-tab" onclick="switchShop('equipment')">⚙️</button>
+                <button class="shop-tab" onclick="switchShop('nutrients')">🧪</button>
+                <button class="shop-tab" onclick="switchShop('upgrades')">⬆️</button>
+                <button class="shop-tab" onclick="switchShop('boosters')">⚡</button>
+            </div>
+            <div class="shop-grid" id="shopGrid"></div>
+        </div>
+    </div>
+    
+    <!-- Nutrient Modal -->
+    <div class="modal-overlay" id="nutrientModal">
+        <div class="modal-header">
+            <div class="modal-title">🧪 УДОБРЕНИЯ</div>
+            <button class="modal-close" onclick="closeModal('nutrientModal')">✕</button>
+        </div>
+        <div class="modal-content">
+            <div class="shop-grid" id="nutrientGrid"></div>
+        </div>
+    </div>
+    
+    <!-- Info Modal -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-header">
+            <div class="modal-title">📊 СТАТИСТИКА</div>
+            <button class="modal-close" onclick="closeModal('infoModal')">✕</button>
+        </div>
+        <div class="modal-content">
+            <div class="info-panel" id="infoPanel"></div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification hidden" id="notification">
+        <div class="notification-title" id="notifTitle"></div>
+        <div class="notification-text" id="notifText"></div>
+    </div>
+
+    <script>
+        // Game Data
+        const strains = [
+            { id: 'northernlights', name: 'Northern Lights', type: 'Indica', icon: '🌿', thc: '18%', days: 70, yield: 400, price: 50 },
+            { id: 'whitewidow', name: 'White Widow', type: 'Hybrid', icon: '🍃', thc: '20%', days: 65, yield: 450, price: 60 },
+            { id: 'bluedream', name: 'Blue Dream', type: 'Sativa', icon: '💠', thc: '21%', days: 75, yield: 500, price: 70 },
+            { id: 'girlscout', name: 'Girl Scout', type: 'Hybrid', icon: '🍪', thc: '25%', days: 70, yield: 420, price: 100 },
+            { id: 'ogkush', name: 'OG Kush', type: 'Hybrid', icon: '🌲', thc: '23%', days: 80, yield: 480, price: 120 },
+            { id: 'gelato', name: 'Gelato', type: 'Hybrid', icon: '🍦', thc: '27%', days: 75, yield: 400, price: 150 },
+            { id: 'gorillaglue', name: 'Gorilla Glue', type: 'Hybrid', icon: '🦍', thc: '30%', days: 85, yield: 550, price: 180 },
+            { id: 'skunk', name: 'Skunk #1', type: 'Hybrid', icon: '🦨', thc: '19%', days: 60, yield: 420, price: 40 },
+            { id: 'ak47', name: 'AK-47', type: 'Hybrid', icon: '🔫', thc: '24%', days: 70, yield: 460, price: 110 },
+            { id: 'amnesia', name: 'Amnesia', type: 'Sativa', icon: '🌀', thc: '26%', days: 85, yield: 520, price: 160 },
+            { id: 'critical', name: 'Critical', type: 'Indica', icon: '⚖️', thc: '20%', days: 55, yield: 600, price: 45 },
+            { id: 'purplehaze', name: 'Purple Haze', type: 'Sativa', icon: '💜', thc: '22%', days: 90, yield: 380, price: 140 }
+        ];
+        
+        const shopItems = {
+            seeds: strains.map(s => ({ id: 'seed_' + s.id, name: s.name, icon: s.icon, desc: `${s.type} • ${s.thc}`, price: s.price, data: s })),
+            equipment: [
+                { id: 'led_300', name: 'LED 300W', icon: '💡', desc: '+10% рост', price: 150 },
+                { id: 'led_600', name: 'LED 600W', icon: '💡', desc: '+20% рост', price: 300 },
+                { id: 'led_1000', name: 'LED 1000W', icon: '💡', desc: '+35% рост', price: 500 },
+                { id: 'fan', name: 'Вентилятор', icon: '🌀', desc: 'Климат', price: 80 },
+                { id: 'filter', name: 'Фильтр', icon: '😷', desc: 'Запах', price: 120 },
+                { id: 'humid', name: 'Увлажнитель', icon: '💨', desc: 'Влажность', price: 100 },
+                { id: 'co2', name: 'CO₂ ген.', icon: '💨', desc: '+30% рост', price: 400 }
+            ],
+            nutrients: [
+                { id: 'grow', name: 'Grow Mix', icon: '🟢', desc: 'N-P-K 3-1-2', price: 30 },
+                { id: 'bloom', name: 'Bloom Mix', icon: '🟣', desc: 'N-P-K 1-3-2', price: 35 },
+                { id: 'calmag', name: 'Cal-Mag', icon: '💊', desc: 'Ca+Mg', price: 25 },
+                { id: 'pk', name: 'PK Boost', icon: '⚡', desc: 'P 13 K 14', price: 50 }
+            ],
+            upgrades: [
+                { id: 'slot', name: '+1 Слот', icon: '🌱', desc: 'Макс 10', price: 200 },
+                { id: 'res_big', name: 'Резервуар+', icon: '🪣', desc: '+50%', price: 150 },
+                { id: 'auto_ph', name: 'Auto pH', icon: '📊', desc: 'Авто', price: 250 },
+                { id: 'timer', name: 'Таймер', icon: '⏰', desc: 'Авто свет', price: 50 }
+            ],
+            boosters: [
+                { id: 'time2', name: 'Время 2x', icon: '⏩', desc: '1 час', price: 50 },
+                { id: 'time5', name: 'Время 5x', icon: '⏩', desc: '1 час', price: 100 },
+                { id: 'growth', name: 'Growth+', icon: '📈', desc: '+50%', price: 75 },
+                { id: 'yield', name: 'Yield+', icon: '📦', desc: '+30%', price: 100 }
+            ]
+        };
+        
+        const phases = {
+            germination: { name: '🌱 Пророст', days: 7, emoji: '🌱' },
+            vegetative: { name: '🌿 Вега', days: 28, emoji: '🌿' },
+            preflowering: { name: '🌸 Пре-цвет', days: 14, emoji: '🌸' },
+            flowering: { name: '🌺 Цвет', days: 56, emoji: '🌺' },
+            harvest: { name: '✂️ Сбор', days: 7, emoji: '✂️' }
+        };
+        
+        // Game State
+        const state = {
+            day: 1,
+            time: 6,
+            speed: 1,
+            currency: 500,
+            level: 1,
+            xp: 0,
+            plants: [],
+            maxSlots: 6,
+            selectedSlot: null,
+            inventory: { grow: 3, bloom: 2, calmag: 1, pk: 1 },
+            upgrades: {},
+            env: { temp: 24, humidity: 60, co2: 400, light: true },
+            reservoir: { level: 80, ec: 0.8, ph: 6.0 },
+            running: false
+        };
+        
+        // Init
+        function init() {
+            renderPlants();
+            loadGame();
+        }
+        
+        function startGame() {
+            document.getElementById('tutorial').classList.add('hidden');
+            state.running = true;
+            gameLoop();
+        }
+        
+        function gameLoop() {
+            if (!state.running) return;
+            
+            setInterval(() => {
+                state.time += 0.5 * state.speed;
+                if (state.time >= 24) {
+                    state.time = 0;
+                    state.day++;
+                    onNewDay();
+                }
+                updateEnvironment();
+                updatePlants();
+                updateUI();
+            }, 1000);
+        }
+        
+        function onNewDay() {
+            state.currency += 10 + state.level * 5;
+            state.xp += 5;
+            checkLevelUp();
+        }
+        
+        function checkLevelUp() {
+            if (state.xp >= state.level * 100) {
+                state.xp -= state.level * 100;
+                state.level++;
+                notify('⭐ Уровень ' + state.level, 'Новые возможности!');
+            }
+        }
+        
+        function updateEnvironment() {
+            state.env.temp = (state.env.light ? 24 : 18) + (Math.random() * 4 - 2);
+            state.env.humidity = 50 + Math.random() * 20;
+            state.env.co2 = state.upgrades.co2 ? 800 + Math.random() * 200 : 400 + Math.random() * 50;
+            state.reservoir.level -= 0.2 * state.plants.length;
+        }
+        
+        function updatePlants() {
+            state.plants.forEach(p => {
+                const growthRate = state.env.light ? 1.2 : 0.5;
+                p.progress += (growthRate * state.speed * 0.1) * (p.health / 100);
+                p.water -= 0.2 * state.speed;
+                p.nutrients -= 0.1 * state.speed;
+                
+                // Health decay
+                if (p.water < 30 || p.water > 80) p.health -= 0.5;
+                if (p.nutrients < 10) p.health -= 0.2;
+                p.health = Math.max(0, Math.min(100, p.health));
+                
+                // Phase update
+                const pct = p.progress / 100;
+                if (pct < 0.1) p.phase = 'germination';
+                else if (pct < 0.4) p.phase = 'vegetative';
+                else if (pct < 0.5) p.phase = 'preflowering';
+                else if (pct < 0.95) p.phase = 'flowering';
+                else p.phase = 'harvest';
+            });
+            renderPlants();
+        }
+        
+        function renderPlants() {
+            const grid = document.getElementById('plantsGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < state.maxSlots; i++) {
+                const plant = state.plants.find(p => p.slot === i);
+                const card = document.createElement('div');
+                card.className = 'plant-card' + (plant ? '' : ' empty') + (plant?.phase === 'harvest' ? ' harvest' : '') + (state.selectedSlot === i ? ' selected' : '');
+                
+                if (plant) {
+                    const phaseInfo = phases[plant.phase];
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="card-phase">${phaseInfo.name}</div>
+                            <div class="card-health">${getHealthEmoji(plant.health)}</div>
+                        </div>
+                        <div class="card-icon">${getEmoji(plant)}</div>
+                        <div class="card-progress"><div class="card-progress-fill ${plant.phase}" style="width:${Math.min(100, plant.progress)}%"></div></div>
+                        <div class="card-name">${plant.strain.name}</div>
+                        <div class="card-stats">
+                            <div class="card-stat">💧${Math.floor(plant.water)}%</div>
+                            <div class="card-stat">❤️${Math.floor(plant.health)}%</div>
+                        </div>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="card-icon">🌱</div>
+                        <div class="card-name">ПУСТОЙ СЛОТ</div>
+                    `;
+                }
+                
+                card.onclick = () => selectSlot(i);
+                grid.appendChild(card);
+            }
+        }
+        
+        function getHealthEmoji(h) {
+            if (h >= 80) return '💚';
+            if (h >= 50) return '💛';
+            return '❤️';
+        }
+        
+        function getEmoji(p) {
+            if (p.progress < 10) return '🌱';
+            if (p.progress < 30) return '🌿';
+            if (p.progress < 60) return '🍃';
+            if (p.progress < 90) return '🌺';
+            return '✂️';
+        }
+        
+        function selectSlot(i) {
+            state.selectedSlot = i;
+            const plant = state.plants.find(p => p.slot === i);
+            if (!plant) {
+                openPlantModal();
+            } else if (plant.phase === 'harvest') {
+                harvestPlant(plant);
+            } else {
+                openInfo();
+            }
+            renderPlants();
+        }
+        
+        function openPlantModal() {
+            const grid = document.getElementById('plantGrid');
+            grid.innerHTML = '';
+            strains.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'plant-card-select' + (state.currency < s.price ? ' locked' : '');
+                card.innerHTML = `
+                    <div class="item-icon">${s.icon}</div>
+                    <div class="item-name">${s.name}</div>
+                    <div style="font-size:7px;color:#999">${s.type} • ${s.thc}</div>
+                    <div class="item-price">💰 ${s.price}</div>
+                `;
+                if (state.currency >= s.price) {
+                    card.onclick = () => plantSeed(s);
+                }
+                grid.appendChild(card);
+            });
+            document.getElementById('plantModal').classList.add('visible');
+        }
+        
+        function plantSeed(strain) {
+            if (state.selectedSlot === null) {
+                notify('❌ Ошибка', 'Выбери слот');
+                return;
+            }
+            if (state.plants.find(p => p.slot === state.selectedSlot)) {
+                notify('❌ Занято', 'Выбери другой слот');
+                return;
+            }
+            if (state.currency < strain.price) {
+                notify('❌ Нет средств', 'Нужно ' + strain.price);
+                return;
+            }
+            
+            state.currency -= strain.price;
+            state.plants.push({
+                slot: state.selectedSlot,
+                strain: strain,
+                phase: 'germination',
+                progress: 0,
+                health: 100,
+                water: 70,
+                nutrients: 50,
+                startDay: state.day
+            });
+            
+            closeModal('plantModal');
+            renderPlants();
+            notify('🌱 Посажено', strain.name);
+            saveGame();
+        }
+        
+        function harvestPlant(plant) {
+            const yieldGrams = Math.floor(plant.strain.yield * (plant.health / 100) * (plant.progress / 100));
+            state.currency += yieldGrams * 2;
+            state.xp += yieldGrams;
+            state.plants = state.plants.filter(p => p.slot !== plant.slot);
+            state.selectedSlot = null;
+            renderPlants();
+            notify('✂️ Урожай!', `+${yieldGrams}г (+${yieldGrams * 2}💰)`);
+            checkLevelUp();
+            saveGame();
+        }
+        
+        function waterAll() {
+            if (state.reservoir.level < 10) {
+                notify('⚠️ Нет воды', 'Заполни резервуар');
+                return;
+            }
+            state.plants.forEach(p => p.water = Math.min(100, p.water + 30));
+            state.reservoir.level -= 5 * state.plants.length;
+            notify('💧 Полив', 'Все растения политы');
+        }
+        
+        function toggleLight() {
+            state.env.light = !state.env.light;
+            notify(state.env.light ? '💡 Свет ON' : '🌙 Свет OFF', '');
+        }
+        
+        function toggleCO2() {
+            if (!state.upgrades.co2) {
+                notify('❌ Нет CO₂', 'Купи в магазине');
+                return;
+            }
+            state.env.co2 = state.env.co2 > 600 ? 400 : 1200;
+            notify(state.env.co2 > 600 ? '💨 CO₂ ON' : '💨 CO₂ OFF', `${state.env.co2} ppm`);
+        }
+        
+        function openNutrientModal() {
+            const grid = document.getElementById('nutrientGrid');
+            grid.innerHTML = '';
+            const nuts = [
+                { id: 'grow', name: 'Grow Mix', icon: '🟢', count: state.inventory.grow || 0 },
+                { id: 'bloom', name: 'Bloom Mix', icon: '🟣', count: state.inventory.bloom || 0 },
+                { id: 'calmag', name: 'Cal-Mag', icon: '💊', count: state.inventory.calmag || 0 },
+                { id: 'pk', name: 'PK Boost', icon: '⚡', count: state.inventory.pk || 0 }
+            ];
+            nuts.forEach(n => {
+                const card = document.createElement('div');
+                card.className = 'shop-item' + (n.count <= 0 ? ' disabled' : '');
+                card.innerHTML = `
+                    <div class="item-icon">${n.icon}</div>
+                    <div class="item-name">${n.name}</div>
+                    <div style="font-size:8px;color:#999">В наличии: ${n.count}</div>
+                `;
+                if (n.count > 0) {
+                    card.onclick = () => {
+                        state.plants.forEach(p => p.nutrients = Math.min(100, p.nutrients + 30));
+                        state.inventory[n.id]--;
+                        notify('🧪 Удобрение', 'Применено');
+                        closeModal('nutrientModal');
+                    };
+                }
+                grid.appendChild(card);
+            });
+            document.getElementById('nutrientModal').classList.add('visible');
+        }
+        
+        function openShop() {
+            switchShop('seeds');
+            document.getElementById('shopModal').classList.add('visible');
+        }
+        
+        function switchShop(cat) {
+            document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const grid = document.getElementById('shopGrid');
+            grid.innerHTML = '';
+            shopItems[cat].forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'shop-item' + (state.currency < item.price ? ' disabled' : '') + (state.upgrades[item.id] ? ' owned' : '');
+                card.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div class="item-name">${item.name}</div>
+                    <div style="font-size:7px;color:#999">${item.desc}</div>
+                    <div class="item-price">💰 ${item.price}</div>
+                `;
+                if (state.currency >= item.price && !state.upgrades[item.id]) {
+                    card.onclick = () => buyItem(item);
+                }
+                grid.appendChild(card);
+            });
+        }
+        
+        function buyItem(item) {
+            if (state.currency < item.price) return;
+            
+            state.currency -= item.price;
+            
+            if (item.id.startsWith('seed_')) {
+                // Seeds go to selection
+                notify('🌱 Куплено', item.name);
+            } else if (item.id === 'slot') {
+                state.maxSlots = Math.min(10, state.maxSlots + 1);
+                notify('🌱 +Слот', `Теперь ${state.maxSlots} слотов`);
+            } else {
+                state.upgrades[item.id] = true;
+                notify('✅ Куплено', item.name);
+            }
+            
+            renderPlants();
+            saveGame();
+        }
+        
+        function openInfo() {
+            const plant = state.plants.find(p => p.slot === state.selectedSlot);
+            if (!plant) {
+                notify('❌ Ошибка', 'Выбери растение');
+                return;
+            }
+            
+            const panel = document.getElementById('infoPanel');
+            panel.innerHTML = `
+                <div style="text-align:center;font-size:24px;margin-bottom:12px">${getEmoji(plant)}</div>
+                <div style="text-align:center;font-size:12px;color:var(--mc-gold);margin-bottom:12px">${plant.strain.name}</div>
+                <div class="info-row"><span>Тип</span><span class="info-value">${plant.strain.type}</span></div>
+                <div class="info-row"><span>THC</span><span class="info-value">${plant.strain.thc}</span></div>
+                <div class="info-row"><span>Фаза</span><span class="info-value">${phases[plant.phase].name}</span></div>
+                <div class="info-row"><span>День</span><span class="info-value">${state.day - plant.startDay + 1}</span></div>
+                <div class="info-row"><span>Прогресс</span><span class="info-value">${Math.floor(plant.progress)}%</span></div>
+                <div class="info-row"><span>Здоровье</span><span class="info-value">${Math.floor(plant.health)}%</span></div>
+                <div class="info-row"><span>Вода</span><span class="info-value">${Math.floor(plant.water)}%</span></div>
+                <div class="info-row"><span>Питание</span><span class="info-value">${Math.floor(plant.nutrients)}%</span></div>
+            `;
+            document.getElementById('infoModal').classList.add('visible');
+        }
+        
+        function setSpeed(s) {
+            state.speed = s;
+            document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('s' + s).classList.add('active');
+        }
+        
+        function updateUI() {
+            // Day
+            document.getElementById('dayBadge').textContent = `${phases[getCurrentPhase()]?.emoji || '🌱'} ДЕНЬ ${state.day}`;
+            
+            // Currency
+            document.getElementById('currency').textContent = state.currency;
+            document.getElementById('level').textContent = state.level;
+            
+            // Environment
+            document.getElementById('temp').textContent = Math.floor(state.env.temp) + '°C';
+            document.getElementById('humidity').textContent = Math.floor(state.env.humidity) + '%';
+            document.getElementById('co2').textContent = Math.floor(state.env.co2) + 'ppm';
+            document.getElementById('light').textContent = state.env.light ? 'ON' : 'OFF';
+            
+            // Stats (averages)
+            const avgH = state.plants.length ? state.plants.reduce((a, p) => a + p.health, 0) / state.plants.length : 100;
+            const avgW = state.plants.length ? state.plants.reduce((a, p) => a + p.water, 0) / state.plants.length : 50;
+            const avgN = state.plants.length ? state.plants.reduce((a, p) => a + p.nutrients, 0) / state.plants.length : 0;
+            
+            document.getElementById('healthV').textContent = Math.floor(avgH);
+            document.getElementById('healthB').style.width = avgH + '%';
+            document.getElementById('waterV').textContent = Math.floor(avgW);
+            document.getElementById('waterB').style.width = avgW + '%';
+            document.getElementById('ecV').textContent = (avgN / 100 * 2).toFixed(1);
+            document.getElementById('ecB').style.width = avgN + '%';
+            document.getElementById('phV').textContent = state.reservoir.ph.toFixed(1);
+            
+            // Reservoir
+            document.getElementById('resLevel').textContent = Math.floor(state.reservoir.level) + '%';
+            document.getElementById('resEC').textContent = state.reservoir.ec.toFixed(1);
+            document.getElementById('resPH').textContent = state.reservoir.ph.toFixed(1);
+            document.getElementById('resTemp').textContent = Math.floor(state.env.temp) + '°';
+        }
+        
+        function getCurrentPhase() {
+            if (!state.plants.length) return 'germination';
+            const phasesCount = {};
+            state.plants.forEach(p => phasesCount[p.phase] = (phasesCount[p.phase] || 0) + 1);
+            return Object.entries(phasesCount).sort((a, b) => b[1] - a[1])[0][0];
+        }
+        
+        function notify(title, text) {
+            document.getElementById('notifTitle').textContent = title;
+            document.getElementById('notifText').textContent = text;
+            const n = document.getElementById('notification');
+            n.classList.remove('hidden');
+            setTimeout(() => n.classList.add('hidden'), 2000);
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('visible');
+        }
+        
+        function saveGame() {
+            localStorage.setItem('growMobile', JSON.stringify({
+                day: state.day,
+                currency: state.currency,
+                level: state.level,
+                plants: state.plants,
+                inventory: state.inventory,
+                upgrades: state.upgrades,
+                maxSlots: state.maxSlots
+            }));
+        }
+        
+        function loadGame() {
+            const saved = localStorage.getItem('growMobile');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.assign(state, data);
+                renderPlants();
+                updateUI();
+            }
+        }
+        
+        // Init
+        init();
+    </script>
+</body>
+</html>
