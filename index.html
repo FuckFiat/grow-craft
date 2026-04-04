@@ -20,9 +20,6 @@
             --text: #c9d1d9;
             --text-bright: #f0f6fc;
             --muted: #8b949e;
-            --red: #f85149;
-            --purple: #a371f7;
-            --blue: #58a6ff;
         }
         
         html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
@@ -31,7 +28,7 @@
         .app { display: flex; flex-direction: column; height: 100%; height: 100dvh; }
         
         /* Header */
-        .head { background: var(--dark); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .head { background: var(--dark); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; }
         .logo { display: flex; align-items: center; gap: 6px; }
         .logo-icon { font-size: 18px; }
         .logo-text { font-size: 10px; color: var(--green); }
@@ -40,510 +37,141 @@
         .stat-v { font-size: 10px; color: var(--gold); }
         .stat-l { font-size: 5px; color: var(--muted); }
         .speed { display: flex; gap: 2px; }
-        .speed button { width: 22px; height: 18px; font-size: 7px; background: var(--stone); border: 1px solid var(--border); color: var(--text); border-radius: 4px; }
-        .speed button.on { background: var(--green); color: #000; }
+        .speed button { width: 22px; height: 18px; font-size: 7px; background: var(--stone); border: 2px solid #000; color: var(--text); }
+        .speed button.on { background: var(--green); color: #000; border-color: var(--green); }
         
         /* Tabs */
-        .tabs { display: flex; overflow-x: auto; background: var(--dark); padding: 4px; gap: 2px; border-bottom: 1px solid var(--border); -webkit-overflow-scrolling: touch; }
+        .tabs { display: flex; overflow-x: auto; background: var(--dark); padding: 4px; gap: 2px; border-bottom: 2px solid #000; }
         .tabs::-webkit-scrollbar { display: none; }
-        .tab { padding: 5px 8px; font-size: 7px; background: var(--stone); border: 1px solid var(--border); color: var(--text); white-space: nowrap; border-radius: 4px; }
-        .tab.on { background: var(--green); color: #000; }
+        .tab { padding: 5px 8px; font-size: 7px; background: var(--stone); border: 2px solid #000; color: var(--text); white-space: nowrap; }
+        .tab.on { background: var(--green); color: #000; border-color: var(--green); }
         
         /* Content */
-        .content { flex: 1; overflow-y: auto; padding: 6px; padding-bottom: 55px; -webkit-overflow-scrolling: touch; }
+        .content { flex: 1; overflow-y: auto; padding: 8px; padding-bottom: 60px; }
         
-        /* Grow Room - Just Plants */
+        /* Grow Room */
         .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        @media (max-width: 340px) { .room { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 320px) { .room { grid-template-columns: repeat(2, 1fr); } }
         
-        .plant-slot { background: transparent; padding: 4px; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; }
-        .plant-slot.sel { filter: drop-shadow(0 0 8px var(--gold)); }
-        .plant-slot.ready { animation: ready-glow 1.5s infinite; }
-        @keyframes ready-glow { 0%, 100% { filter: drop-shadow(0 0 6px #4CAF50); } 50% { filter: drop-shadow(0 0 16px #4CAF50); } }
+        .slot { 
+            background: var(--stone); 
+            border: 3px solid #000; 
+            border-radius: 8px; 
+            min-height: 100px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 4px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .slot:active { transform: scale(0.95); }
+        .slot.sel { border-color: var(--gold); box-shadow: 0 0 10px var(--gold); }
+        .slot.ready { border-color: var(--green); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 5px var(--green); } 50% { box-shadow: 0 0 15px var(--green); } }
         
-        /* Realistic Plant Growth Animation */
-        .plant-sprite {
-            position: relative;
-            margin-bottom: 4px;
-        }
+        .slot-icon { font-size: 36px; }
+        .slot-name { font-size: 7px; color: var(--text-bright); text-align: center; max-width: 80px; }
+        .slot-progress { font-size: 6px; color: var(--muted); }
         
-        /* Stage 0: Seed - crack in soil */
-        .plant-stage-0 {
-            width: 24px;
-            height: 32px;
-            position: relative;
-        }
-        .plant-stage-0::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 8px;
-            background: radial-gradient(ellipse 12px 8px at center, #5d3a1a 0%, #3d2914 100%);
-            border-radius: 4px;
-            animation: seed-crack 2s ease-in-out infinite;
-        }
-        .plant-stage-0::after {
-            content: '';
-            position: absolute;
-            bottom: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 2px;
-            background: #8b4513;
-            opacity: 0;
-            animation: seed-open 2s ease-in-out infinite;
-        }
-        @keyframes seed-crack {
-            0%, 30% { transform: translateX(-50%) scaleX(1); }
-            50% { transform: translateX(-50%) scaleX(1.2); }
-            70%, 100% { transform: translateX(-50%) scaleX(1); }
-        }
-        @keyframes seed-open {
-            0%, 30% { opacity: 0; bottom: 6px; }
-            50% { opacity: 1; bottom: 8px; }
-            70%, 100% { opacity: 0; bottom: 10px; }
-        }
-        
-        /* Stage 1: Sprout - breaking through */
-        .plant-stage-1 {
-            width: 28px;
-            height: 40px;
-            position: relative;
-            animation: sprout 1.5s ease-in-out infinite;
-        }
-        .plant-stage-1::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 6px;
-            background: radial-gradient(ellipse 12px 6px at center, #5d3a1a 0%, #3d2914 100%);
-            border-radius: 4px;
-        }
-        .plant-stage-1::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 20px;
-            background: linear-gradient(to top, #2d5a2d 0%, #4a8 50%, #6b8 100%);
-            border-radius: 2px;
-            box-shadow: inset -1px 0 0 rgba(255,255,255,0.2);
-        }
-        @keyframes sprout {
-            0%, 100% { transform: rotate(-1deg); }
-            50% { transform: rotate(1deg); }
-        }
-        
-        /* Stage 2: Seedling - first leaves */
-        .plant-stage-2 {
-            width: 36px;
-            height: 48px;
-            position: relative;
-            animation: seedling 2s ease-in-out infinite;
-        }
-        .plant-stage-2::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 28px;
-            height: 6px;
-            background: radial-gradient(ellipse 14px 6px at center, #5d3a1a 0%, #3d2914 100%);
-            border-radius: 4px;
-        }
-        .plant-stage-2::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 36px;
-            height: 28px;
-            background: 
-                linear-gradient(135deg, transparent 50%, #3a8a3a 50%) 0 0/18px 28px,
-                linear-gradient(225deg, transparent 50%, #4a9a4a 50%) 18px 0/18px 28px;
-            border-radius: 4px;
-            box-shadow: inset 0 -8px 0 #2d5a2d;
-        }
-        @keyframes seedling {
-            0%, 100% { transform: rotate(-0.5deg) scale(1); }
-            50% { transform: rotate(0.5deg) scale(1.02); }
-        }
-        
-        /* Stage 3: Vegetative - bushy */
-        .plant-stage-3 {
-            width: 48px;
-            height: 56px;
-            position: relative;
-            animation: veg-grow 3s ease-in-out infinite;
-        }
-        .plant-stage-3::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 32px;
-            height: 6px;
-            background: radial-gradient(ellipse 16px 6px at center, #5d3a1a 0%, #3d2914 100%);
-            border-radius: 4px;
-        }
-        .plant-stage-3::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 48px;
-            height: 36px;
-            background: 
-                radial-gradient(ellipse 24px 18px at 50% 70%, #6aba6a 0%, #4a9a4a 60%, #3a8a3a 100%),
-                radial-gradient(ellipse 16px 12px at 20% 40%, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 16px 12px at 80% 40%, #5aaa5a 0%, #3a8a3a 100%);
-            border-radius: 8px;
-            box-shadow: 
-                inset -4px -4px 8px rgba(0,0,0,0.2),
-                inset 4px 4px 8px rgba(255,255,255,0.1);
-        }
-        @keyframes veg-grow {
-            0%, 100% { transform: rotate(-0.5deg); }
-            25% { transform: rotate(0.5deg); }
-            50% { transform: rotate(-0.3deg) translateY(-2px); }
-            75% { transform: rotate(0.3deg); }
-        }
-        
-        /* Stage 4: Pre-flower - pistols appearing */
-        .plant-stage-4 {
-            width: 56px;
-            height: 64px;
-            position: relative;
-            animation: preflower 2.5s ease-in-out infinite;
-        }
-        .plant-stage-4::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 36px;
-            height: 6px;
-            background: radial-gradient(ellipse 18px 6px at center, #5d3a1a 0%, #3d2914 100%);
-            border-radius: 4px;
-        }
-        .plant-stage-4::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 56px;
-            height: 44px;
-            background: 
-                radial-gradient(ellipse 28px 22px at 50% 70%, #6aba6a 0%, #4a9a4a 60%, #3a8a3a 100%),
-                radial-gradient(ellipse 18px 14px at 25% 35%, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 18px 14px at 75% 35%, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 4px 6px at 35% 25%, #f8a 0%, #d6a 100%),
-                radial-gradient(ellipse 4px 6px at 65% 25%, #f8a 0%, #d6a 100%);
-            border-radius: 10px;
-            box-shadow: inset -4px -4px 8px rgba(0,0,0,0.2);
-        }
-        @keyframes preflower {
-            0%, 100% { transform: rotate(-0.3deg); }
-            50% { transform: rotate(0.3deg) scale(1.01); }
-        }
-        
-        /* Stage 5: Flowering - buds forming */
-        .plant-stage-5 {
-            width: 64px;
-            height: 72px;
-            position: relative;
-            animation: flowering 2s ease-in-out infinite;
-        }
-        .plant-stage-5::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 6px;
-            background: radial-gradient(ellipse 20px 6px at center, #5d3a1a 0%, #3d2914 100%);
-            border-radius: 4px;
-        }
-        .plant-stage-5::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 64px;
-            height: 52px;
-            background: 
-                radial-gradient(ellipse 32px 26px at 50% 65%, #6aba6a 0%, #4a9a4a 50%, #3a8a3a 100%),
-                radial-gradient(ellipse 20px 16px at 28% 30%, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 20px 16px at 72% 30%, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 10px 12px at 35% 20%, #f4a 0%, #d3a 70%),
-                radial-gradient(ellipse 10px 12px at 65% 20%, #f4a 0%, #d3a 70%),
-                radial-gradient(ellipse 8px 10px at 50% 35%, #f8a 0%, #d7a 80%);
-            border-radius: 12px;
-            box-shadow: 
-                inset -4px -4px 8px rgba(0,0,0,0.2),
-                inset 4px 4px 8px rgba(255,255,255,0.05);
-        }
-        @keyframes flowering {
-            0%, 100% { transform: rotate(-0.5deg); }
-            33% { transform: rotate(0.3deg); }
-            66% { transform: rotate(-0.2deg) scale(1.01); }
-        }
-        
-        /* Stage 6: Harvest - big buds with crystals */
-        .plant-stage-6 {
-            width: 72px;
-            height: 80px;
-            position: relative;
-            animation: harvest 2.5s ease-in-out infinite;
-        }
-        .plant-stage-6::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 44px;
-            height: 8px;
-            background: radial-gradient(ellipse 22px 8px at center, #5d3a1a 0%, #3d2914 100%);
-            border-radius: 4px;
-        }
-        .plant-stage-6::after {
-            content: '';
-            position: absolute;
-            bottom: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 72px;
-            height: 58px;
-            background: 
-                radial-gradient(ellipse 36px 30px at 50% 60%, #6aba6a 0%, #4a9a4a 40%, #3a8a3a 100%),
-                radial-gradient(ellipse 22px 18px at 26% 25%, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 22px 18px at 74% 25%, #5aaa5a 0%, #3a8a3a 100%),
-                radial-gradient(ellipse 14px 18px at 38% 18%, #f4a 0%, #d3a 60%, #c9a 100%),
-                radial-gradient(ellipse 14px 18px at 62% 18%, #f4a 0%, #d3a 60%, #c9a 100%),
-                radial-gradient(ellipse 10px 14px at 50% 28%, #f8a 0%, #d7a 70%);
-            border-radius: 14px;
-            box-shadow: 
-                inset -5px -5px 10px rgba(0,0,0,0.25),
-                inset 5px 5px 10px rgba(255,255,255,0.08);
-        }
-        /* Crystals animation */
-        .plant-stage-6::before {
-            animation: crystals 1.5s ease-in-out infinite;
-        }
-        @keyframes harvest {
-            0%, 100% { transform: rotate(-0.3deg) translateY(0); }
-            25% { transform: rotate(0.2deg) translateY(-1px); }
-            50% { transform: rotate(-0.2deg) scale(1.01); }
-            75% { transform: rotate(0.3deg) translateY(0); }
-        }
-        @keyframes crystals {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-        
-        .plant-name { font-size: 7px; color: var(--text-bright); margin-top: 4px; text-align: center; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .plant-progress { font-size: 6px; color: var(--muted); }
-        
-        /* Bottom Actions - Minecraft Style */
-        .actions { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, #3d2914 0%, #2d1f0f 100%); border-top: 3px solid #5d3a1a; padding: 4px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+        /* Minecraft Buttons */
+        .actions { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, #4a3520 0%, #3d2914 100%); border-top: 3px solid #5d3a1a; padding: 6px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
         .act { 
             background: linear-gradient(180deg, #6b4423 0%, #5d3a1a 50%, #4a3520 100%);
-            border: 2px solid #8b5a2b;
+            border: 3px solid #8b5a2b;
             border-top-color: #a0522d;
-            border-left-color: #8b4513;
-            border-right-color: #5d3a1a;
             border-bottom-color: #3d2914;
-            border-radius: 0;
-            padding: 8px 4px;
+            padding: 10px 4px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 2px;
             color: #fff;
-            text-shadow: 2px 2px 0 #000;
-            box-shadow: inset -2px -4px 0 rgba(0,0,0,0.3), inset 2px 2px 0 rgba(255,255,255,0.1);
+            text-shadow: 1px 1px 0 #000;
         }
-        .act:active { 
-            background: linear-gradient(180deg, #5d3a1a 0%, #4a3520 50%, #3d2914 100%);
-            transform: translateY(2px);
-            box-shadow: inset 2px 4px 0 rgba(0,0,0,0.3);
-        }
-        .act.on { 
-            background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 50%, #2d5a2d 100%);
-            border-color: #5aaa5a;
-            border-top-color: #6aba6a;
-            border-left-color: #5aaa5a;
-            border-right-color: #3a7a3a;
-            border-bottom-color: #2d5a2d;
-        }
-        .act .i { font-size: 16px; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
-        .act .t { font-size: 6px; text-shadow: 1px 1px 0 #000; }
+        .act:active { transform: translateY(2px); }
+        .act.on { background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 50%, #2d5a2d 100%); border-color: #5aaa5a; border-top-color: #6aba6a; border-bottom-color: #2d5a2d; }
+        .act .i { font-size: 18px; }
+        .act .t { font-size: 6px; }
         
-        /* Plant Detail Modal - Full Screen */
-        .plant-modal { position: fixed; inset: 0; background: linear-gradient(180deg, #1a3d1a 0%, #0d1117 100%); display: none; flex-direction: column; z-index: 1000; }
-        .plant-modal.open { display: flex; }
-        
-        .plant-header { background: linear-gradient(180deg, #2d5a2d, #1a3d1a); padding: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #1a2d1a; }
-        .plant-header .title { display: flex; align-items: center; gap: 8px; }
-        .plant-header .name { font-size: 12px; color: #7fff7f; }
-        .plant-header .close { background: #8b0000; border: 2px solid #5a0000; color: #fff; font-size: 14px; width: 32px; height: 32px; border-radius: 4px; }
-        
-        .plant-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
-        
-        /* Big Plant Display */
-        .big-plant { position: relative; margin-bottom: 20px; }
-        
-        /* Big plant stages (scaled up) */
-        .big-plant-stage-0 { width: 48px; height: 24px; background: linear-gradient(90deg, #3d2914 0%, #5d3a1a 50%, #3d2914 100%); border-radius: 0 0 12px 12px; }
-        
-        .big-plant-stage-1 { width: 32px; height: 48px; position: relative; }
-        .big-plant-stage-1::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 12px; height: 36px; background: linear-gradient(to top, #2d5a2d, #4a8); }
-        .big-plant-stage-1::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 36px; height: 24px; background: linear-gradient(135deg, #3a8a3a 0%, #5aaa5a 50%, #3a8a3a 100%); clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
-        
-        .big-plant-stage-2 { width: 60px; height: 72px; position: relative; }
-        .big-plant-stage-2::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 12px; height: 48px; background: linear-gradient(to top, #2d5a2d, #4a8); }
-        .big-plant-stage-2::after { content: ''; position: absolute; top: 0; left: 0; width: 60px; height: 42px; background: radial-gradient(ellipse 24px 18px at 18px 24px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 24px 18px at 42px 24px, #5aaa5a 0%, #3a8a3a 100%); }
-        
-        .big-plant-stage-3 { width: 96px; height: 108px; position: relative; }
-        .big-plant-stage-3::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 15px; height: 60px; background: linear-gradient(to top, #2d5a2d, #4a8); }
-        .big-plant-stage-3::after { content: ''; position: absolute; top: 0; left: 0; width: 96px; height: 84px; background: radial-gradient(ellipse 30px 24px at 24px 30px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 30px 24px at 72px 30px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 36px 30px at 48px 48px, #6aba6a 0%, #4a9a4a 100%); }
-        
-        .big-plant-stage-4 { width: 120px; height: 132px; position: relative; }
-        .big-plant-stage-4::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 18px; height: 72px; background: linear-gradient(to top, #2d5a2d, #4a8); }
-        .big-plant-stage-4::after { content: ''; position: absolute; top: 0; left: 0; width: 120px; height: 108px; background: radial-gradient(ellipse 36px 30px at 24px 36px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 36px 30px at 96px 36px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 48px 36px at 60px 60px, #6aba6a 0%, #4a9a4a 100%), radial-gradient(ellipse 12px 12px at 36px 24px, #f8a 0%, transparent 100%), radial-gradient(ellipse 12px 12px at 84px 24px, #f8a 0%, transparent 100%); }
-        
-        .big-plant-stage-5 { width: 144px; height: 156px; position: relative; }
-        .big-plant-stage-5::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 18px; height: 84px; background: linear-gradient(to top, #2d5a2d, #4a8); }
-        .big-plant-stage-5::after { content: ''; position: absolute; top: 0; left: 0; width: 144px; height: 132px; background: radial-gradient(ellipse 42px 36px at 30px 42px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 42px 36px at 114px 42px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 60px 48px at 72px 72px, #6aba6a 0%, #4a9a4a 100%), radial-gradient(ellipse 24px 18px at 48px 30px, #f4a 0%, #d3a 100%), radial-gradient(ellipse 24px 18px at 96px 30px, #f4a 0%, #d3a 100%), radial-gradient(ellipse 18px 18px at 72px 54px, #f8a 0%, #d7a 100%); }
-        
-        .big-plant-stage-6 { width: 168px; height: 180px; position: relative; animation: sway-big 3s ease-in-out infinite; }
-        @keyframes sway-big { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
-        .big-plant-stage-6::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 21px; height: 90px; background: linear-gradient(to top, #2d5a2d, #4a8); }
-        .big-plant-stage-6::after { content: ''; position: absolute; top: 0; left: 0; width: 168px; height: 150px; background: radial-gradient(ellipse 48px 42px at 36px 48px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 48px 42px at 132px 48px, #5aaa5a 0%, #3a8a3a 100%), radial-gradient(ellipse 72px 60px at 84px 84px, #6aba6a 0%, #4a9a4a 100%), radial-gradient(ellipse 30px 24px at 48px 36px, #f4a 0%, #d3a 100%), radial-gradient(ellipse 30px 24px at 120px 36px, #f4a 0%, #d3a 100%), radial-gradient(ellipse 36px 30px at 84px 60px, #f8a 0%, #d7a 100%), radial-gradient(ellipse 24px 18px at 66px 24px, #fff 0%, transparent 100%), radial-gradient(ellipse 18px 15px at 102px 30px, #fff 0%, transparent 100%), radial-gradient(ellipse 12px 12px at 84px 45px, #fff 0%, transparent 100%); }
-        
-        .big-pot { width: 72px; height: 30px; position: relative; margin-top: 10px; }
-        .big-pot::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 72px; height: 24px; background: linear-gradient(90deg, #3d2914 0%, #5d3a1a 20%, #8b4513 50%, #5d3a1a 80%, #3d2914 100%); border-radius: 0 0 8px 8px; border: 3px solid #2d1f0f; }
-        .big-pot::after { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 60px; height: 8px; background: linear-gradient(90deg, #3d2914 0%, #a0522d 50%, #3d2914 100%); border-radius: 4px; }
-        
-        .stage-label { background: #2d5a2d; color: #7fff7f; padding: 4px 12px; border-radius: 4px; font-size: 10px; margin-top: 10px; }
-        
-        /* Stats Section */
-        .stats-section { background: rgba(0,0,0,0.5); border: 2px solid #2d1f0f; border-radius: 8px; padding: 12px; margin: 10px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .stat-box { background: rgba(45, 90, 45, 0.3); border: 1px solid #3a5a3a; border-radius: 6px; padding: 8px; text-align: center; }
-        .stat-box .icon { font-size: 18px; }
-        .stat-box .value { font-size: 14px; color: #7fff7f; margin: 4px 0; }
-        .stat-box .label { font-size: 6px; color: #8f8; }
-        
-        /* Progress Bars */
-        .progress-section { background: rgba(0,0,0,0.5); border: 2px solid #2d1f0f; border-radius: 8px; padding: 12px; margin: 10px; }
-        .progress-row { margin-bottom: 10px; }
-        .progress-row:last-child { margin-bottom: 0; }
-        .progress-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
-        .progress-label { font-size: 8px; color: #8f8; }
-        .progress-value { font-size: 8px; color: #7fff7f; }
-        .progress-bar { height: 10px; background: #000; border-radius: 5px; overflow: hidden; border: 1px solid #333; }
-        .progress-fill { height: 100%; border-radius: 5px; }
-        .progress-fill.health { background: linear-gradient(90deg, #8b0000, #f0883e, #238636); }
-        .progress-fill.water { background: linear-gradient(90deg, #1a3d5a, #58a6ff); }
-        .progress-fill.growth { background: linear-gradient(90deg, #2d5a2d, #238636, #f0883e); }
-        
-        /* Genes */
-        .genes-section { background: rgba(0,0,0,0.5); border: 2px solid #2d1f0f; border-radius: 8px; padding: 12px; margin: 10px; }
-        .genes-title { font-size: 10px; color: #7fff7f; margin-bottom: 10px; text-align: center; }
-        .genes-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-        .gene-box { text-align: center; padding: 8px 4px; border-radius: 6px; border: 2px solid; }
-        .gene-box.thc { background: rgba(248,81,73,0.2); border-color: #f85149; }
-        .gene-box.cbd { background: rgba(35,134,54,0.2); border-color: #238636; }
-        .gene-box.yield { background: rgba(240,136,62,0.2); border-color: #f0883e; }
-        .gene-box.speed { background: rgba(88,166,255,0.2); border-color: #58a6ff; }
-        .gene-box.resist { background: rgba(163,113,247,0.2); border-color: #a371f7; }
-        .gene-box .icon { font-size: 16px; }
-        .gene-box .vals { font-size: 10px; color: #fff; margin-top: 4px; }
-        .gene-box .label { font-size: 6px; color: #8f8; margin-top: 2px; }
-        
-        /* Actions */
-        .plant-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px; }
-        .plant-btn { background: linear-gradient(180deg, #5d3a1a, #3d2914); border: 2px solid #2d1f0f; border-radius: 6px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #fff; }
-        .plant-btn:active { background: linear-gradient(180deg, #8b4513, #5d3a1a); }
-        .plant-btn.primary { background: linear-gradient(180deg, #238636, #1a5a1a); border-color: #1a3d1a; }
-        .plant-btn.warning { background: linear-gradient(180deg, #f0883e, #b86020); border-color: #8b4513; }
-        .plant-btn .btn-icon { font-size: 18px; }
-        .plant-btn .btn-text { font-size: 8px; }
-        
-        /* Modals */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; padding: 8px; z-index: 1100; }
+        /* Modal */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; padding: 10px; z-index: 1000; }
         .modal.open { display: flex; }
-        .box { background: var(--bg); border: 2px solid #3d2914; border-radius: 8px; width: 100%; max-width: 340px; max-height: 90vh; overflow-y: auto; }
-        .mhead { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 2px solid #3d2914; background: linear-gradient(180deg, #2d5a2d, #1a3d1a); }
-        .mtit { font-size: 11px; color: #7fff7f; }
-        .mclose { background: #8b0000; border: none; color: #fff; font-size: 14px; width: 28px; height: 28px; border-radius: 4px; }
+        .box { background: var(--dark); border: 3px solid #000; border-radius: 8px; width: 100%; max-width: 350px; max-height: 85vh; overflow-y: auto; }
+        .mhead { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 2px solid #000; }
+        .mtit { font-size: 11px; color: var(--gold); }
+        .mclose { background: #8b0000; border: 2px solid #5a0000; color: #fff; font-size: 14px; width: 28px; height: 28px; }
         .mbody { padding: 10px; }
         
+        /* Grid */
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-        .item { background: var(--stone); border: 2px solid #3d2914; border-radius: 6px; padding: 8px; text-align: center; }
+        .item { background: var(--stone); border: 2px solid #000; border-radius: 6px; padding: 8px; text-align: center; }
         .item.off { opacity: 0.5; }
-        .item.owned { border-color: #238636; }
         .item .ii { font-size: 22px; }
         .item .in { font-size: 7px; margin: 4px 0 2px; color: var(--text-bright); }
         .item .id { font-size: 6px; color: var(--muted); }
         .item .ip { font-size: 8px; color: var(--gold); margin-top: 4px; }
         
+        /* Cards */
+        .card { background: var(--stone); border: 2px solid #000; border-radius: 6px; padding: 10px; margin-bottom: 8px; }
+        .card-t { font-size: 10px; color: var(--gold); margin-bottom: 6px; }
+        .card-r { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #333; font-size: 7px; }
+        
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
+        .stat-box { background: var(--stone); border: 2px solid #000; border-radius: 6px; padding: 8px; text-align: center; }
+        .stat-box .icon { font-size: 16px; }
+        .stat-box .value { font-size: 12px; color: var(--text-bright); margin: 4px 0; }
+        .stat-box .label { font-size: 6px; color: var(--muted); }
+        
+        /* Progress */
+        .prog { height: 6px; background: #000; border-radius: 3px; overflow: hidden; }
+        .prog-f { height: 100%; background: linear-gradient(90deg, var(--green), var(--gold)); }
+        
         /* Toast */
-        .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(180deg, #2d5a2d, #1a3d1a); border: 2px solid #3a5a3a; border-radius: 8px; padding: 12px; text-align: center; z-index: 2000; display: none; }
+        .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--dark); border: 2px solid var(--gold); border-radius: 8px; padding: 12px; text-align: center; z-index: 2000; display: none; }
         .toast.show { display: block; }
-        .toast-t { font-size: 12px; color: #7fff7f; }
-        .toast-x { font-size: 8px; margin-top: 4px; color: #8f8; }
+        .toast-t { font-size: 12px; color: var(--gold); }
+        .toast-x { font-size: 8px; margin-top: 4px; }
         
         /* Tutorial */
-        .tut { position: fixed; inset: 0; background: linear-gradient(180deg, #1a3d1a, #0d1117); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; z-index: 3000; }
+        .tut { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; z-index: 3000; }
         .tut.h { display: none; }
-        .tut h1 { font-size: 14px; color: #7fff7f; margin-bottom: 12px; text-align: center; }
+        .tut h1 { font-size: 14px; color: var(--green); margin-bottom: 12px; }
         .tut-g { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 300px; }
-        .tut-b { background: rgba(45, 90, 45, 0.3); border: 2px solid #3a5a3a; border-radius: 8px; padding: 12px; }
-        .tut-b h2 { font-size: 9px; color: #7fff7f; margin-bottom: 4px; }
-        .tut-b p { font-size: 7px; color: #8f8; }
-        .tut-s { background: linear-gradient(180deg, #238636, #1a5a1a); border: 2px solid #1a3d1a; color: #fff; font-size: 11px; padding: 12px 32px; border-radius: 6px; margin-top: 16px; }
+        .tut-b { background: var(--stone); border-radius: 8px; padding: 12px; }
+        .tut-b h2 { font-size: 9px; color: var(--gold); margin-bottom: 4px; }
+        .tut-b p { font-size: 7px; color: var(--muted); }
+        .tut-s { background: var(--green); border: 2px solid #000; color: #000; font-size: 11px; padding: 12px 32px; border-radius: 6px; margin-top: 16px; }
         
-        /* Cards */
-        .card { background: var(--stone); border: 2px solid #3d2914; border-radius: 6px; padding: 8px; margin-bottom: 6px; }
-        .card-t { font-size: 9px; color: #7fff7f; margin-bottom: 6px; }
-        .card-r { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #3d2914; font-size: 7px; }
-        .card-r:last-child { border-bottom: none; }
+        /* Genes */
+        .genes { display: flex; gap: 2px; margin-top: 4px; }
+        .gene { width: 10px; height: 10px; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 6px; }
+        .gene-t { background: #f85149; }
+        .gene-c { background: #238636; }
+        .gene-y { background: #f0883e; }
+        .gene-s { background: #58a6ff; }
+        .gene-r { background: #a371f7; }
+        
+        /* Lesson */
+        .lesson-card { background: var(--stone); border: 2px solid #000; border-radius: 6px; padding: 10px; margin-bottom: 6px; }
+        .lesson-card h3 { font-size: 9px; color: var(--text-bright); margin-bottom: 6px; }
+        .lesson-card p { font-size: 7px; color: var(--muted); line-height: 1.5; margin-bottom: 4px; }
     </style>
 </head>
 <body>
-    <!-- Tutorial -->
     <div class="tut" id="tut">
         <h1>🌿 Grow Craft</h1>
         <div class="tut-g">
-            <div class="tut-b"><h2>🌱</h2><p>Тапай на горшки для деталей</p></div>
+            <div class="tut-b"><h2>🌱</h2><p>Тапай на слоты</p></div>
             <div class="tut-b"><h2>🧬</h2><p>Генетика и скрещивание</p></div>
-            <div class="tut-b"><h2>📦</h2><p>Гроубоксы и вентиляция</p></div>
-            <div class="tut-b"><h2>🔬</h2><p>17+ исследований</p></div>
+            <div class="tut-b"><h2>📚</h2><p>Обучение гровингу</p></div>
+            <div class="tut-b"><h2>🔬</h2><p>Исследования</p></div>
         </div>
         <button class="tut-s" id="start">▶ ИГРАТЬ</button>
     </div>
 
-    <!-- App -->
     <div class="app">
         <div class="head">
             <div class="logo"><span class="logo-icon">🌿</span><span class="logo-text">Grow Craft</span></div>
@@ -562,14 +190,12 @@
         </div>
 
         <div class="tabs" id="tabs">
-            <button class="tab on" data-t="grow">🌱 Рост</button>
-            <button class="tab" data-t="shop">🏪 Магазин</button>
-            <button class="tab" data-t="breed">🧬 Скрещивание</button>
-            <button class="tab" data-t="research">🔬 Исследования</button>
-            <button class="tab" data-t="env">🌡️ Среда</button>
-            <button class="tab" data-t="box">📦 Гроубокс</button>
-            <button class="tab" data-t="learn">📚 Обучение</button>
-            <button class="tab" data-t="stats">📊 Статистика</button>
+            <button class="tab on" data-t="grow">🌱</button>
+            <button class="tab" data-t="shop">🏪</button>
+            <button class="tab" data-t="breed">🧬</button>
+            <button class="tab" data-t="research">🔬</button>
+            <button class="tab" data-t="learn">📚</button>
+            <button class="tab" data-t="stats">📊</button>
         </div>
 
         <div class="content" id="content"></div>
@@ -583,341 +209,176 @@
         </div>
     </div>
 
-    <!-- Plant Detail Modal - Full Screen -->
-    <div class="plant-modal" id="plantModal">
-        <div class="plant-header">
-            <div class="title">
-                <span class="name" id="plantName">Northern Lights</span>
-            </div>
-            <button class="close" id="closePlant">✕</button>
-        </div>
-        <div class="plant-main">
-            <div class="big-plant">
-                <div class="big-plant-stage-0" id="bigPlantSprite"></div>
-                <div class="big-pot"></div>
-            </div>
-            <div class="stage-label" id="stageLabel">Семя</div>
-            
-            <div class="stats-section">
-                <div class="stats-grid">
-                    <div class="stat-box"><div class="icon">📊</div><div class="value" id="detailProgress">0%</div><div class="label">Прогресс</div></div>
-                    <div class="stat-box"><div class="icon">⚖️</div><div class="value" id="detailYield">0г</div><div class="label">Урожай</div></div>
-                    <div class="stat-box"><div class="icon">⏱️</div><div class="value" id="detailTime">0д</div><div class="label">Осталось</div></div>
-                    <div class="stat-box"><div class="icon">💰</div><div class="value" id="detailPrice">$0</div><div class="label">Прибыль</div></div>
-                </div>
-            </div>
-            
-            <div class="progress-section">
-                <div class="progress-row">
-                    <div class="progress-header"><span class="progress-label">❤️ Здоровье</span><span class="progress-value" id="healthVal">100%</span></div>
-                    <div class="progress-bar"><div class="progress-fill health" id="healthBar" style="width:100%"></div></div>
-                </div>
-                <div class="progress-row">
-                    <div class="progress-header"><span class="progress-label">💧 Вода</span><span class="progress-value" id="waterVal">70%</span></div>
-                    <div class="progress-bar"><div class="progress-fill water" id="waterBar" style="width:70%"></div></div>
-                </div>
-                <div class="progress-row">
-                    <div class="progress-header"><span class="progress-label">🌱 Рост</span><span class="progress-value" id="growthVal">0%</span></div>
-                    <div class="progress-bar"><div class="progress-fill growth" id="growthBar" style="width:0%"></div></div>
-                </div>
-            </div>
-            
-            <div class="genes-section" id="genesSection" style="display:none">
-                <div class="genes-title">🧬 Генетика</div>
-                <div class="genes-grid">
-                    <div class="gene-box thc"><div class="icon">🔴</div><div class="vals" id="geneT">Tt</div><div class="label">THC</div></div>
-                    <div class="gene-box cbd"><div class="icon">🟢</div><div class="vals" id="geneC">cc</div><div class="label">CBD</div></div>
-                    <div class="gene-box yield"><div class="icon">🟡</div><div class="vals" id="geneY">YY</div><div class="label">Урожай</div></div>
-                    <div class="gene-box speed"><div class="icon">🔵</div><div class="vals" id="geneS">Ss</div><div class="label">Скорость</div></div>
-                    <div class="gene-box resist"><div class="icon">🟣</div><div class="vals" id="geneR">rr</div><div class="label">Резист</div></div>
-                </div>
-            </div>
-            
-            <div class="plant-actions">
-                <button class="plant-btn primary" id="waterPlant"><span class="btn-icon">💧</span><span class="btn-text">Полить</span></button>
-                <button class="plant-btn" id="nutrPlant"><span class="btn-icon">🧪</span><span class="btn-text">Удобрения</span></button>
-                <button class="plant-btn warning" id="harvestPlant" style="display:none"><span class="btn-icon">✂️</span><span class="btn-text">Собрать</span></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Seed Modal -->
-    <div class="modal" id="seedModal"><div class="box"><div class="mhead"><div class="mtit">🌱 Выбери сорт</div><button class="mclose" data-c="seedModal">✕</button></div><div class="mbody"><div class="grid" id="seedGrid"></div></div></div></div>
-    
-    <!-- Nutrient Modal -->
+    <!-- Modals -->
+    <div class="modal" id="seedModal"><div class="box"><div class="mhead"><div class="mtit">🌱 Семена</div><button class="mclose" data-c="seedModal">✕</button></div><div class="mbody"><div class="grid" id="seedGrid"></div></div></div></div>
     <div class="modal" id="nutrModal"><div class="box"><div class="mhead"><div class="mtit">🧪 Удобрения</div><button class="mclose" data-c="nutrModal">✕</button></div><div class="mbody"><div class="grid" id="nutrGrid"></div></div></div></div>
-
+    <div class="modal" id="infoModal"><div class="box"><div class="mhead"><div class="mtit" id="infoTit">Инфо</div><button class="mclose" data-c="infoModal">✕</button></div><div class="mbody" id="infoBody"></div></div></div>
     <div class="toast" id="toast"><div class="toast-t" id="tt"></div><div class="toast-x" id="tx"></div></div>
 
     <script>
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.expand(); tg.ready(); }
-
+        
         // Data
         const strains = [
-            { id: 'nl', name: 'Northern Lights', type: 'Indica', thc: 18, yld: 400, price: 50 },
-            { id: 'ww', name: 'White Widow', type: 'Hybrid', thc: 20, yld: 450, price: 60 },
-            { id: 'bd', name: 'Blue Dream', type: 'Sativa', thc: 21, yld: 500, price: 70 },
-            { id: 'og', name: 'OG Kush', type: 'Hybrid', thc: 23, yld: 480, price: 120 },
-            { id: 'gl', name: 'Gelato', type: 'Hybrid', thc: 27, yld: 400, price: 150 },
-            { id: 'gg', name: 'Gorilla Glue', type: 'Hybrid', thc: 30, yld: 550, price: 180 },
-            { id: 'sk', name: 'Skunk #1', type: 'Hybrid', thc: 19, yld: 420, price: 40 },
-            { id: 'cm', name: 'Critical Mass', type: 'Indica', thc: 20, yld: 600, price: 45 }
+            { id: 'nl', name: 'Northern Lights', type: 'Indica', icon: '🌿', thc: 18, yld: 400, price: 50 },
+            { id: 'ww', name: 'White Widow', type: 'Hybrid', icon: '🍃', thc: 20, yld: 450, price: 60 },
+            { id: 'bd', name: 'Blue Dream', type: 'Sativa', icon: '💠', thc: 21, yld: 500, price: 70 },
+            { id: 'og', name: 'OG Kush', type: 'Hybrid', icon: '🌲', thc: 23, yld: 480, price: 120 },
+            { id: 'gl', name: 'Gelato', type: 'Hybrid', icon: '🍦', thc: 27, yld: 400, price: 150 },
+            { id: 'gg', name: 'Gorilla Glue', type: 'Hybrid', icon: '🦍', thc: 30, yld: 550, price: 180 },
+            { id: 'sk', name: 'Skunk #1', type: 'Hybrid', icon: '🦨', thc: 19, yld: 420, price: 40 },
+            { id: 'cm', name: 'Critical Mass', type: 'Indica', icon: '⚖️', thc: 20, yld: 600, price: 45 }
         ];
-
-        const equipment = [
-            { id: 'slot', name: '+1 Слот', icon: '🌱', desc: 'Макс 15', price: 200 },
-            { id: 'led300', name: 'LED 300W', icon: '💡', desc: '+10% рост', price: 150 },
-            { id: 'led600', name: 'LED 600W', icon: '🔆', desc: '+25% рост', price: 300 },
-            { id: 'co2', name: 'CO₂', icon: '💨', desc: '+30% рост', price: 400 },
-            { id: 'vent', name: 'Вентилятор', icon: '🌀', desc: '+10% здоровье', price: 150 },
-            { id: 'hyd', name: 'Гидропоника', icon: '🚿', desc: '+50% скорость', price: 800 }
-        ];
-
-        const growboxes = [
-            { id: 'box1', name: 'Базовый', desc: '6 слотов', price: 0, slots: 6, bonus: 1 },
-            { id: 'box2', name: 'Средний', desc: '8 слотов', price: 500, slots: 8, bonus: 1.05 },
-            { id: 'box3', name: 'Большой', desc: '10 слотов', price: 1000, slots: 10, bonus: 1.1 },
-            { id: 'box4', name: 'Профессиональный', desc: '12 слотов', price: 2000, slots: 12, bonus: 1.2 },
-            { id: 'box5', name: 'Мастерская', desc: '15 слотов', price: 5000, slots: 15, bonus: 1.3 }
-        ];
-
-        const nutrients = [
-            { id: 'grow', name: 'Grow Mix', icon: '🟢', desc: '+10% здоровье', price: 30 },
-            { id: 'bloom', name: 'Bloom Mix', icon: '🟣', desc: '+урожай', price: 35 },
-            { id: 'calmag', name: 'Cal-Mag', icon: '💊', desc: '+15% здоровье', price: 25 },
-            { id: 'pk', name: 'PK Boost', icon: '⚡', desc: '+урожай', price: 50 }
-        ];
-
-        const research = [
-            { id: 'gen', name: 'Генетика', desc: 'Показывает гены', cost: 150 },
-            { id: 'breed', name: 'Скрещивание', desc: 'Разблокирует', cost: 200 },
-            { id: 'yield', name: 'Урожайность', desc: '+30% урожай', cost: 450 },
-            { id: 'speed', name: 'Скорость', desc: '-20% время', cost: 400 }
-        ];
-
+        
+        const stageIcons = ['🌱', '🌿', '🪴', '🌳', '🌸', '🌺', '🌻'];
+        const stageNames = ['Семя', 'Росток', 'Сеянец', 'Вегетация', 'Преф.', 'Цветение', 'Harvest'];
+        
         // State
         let S = {
             day: 1, time: 6, speed: 1, money: 500, xp: 0, level: 1,
-            plants: [], slots: 6, selected: null, viewingPlant: null,
+            plants: [], slots: 6, selected: null,
             inv: { grow: 5, bloom: 3, calmag: 2, pk: 1 },
-            equipment: {}, growbox: 'box1', env: { light: true, co2: 400 },
-            research: research.map(r => ({...r, done: false})),
+            research: [
+                { id: 'gen', name: 'Генетика', desc: 'Показывает гены', cost: 150, done: false },
+                { id: 'breed', name: 'Скрещивание', desc: 'Разблокирует', cost: 200, done: false },
+                { id: 'yield', name: 'Урожайность', desc: '+30%', cost: 450, done: false }
+            ],
             stats: { harvests: 0, planted: 0, bred: 0 },
             breed: [null, null]
         };
-
+        
         let loop = null;
-        const stageNames = ['Семя', 'Росток', 'Сеянец', 'Вегетация', 'Преф.', 'Цветение', 'Harvest'];
-
-        function load() { const s = localStorage.getItem('gcmega4'); if (s) S = {...S, ...JSON.parse(s)}; }
-        function save() { localStorage.setItem('gcmega4', JSON.stringify(S)); }
-
+        
+        function load() { const s = localStorage.getItem('gc5'); if (s) S = {...S, ...JSON.parse(s)}; }
+        function save() { localStorage.setItem('gc5', JSON.stringify(S)); }
+        
         function toast(t, x) {
             document.getElementById('tt').textContent = t;
             document.getElementById('tx').textContent = x;
             document.getElementById('toast').classList.add('show');
             setTimeout(() => document.getElementById('toast').classList.remove('show'), 1500);
         }
-
-        function openModal(id) { document.getElementById(id).classList.add('open'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-        function openPlantModal(plant) {
-            S.viewingPlant = plant;
-            updatePlantModal(plant);
-            document.getElementById('plantModal').classList.add('open');
-        }
-
-        function updatePlantModal(p) {
-            if (!p) return;
-            
-            // Update sprite
-            const sprite = document.getElementById('bigPlantSprite');
-            sprite.className = 'big-plant-stage-' + p.stage;
-            
-            // Update info
-            document.getElementById('plantName').textContent = p.strain.name;
-            document.getElementById('stageLabel').textContent = stageNames[p.stage];
-            
-            const geneRes = S.research.find(r => r.id === 'gen')?.done;
-            document.getElementById('genesSection').style.display = geneRes ? 'block' : 'none';
-            if (geneRes) {
-                document.getElementById('geneT').textContent = p.genes.t;
-                document.getElementById('geneC').textContent = p.genes.c;
-                document.getElementById('geneY').textContent = p.genes.y;
-                document.getElementById('geneS').textContent = p.genes.s;
-                document.getElementById('geneR').textContent = p.genes.r;
-            }
-            
-            const yieldMod = p.genes.y.includes('Y') ? 1.3 : 0.85;
-            const healthMod = p.health / 100;
-            const estYield = Math.floor(p.strain.yld * yieldMod * healthMod);
-            const daysLeft = Math.max(0, Math.ceil((100 - p.progress) / (10 * S.speed)));
-            
-            document.getElementById('detailProgress').textContent = Math.floor(p.progress) + '%';
-            document.getElementById('detailYield').textContent = estYield + 'г';
-            document.getElementById('detailTime').textContent = daysLeft + 'д';
-            document.getElementById('detailPrice').textContent = '$' + (estYield * 2);
-            
-            document.getElementById('healthVal').textContent = Math.floor(p.health) + '%';
-            document.getElementById('healthBar').style.width = p.health + '%';
-            document.getElementById('waterVal').textContent = Math.floor(p.water) + '%';
-            document.getElementById('waterBar').style.width = p.water + '%';
-            document.getElementById('growthVal').textContent = Math.floor(p.progress) + '%';
-            document.getElementById('growthBar').style.width = p.progress + '%';
-            
-            document.getElementById('harvestPlant').style.display = p.stage >= 6 ? 'grid' : 'none';
-        }
-
+        
         function tick() {
             S.time += 0.5 * S.speed;
             if (S.time >= 24) { S.time = 0; S.day++; }
-
-            const box = growboxes.find(b => b.id === S.growbox);
-            const boxBonus = box ? box.bonus : 1;
-
+            
             S.plants.forEach(p => {
-                const lightMod = S.env.light ? 1.2 : 0.5;
-                const co2Mod = S.env.co2 > 600 ? 1.3 : 1;
-                const ventMod = S.equipment.vent ? 1.1 : 1;
-
-                p.progress += lightMod * co2Mod * boxBonus * ventMod * S.speed * 0.05;
+                const lightMod = 1.2;
+                p.progress += lightMod * S.speed * 0.05;
                 p.water -= 0.2 * S.speed;
-
                 if (p.water < 30) p.health -= 0.1 * S.speed;
                 if (p.water > 80) p.health -= 0.05 * S.speed;
                 p.health = Math.max(0, Math.min(100, p.health));
-
                 p.stage = p.progress < 5 ? 0 : p.progress < 10 ? 1 : p.progress < 20 ? 2 : p.progress < 40 ? 3 : p.progress < 60 ? 4 : p.progress < 90 ? 5 : 6;
             });
-
+            
             const need = S.level * 100;
             if (S.xp >= need) { S.xp -= need; S.level++; toast('🎉', 'Уровень ' + S.level); }
-
-            if (S.viewingPlant && document.getElementById('plantModal').classList.contains('open')) {
-                const p = S.plants.find(x => x.slot === S.viewingPlant.slot);
-                if (p) updatePlantModal(p);
-            }
-
             update();
         }
-
+        
         function update() {
             document.getElementById('lvl').textContent = S.level;
             document.getElementById('day').textContent = S.day;
             document.getElementById('mny').textContent = S.money;
             document.getElementById('xp').textContent = S.xp;
         }
-
+        
         function render(tab) {
             const c = document.getElementById('content');
-
+            
             if (tab === 'grow') {
                 let html = '<div class="room">';
                 for (let i = 0; i < S.slots; i++) {
                     const p = S.plants.find(x => x.slot === i);
                     const sel = S.selected === i ? 'sel' : '';
                     const ready = p && p.stage >= 6 ? 'ready' : '';
+                    const icon = p ? stageIcons[p.stage] : '🌱';
+                    const name = p ? p.strain.name.slice(0, 8) : 'ПУСТО';
+                    const prog = p ? Math.floor(p.progress) + '%' : '';
                     
-                    if (p) {
-                        html += `<div class="plant-slot ${sel} ${ready}" data-slot="${i}">
-                            <div class="plant-sprite plant-stage-${p.stage}"></div>
-                            <div class="plant-name">${p.strain.name.slice(0, 8)}</div>
-                            <div class="plant-progress">${Math.floor(p.progress)}%</div>
-                        </div>`;
-                    } else {
-                        html += `<div class="plant-slot ${sel}" data-slot="${i}">
-                            <div class="plant-name" style="opacity:0.5;margin-top:20px">🌱</div>
-                            <div class="plant-name" style="opacity:0.5">ПУСТО</div>
-                        </div>`;
-                    }
+                    html += `<div class="slot ${sel} ${ready}" data-slot="${i}">
+                        <div class="slot-icon">${icon}</div>
+                        <div class="slot-name">${name}</div>
+                        <div class="slot-progress">${prog}</div>
+                    </div>`;
                 }
                 html += '</div>';
                 c.innerHTML = html;
             }
             else if (tab === 'shop') {
-                c.innerHTML = `
-                    <div class="card"><div class="card-t">🌱 Семена</div><div class="grid" id="seedGrid"></div></div>
-                    <div class="card"><div class="card-t">⚙️ Оборудование</div><div class="grid" id="eqGrid"></div></div>
-                    <div class="card"><div class="card-t">🧪 Удобрения</div><div class="grid" id="nutrGrid"></div></div>
-                `;
+                c.innerHTML = `<div class="card"><div class="card-t">🌱 Семена</div><div class="grid" id="seedGrid"></div></div>
+                <div class="card"><div class="card-t">🧪 Удобрения</div><div class="grid" id="nutrGrid"></div></div>`;
+                
                 document.getElementById('seedGrid').innerHTML = strains.map(s => 
-                    `<div class="item ${S.money < s.price ? 'off' : ''}" data-seed="${s.id}"><div class="ii">${s.icon || '🌿'}</div><div class="in">${s.name.slice(0, 8)}</div><div class="id">${s.type}</div><div class="ip">💰${s.price}</div></div>`
+                    `<div class="item ${S.money < s.price ? 'off' : ''}" data-seed="${s.id}"><div class="ii">${s.icon}</div><div class="in">${s.name.slice(0, 8)}</div><div class="id">${s.type}</div><div class="ip">💰${s.price}</div></div>`
                 ).join('');
-                document.getElementById('eqGrid').innerHTML = equipment.map(e => 
-                    `<div class="item ${S.money < e.price || S.equipment[e.id] ? 'off' : ''} ${S.equipment[e.id] ? 'owned' : ''}" data-eq="${e.id}"><div class="ii">${e.icon}</div><div class="in">${e.name}</div><div class="id">${e.desc}</div><div class="ip">${S.equipment[e.id] ? '✅' : '💰' + e.price}</div></div>`
-                ).join('');
-                document.getElementById('nutrGrid').innerHTML = nutrients.map(n => 
-                    `<div class="item ${!S.inv[n.id] ? 'off' : ''}" data-nut="${n.id}"><div class="ii">${n.icon}</div><div class="in">${n.name}</div><div class="id">${n.desc}</div><div class="ip">x${S.inv[n.id] || 0}</div></div>`
-                ).join('');
+                
+                document.getElementById('nutrGrid').innerHTML = [
+                    { id: 'grow', name: 'Grow Mix', icon: '🟢', desc: '+10% здоровье', inv: S.inv.grow },
+                    { id: 'bloom', name: 'Bloom Mix', icon: '🟣', desc: '+урожай', inv: S.inv.bloom },
+                    { id: 'calmag', name: 'Cal-Mag', icon: '💊', desc: '+15% здоровье', inv: S.inv.calmag },
+                    { id: 'pk', name: 'PK Boost', icon: '⚡', desc: '+урожай', inv: S.inv.pk }
+                ].map(n => `<div class="item ${!n.inv ? 'off' : ''}" data-nut="${n.id}"><div class="ii">${n.icon}</div><div class="in">${n.name}</div><div class="id">${n.desc}</div><div class="ip">x${n.inv}</div></div>`).join('');
             }
             else if (tab === 'breed') {
-                c.innerHTML = `<div class="card"><div class="card-t">🧬 Скрещивание</div><p style="font-size:7px;color:#8f8;margin-bottom:8px">Выбери 2 harvest</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="item" id="b0"><div class="ii">🌱</div><div class="in">Родитель 1</div></div><div class="item" id="b1"><div class="ii">🌱</div><div class="in">Родитель 2</div></div></div><button class="tut-s" style="width:100%;margin-top:8px" id="breedBtn">🧬 Скрестить</button></div>`;
-                renderBreed();
+                c.innerHTML = `<div class="card"><div class="card-t">🧬 Скрещивание</div><p style="font-size:7px;color:var(--muted);margin-bottom:8px">Выбери 2 harvest растения</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                    <div class="item" id="b0"><div class="ii">🌱</div><div class="in">Родитель 1</div></div>
+                    <div class="item" id="b1"><div class="ii">🌱</div><div class="in">Родитель 2</div></div>
+                </div>
+                <button class="tut-s" style="width:100%;margin-top:8px" id="breedBtn">🧬 Скрестить</button></div>`;
+                [0, 1].forEach(i => {
+                    const el = document.getElementById('b' + i);
+                    const p = S.breed[i];
+                    if (p) el.innerHTML = `<div class="ii">${p.strain.icon}</div><div class="in">${p.strain.name.slice(0, 6)}</div>`;
+                });
             }
             else if (tab === 'research') {
                 c.innerHTML = '<div class="card"><div class="card-t">🔬 Исследования</div></div>';
                 S.research.forEach((r, i) => {
-                    const done = r.done;
-                    c.innerHTML += `<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:8px">${r.name}</div><div style="font-size:6px;color:#8f8">${r.desc}</div></div>${done ? '<span style="color:#7fff7f">✅</span>' : `<button class="tut-s" data-res="${i}" style="${S.xp >= r.cost ? '' : 'opacity:0.5'};font-size:7px;padding:6px 12px">🔓${r.cost}</button>`}</div>`;
+                    c.innerHTML += `<div class="card" style="display:flex;justify-content:space-between;align-items:center">
+                        <div><div style="font-size:8px">${r.name}</div><div style="font-size:6px;color:var(--muted)">${r.desc}</div></div>
+                        ${r.done ? '<span style="color:var(--green)">✅</span>' : `<button class="tut-s" data-res="${i}" style="${S.xp >= r.cost ? '' : 'opacity:0.5'};font-size:7px;padding:6px 12px">🔓${r.cost}</button>`}
+                    </div>`;
                 });
-            }
-            else if (tab === 'env') {
-                c.innerHTML = `<div class="card"><div class="card-t">🌡️ Среда</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="item"><div style="font-size:18px">💡</div><div style="font-size:12px;color:#7fff7f;margin:4px 0">${S.env.light ? 'ON' : 'OFF'}</div><div style="font-size:6px;color:#8f8">Свет</div><button class="tut-s" data-env="light" style="margin-top:6px;font-size:7px">${S.env.light ? 'Выкл' : 'Вкл'}</button></div><div class="item"><div style="font-size:18px">💨</div><div style="font-size:12px;color:#7fff7f;margin:4px 0">${S.env.co2}</div><div style="font-size:6px;color:#8f8">CO₂</div></div></div></div>`;
-            }
-            else if (tab === 'box') {
-                const currentBox = growboxes.find(b => b.id === S.growbox);
-                c.innerHTML = `<div class="card"><div class="card-t">📦 Текущий: ${currentBox.name}</div></div>`;
-                growboxes.forEach(b => {
-                    const owned = S.growbox === b.id;
-                    c.innerHTML += `<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:9px">${b.name}</div><div style="font-size:6px;color:#8f8">${b.desc}</div></div>${owned ? '<span style="color:#7fff7f">✅</span>' : `<button class="tut-s" data-box="${b.id}" style="${S.money >= b.price ? '' : 'opacity:0.5'};font-size:7px;padding:6px 12px">💰${b.price}</button>`}</div>`;
-                });
-            }
-            else if (tab === 'stats') {
-                const need = S.level * 100;
-                const box = growboxes.find(b => b.id === S.growbox);
-                c.innerHTML = `<div class="card"><div class="card-t">📊 Прогресс</div><div style="margin-bottom:8px;font-size:7px">Уровень ${S.level} • ${S.xp}/${need} XP</div><div style="height:6px;background:#000;border-radius:3px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#238636,#f0883e);width:${(S.xp/need)*100}%"></div></div></div><div class="card"><div class="card-t">📈 Статистика</div><div class="card-r"><span>🌱 Посажено</span><span>${S.stats.planted}</span></div><div class="card-r"><span>✂️ Урожаев</span><span>${S.stats.harvests}</span></div><div class="card-r"><span>💰 Баланс</span><span>${S.money}</span></div><div class="card-r"><span>📦 Гроубокс</span><span>${box.name}</span></div></div>`;
             }
             else if (tab === 'learn') {
                 const lessons = [
-                    { id: 'basics', title: '🌱 Основы гровинга', icon: '🌱', unlocked: true },
-                    { id: 'germination', title: '🌱 Проращивание семян', icon: '🌰', unlocked: S.stats.planted >= 1 },
-                    { id: 'light', title: '💡 Фотопериод и спектр', icon: '💡', unlocked: S.stats.planted >= 2 },
-                    { id: 'water', title: '💧 Полив и pH', icon: '💧', unlocked: S.stats.planted >= 3 },
-                    { id: 'nutrients', title: '🧪 NPK и удобрения', icon: '🧪', unlocked: S.stats.planted >= 4 },
-                    { id: 'training', title: '🌿 Тренировка растений', icon: '🌿', unlocked: S.stats.harvests >= 1 },
-                    { id: 'flowering', title: '🌸 Цветение и трихомы', icon: '🌸', unlocked: S.stats.harvests >= 2 },
-                    { id: 'harvest', title: '✂️ Сбор и сушка', icon: '✂️', unlocked: S.stats.harvests >= 5 },
-                    { id: 'breeding', title: '🧬 Генетика и скрещивание', icon: '🧬', unlocked: S.stats.bred >= 1 },
-                    { id: 'advanced', title: '🔬 Продвинутые техники', icon: '🔬', unlocked: S.stats.harvests >= 10 }
+                    { id: 'basics', title: '🌱 Основы', unlocked: true },
+                    { id: 'germ', title: '🌰 Проращивание', unlocked: S.stats.planted >= 1 },
+                    { id: 'light', title: '💡 Свет', unlocked: S.stats.planted >= 2 },
+                    { id: 'water', title: '💧 Полив', unlocked: S.stats.planted >= 3 },
+                    { id: 'npk', title: '🧪 NPK', unlocked: S.stats.planted >= 4 },
+                    { id: 'train', title: '🌿 Тренировка', unlocked: S.stats.harvests >= 1 },
+                    { id: 'flower', title: '🌸 Цветение', unlocked: S.stats.harvests >= 2 },
+                    { id: 'harvest', title: '✂️ Сбор', unlocked: S.stats.harvests >= 5 }
                 ];
-                
-                c.innerHTML = '<div class="card"><div class="card-t">📚 Академия Гровинга</div></div>';
+                c.innerHTML = '<div class="card"><div class="card-t">📚 Академия</div></div>';
                 lessons.forEach(l => {
-                    const locked = !l.unlocked;
-                    c.innerHTML += `<div class="card ${locked ? 'opacity:0.5' : ''}" style="display:flex;justify-content:space-between;align-items:center;cursor:${locked ? 'not-allowed' : 'pointer'}" data-lesson="${l.id}">
-                        <div><span style="font-size:14px;margin-right:8px">${l.icon}</span><span style="font-size:8px">${l.title}</span></div>
-                        ${locked ? '<span style="font-size:6px;color:#8f8">🔒</span>' : '<span style="font-size:6px;color:#7fff7f">▶</span>'}
+                    c.innerHTML += `<div class="card" style="display:flex;justify-content:space-between;align-items:center;cursor:${l.unlocked ? 'pointer' : 'not-allowed'};opacity:${l.unlocked ? 1 : 0.5}" data-lesson="${l.id}">
+                        <span style="font-size:8px">${l.title}</span>
+                        <span style="font-size:10px">${l.unlocked ? '▶' : '🔒'}</span>
                     </div>`;
                 });
-                
-                c.innerHTML += '<div class="card" id="lessonContent" style="display:none;margin-top:8px"><div class="card-t" id="lessonTitle"></div><div id="lessonBody"></div></div>';
+                c.innerHTML += '<div class="card" id="lessonContent" style="display:none;margin-top:8px"></div>';
+            }
+            else if (tab === 'stats') {
+                const need = S.level * 100;
+                c.innerHTML = `<div class="card"><div class="card-t">📊 Прогресс</div><div style="margin-bottom:8px;font-size:7px">Уровень ${S.level} • ${S.xp}/${need} XP</div><div class="prog"><div class="prog-f" style="width:${(S.xp/need)*100}%"></div></div></div>
+                <div class="card"><div class="card-t">📈 Статистика</div>
+                    <div class="card-r"><span>🌱 Посажено</span><span>${S.stats.planted}</span></div>
+                    <div class="card-r"><span>✂️ Урожаев</span><span>${S.stats.harvests}</span></div>
+                    <div class="card-r"><span>💰 Баланс</span><span>${S.money}</span></div>
+                </div>`;
             }
         }
-
-        function renderBreed() {
-            [0, 1].forEach(i => {
-                const el = document.getElementById('b' + i);
-                if (!el) return;
-                const p = S.breed[i];
-                el.innerHTML = p ? `<div class="ii">🌿</div><div class="in">${p.strain.name.slice(0, 6)}</div>` : `<div class="ii">🌱</div><div class="in">Родитель ${i+1}</div>`;
-            });
-        }
-
+        
         function plantSeed(id) {
-            if (S.selected === null) { toast('❌', 'Выбери горшок'); closeModal('seedModal'); return; }
-            if (S.plants.find(p => p.slot === S.selected)) { toast('❌', 'Слот занят'); closeModal('seedModal'); return; }
+            if (S.selected === null) { toast('❌', 'Выбери слот'); return; }
+            if (S.plants.find(p => p.slot === S.selected)) { toast('❌', 'Слот занят'); return; }
             const strain = strains.find(s => s.id === id);
             if (S.money < strain.price) { toast('❌', 'Не хватает'); return; }
             S.money -= strain.price;
@@ -926,404 +387,179 @@
                 genes: { t: (Math.random() > 0.5 ? 'T' : 't') + (Math.random() > 0.5 ? 'T' : 't'), c: (Math.random() > 0.7 ? 'C' : 'c') + (Math.random() > 0.7 ? 'C' : 'c'), y: (Math.random() > 0.5 ? 'Y' : 'y') + (Math.random() > 0.5 ? 'Y' : 'y'), s: (Math.random() > 0.5 ? 'S' : 's') + (Math.random() > 0.5 ? 'S' : 's'), r: (Math.random() > 0.5 ? 'R' : 'r') + (Math.random() > 0.5 ? 'R' : 'r') },
                 progress: 0, stage: 0, health: 100, water: 70
             });
-            S.stats.planted++; S.xp += 5;
-            closeModal('seedModal'); render('grow'); toast('🌱', strain.name); save();
+            S.stats.planted++;
+            S.xp += 5;
+            document.getElementById('seedModal').classList.remove('open');
+            render('grow');
+            toast('🌱', strain.name);
+            save();
         }
-
+        
         function harvest(p) {
             const yld = Math.floor(p.strain.yld * (p.genes.y.includes('Y') ? 1.3 : 0.85) * (p.health / 100));
-            S.money += yld * 2; S.xp += yld; S.stats.harvests++;
-            S.plants = S.plants.filter(x => x.slot !== p.slot); S.selected = null; S.viewingPlant = null;
-            document.getElementById('plantModal').classList.remove('open');
-            toast('✂️', `${yld}г • +${yld * 2}💰`); render('grow'); save();
+            S.money += yld * 2;
+            S.xp += yld;
+            S.stats.harvests++;
+            S.plants = S.plants.filter(x => x.slot !== p.slot);
+            S.selected = null;
+            document.getElementById('infoModal').classList.remove('open');
+            toast('✂️', `${yld}г • +${yld * 2}💰`);
+            render('grow');
+            save();
         }
-
-        function doBreed() {
-            if (!S.breed[0] || !S.breed[1]) { toast('❌', 'Выбери обоих'); return; }
-            if (S.plants.length >= S.slots) { toast('❌', 'Нет места'); return; }
-            const p1 = S.breed[0], p2 = S.breed[1];
-            const inh = (a, b) => a[Math.floor(Math.random() * 2)] + b[Math.floor(Math.random() * 2)];
-            S.plants.push({
-                slot: S.plants.length, strain: { id: 'c' + Date.now(), name: p1.strain.name.split(' ')[0] + '×' + p2.strain.name.split(' ')[0], type: 'Hybrid', thc: 20, yld: 450 },
-                genes: { t: inh(p1.genes.t, p2.genes.t), c: inh(p1.genes.c, p2.genes.c), y: inh(p1.genes.y, p2.genes.y), s: inh(p1.genes.s, p2.genes.s), r: inh(p1.genes.r, p2.genes.r) },
-                progress: 0, stage: 0, health: 100, water: 70
-            });
-            S.stats.bred++; S.xp += 50; S.breed = [null, null]; toast('🧬', 'Новый сорт!'); render('breed'); save();
+        
+        function showInfo(p) {
+            document.getElementById('infoTit').textContent = p.strain.name;
+            const yld = Math.floor(p.strain.yld * (p.genes.y.includes('Y') ? 1.3 : 0.85) * (p.health / 100));
+            const daysLeft = Math.max(0, Math.ceil((100 - p.progress) / (10 * S.speed)));
+            
+            let html = `<div class="stats-grid">
+                <div class="stat-box"><div class="icon">📊</div><div class="value">${Math.floor(p.progress)}%</div><div class="label">Прогресс</div></div>
+                <div class="stat-box"><div class="icon">⚖️</div><div class="value">${yld}г</div><div class="label">Урожай</div></div>
+                <div class="stat-box"><div class="icon">⏱️</div><div class="value">${daysLeft}д</div><div class="label">Осталось</div></div>
+                <div class="stat-box"><div class="icon">💰</div><div class="value">$${yld * 2}</div><div class="label">Прибыль</div></div>
+            </div>
+            <div class="card" style="margin-top:8px">
+                <div class="card-r"><span>❤️ Здоровье</span><span>${Math.floor(p.health)}%</span></div>
+                <div class="prog" style="margin-top:4px"><div class="prog-f" style="width:${p.health}%"></div></div>
+                <div class="card-r" style="margin-top:6px"><span>💧 Вода</span><span>${Math.floor(p.water)}%</span></div>
+                <div class="prog" style="margin-top:4px"><div class="prog-f" style="width:${p.water}%"></div></div>
+            </div>`;
+            
+            if (S.research[0].done) {
+                html += `<div class="card" style="margin-top:8px"><div style="font-size:8px;color:var(--gold);margin-bottom:6px">🧬 Гены</div>
+                <div class="genes">${['t', 'c', 'y', 's', 'r'].map(g => `<div class="gene gene-${g}">${p.genes[g].includes(g.toUpperCase()) ? '★' : '○'}</div>`).join('')}</div></div>`;
+            }
+            
+            if (p.stage >= 6) {
+                html += `<button class="tut-s" style="width:100%;margin-top:8px" id="harvestBtn">✂️ Собрать урожай</button>`;
+            } else {
+                html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+                    <button class="tut-s" id="waterBtn">💧 Полить</button>
+                    <button class="tut-s" id="nutrBtn">🧪 Удобрения</button>
+                </div>`;
+            }
+            
+            document.getElementById('infoBody').innerHTML = html;
+            document.getElementById('infoModal').classList.add('open');
+            
+            if (p.stage >= 6) {
+                document.getElementById('harvestBtn').addEventListener('click', () => harvest(p));
+            } else {
+                document.getElementById('waterBtn').addEventListener('click', () => { p.water = Math.min(100, p.water + 30); showInfo(p); toast('💧', 'Полито!'); save(); });
+                document.getElementById('nutrBtn').addEventListener('click', () => { document.getElementById('infoModal').classList.remove('open'); document.getElementById('nutrModal').classList.add('open'); });
+            }
         }
-
+        
+        // Events
         document.addEventListener('DOMContentLoaded', () => {
             load();
             document.getElementById('start').addEventListener('click', () => { document.getElementById('tut').classList.add('h'); loop = setInterval(tick, 1000); });
-            document.querySelectorAll('.tab[data-t]').forEach(t => t.addEventListener('click', () => { document.querySelectorAll('.tab[data-t]').forEach(x => x.classList.remove('on')); t.classList.add('on'); render(t.dataset.t); }));
+            document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => { document.querySelectorAll('.tab').forEach(x => x.classList.remove('on')); t.classList.add('on'); render(t.dataset.t); }));
             document.querySelectorAll('[data-s]').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('[data-s]').forEach(x => x.classList.remove('on')); b.classList.add('on'); S.speed = parseInt(b.dataset.s); }));
             document.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', () => {
                 const a = b.dataset.a;
-                if (a === 'plant') { if (S.selected === null) toast('❌', 'Выбери горшок'); else if (S.plants.find(p => p.slot === S.selected)) toast('❌', 'Слот занят'); else { render('grow'); openModal('seedModal'); } }
-                else if (a === 'water') { if (S.plants.length === 0) toast('💧', 'Нет растений'); else { S.plants.forEach(p => p.water = Math.min(100, p.water + 30)); toast('💧', 'Полито!'); render('grow'); } }
-                else if (a === 'nutrient') { if (S.selected === null) toast('❌', 'Выбери растение'); else openModal('nutrModal'); }
+                if (a === 'plant') { if (S.selected === null) toast('❌', 'Выбери слот'); else if (S.plants.find(p => p.slot === S.selected)) toast('❌', 'Слот занят'); else document.getElementById('seedModal').classList.add('open'); }
+                else if (a === 'water') { if (S.plants.length === 0) toast('💧', 'Нет растений'); else { S.plants.forEach(p => p.water = Math.min(100, p.water + 30)); toast('💧', 'Полито!'); } }
+                else if (a === 'nutrient') { if (S.selected === null) toast('❌', 'Выбери растение'); else document.getElementById('nutrModal').classList.add('open'); }
                 else if (a === 'harvest') { if (S.selected === null) toast('❌', 'Выбери растение'); else { const p = S.plants.find(x => x.slot === S.selected); if (!p) toast('❌', 'Пусто'); else if (p.stage < 6) toast('❌', 'Не готово'); else harvest(p); } }
                 else if (a === 'save') { save(); toast('💾', 'Сохранено!'); }
             }));
+            
             document.getElementById('content').addEventListener('click', e => {
-                const pot = e.target.closest('.pot');
-                if (pot) {
-                    const slot = parseInt(pot.dataset.slot); S.selected = slot;
-                    const p = S.plants.find(x => x.slot === slot);
-                    if (!p) openModal('seedModal');
-                    else openPlantModal(p);
+                const slot = e.target.closest('.slot');
+                if (slot) {
+                    const i = parseInt(slot.dataset.slot);
+                    S.selected = i;
+                    const p = S.plants.find(x => x.slot === i);
+                    if (!p) document.getElementById('seedModal').classList.add('open');
+                    else showInfo(p);
                     render('grow');
                 }
-                const seed = e.target.closest('[data-seed]'); if (seed) plantSeed(seed.dataset.seed);
-                const eq = e.target.closest('[data-eq]'); if (eq) { const item = equipment.find(x => x.id === eq.dataset.eq); if (S.money < item.price) { toast('❌', 'Не хватает'); return; } if (S.equipment[item.id]) { toast('❌', 'Уже есть'); return; } S.money -= item.price; S.equipment[item.id] = true; if (item.id === 'slot') S.slots = Math.min(15, S.slots + 1); if (item.id === 'co2') S.env.co2 = 1200; toast('✅', item.name); render('shop'); save(); }
-                const nut = e.target.closest('[data-nut]'); if (nut) { const n = nutrients.find(x => x.id === nut.dataset.nut); if (!S.inv[n.id]) { toast('❌', 'Купи в магазине'); return; } if (S.viewingPlant) { S.inv[n.id]--; S.viewingPlant.health = Math.min(100, S.viewingPlant.health + 15); updatePlantModal(S.viewingPlant); toast('🧪', 'Применено'); } else toast('❌', 'Выбери растение'); closeModal('nutrModal'); save(); }
-                const res = e.target.closest('[data-res]'); if (res) { const r = S.research[parseInt(res.dataset.res)]; if (S.xp < r.cost) { toast('❌', 'Не хватает XP'); return; } S.xp -= r.cost; r.done = true; toast('🔬', r.name); render('research'); save(); }
-                const env = e.target.closest('[data-env]'); if (env) { if (env.dataset.env === 'light') S.env.light = !S.env.light; render('env'); }
-                const box = e.target.closest('[data-box]'); if (box) { const b = growboxes.find(x => x.id === box.dataset.box); if (S.money < b.price) { toast('❌', 'Не хватает'); return; } if (S.growbox === b.id) { toast('❌', 'Уже есть'); return; } S.money -= b.price; S.growbox = b.id; S.slots = b.slots; toast('📦', b.name); render('box'); save(); }
-                const b0 = e.target.closest('#b0'); const b1 = e.target.closest('#b1'); if (b0 || b1) { const idx = b0 ? 0 : 1; const avail = S.plants.filter(p => p.stage >= 6); if (avail.length === 0) { toast('❌', 'Нет harvest'); return; } S.breed[idx] = avail[idx === 0 ? 0 : Math.min(1, avail.length - 1)]; renderBreed(); }
-                if (e.target.closest('#breedBtn')) doBreed();
-            });
-            document.getElementById('closePlant').addEventListener('click', () => document.getElementById('plantModal').classList.remove('open'));
-            document.getElementById('waterPlant').addEventListener('click', () => { if (S.viewingPlant) { S.viewingPlant.water = Math.min(100, S.viewingPlant.water + 30); updatePlantModal(S.viewingPlant); toast('💧', 'Полито!'); save(); } });
-            document.getElementById('nutrPlant').addEventListener('click', () => { closeModal('plantModal'); openModal('nutrModal'); });
-            document.getElementById('harvestPlant').addEventListener('click', () => { if (S.viewingPlant && S.viewingPlant.stage >= 6) harvest(S.viewingPlant); });
-            document.querySelectorAll('[data-c]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.c)));
-            document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
-            document.getElementById('plantModal').addEventListener('click', e => { if (e.target.id === 'plantModal') document.getElementById('plantModal').classList.remove('open'); });
-            
-            // Lessons
-            const lessonContent = {
-                basics: {
-                    title: '🌱 Основы гровинга',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Каннабис (Cannabis sativa/indica) — однолетнее растение семейства Коноплёвые.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Научные факты:</b></p>
-                            <p style="margin-bottom:6px">• <b>Фотопериодизм</b> — растение зацветает при 12ч света и меньше</p>
-                            <p style="margin-bottom:6px">• <b>Автоцветущие</b> сорта цветут по возрасту (2-4 недели)</p>
-                            <p style="margin-bottom:6px">• <b>THC</b> (тетрагидроканнабинол) — психоактивное вещество</p>
-                            <p style="margin-bottom:6px">• <b>CBD</b> (каннабидиол) — медицинский компонент</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">📊 Стадии роста:</p>
-                            <p>1. Проращивание (1-7 дней)</p>
-                            <p>2. Рассада (2-3 недели)</p>
-                            <p>3. Вегетация (4-8 недель)</p>
-                            <p>4. Пре-цветение (1-2 недели)</p>
-                            <p>5. Цветение (6-12 недель)</p>
-                        </div>
-                        <p style="font-size:6px;color:#f0883e">💡 Совет: Начни с автоцветущего сорта для первого раза</p>
-                    `
-                },
-                germination: {
-                    title: '🌰 Проращивание семян',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Проращивание — критический этап. Успех зависит от влажности, температуры и качества семян.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Научные данные:</b></p>
-                            <p style="margin-bottom:4px">• Оптимальная температура: <b>20-26°C</b></p>
-                            <p style="margin-bottom:4px">• Влажность: <b>70-90%</b></p>
-                            <p style="margin-bottom:4px">• pH воды: <b>6.0-6.5</b></p>
-                            <p style="margin-bottom:4px">• Всхожесть: <b>60-90%</b> зависит от качества</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f0883e;margin-bottom:4px">📦 Методы проращивания:</p>
-                            <p style="margin-bottom:4px"><b>1. Бумажное полотенце</b> — 2-7 дней</p>
-                            <p style="margin-bottom:4px"><b>2. Стакан воды</b> — 24-48ч + полотенце</p>
-                            <p style="margin-bottom:4px"><b>3. Прямо в грунт</b> — проще, но медленнее</p>
-                            <p><b>4. Rockwool кубики</b> — для гидропоники</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f85149;margin-bottom:4px">⚠️ Частые ошибки:</p>
-                            <p>• Слишком глубокая посадка (&gt;2см)</p>
-                            <p>• Перелив (гниль корней)</p>
-                            <p>• Холодная вода (&lt;18°C)</p>
-                            <p>• Трогать корень руками</p>
-                        </div>
-                        <p style="font-size:6px;color:#7fff7f">💡 Показался корешок 2-5мм? Сажай корнем вниз!</p>
-                    `
-                },
-                light: {
-                    title: '💡 Фотопериод и спектр',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Свет — главный драйвер роста. Качество света напрямую влияет на урожайность и качество.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Фотопериодизм:</b></p>
-                            <p style="margin-bottom:4px">• <b>Вегетация:</b> 18-24ч света / 0-6ч тьмы</p>
-                            <p style="margin-bottom:4px">• <b>Цветение:</b> 12ч света / 12ч тьмы</p>
-                            <p style="margin-bottom:4px">• <b>Переключение:</b> резкое, без плавного перехода</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f0883e;margin-bottom:4px">🌈 Спектр света:</p>
-                            <p style="margin-bottom:4px"><b style="color:#58a6ff">Синий (400-500nm)</b> — вегетация, рост листьев</p>
-                            <p style="margin-bottom:4px"><b style="color:#f0883e">Красный (600-700nm)</b> — цветение, соцветия</p>
-                            <p><b style="color:#a371f7">UV-B (280-315nm)</b> — увеличивает THC</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">📊 Интенсивность света:</p>
-                            <p style="margin-bottom:4px">• <b>HPS:</b> 100-150W/м² (классика)</p>
-                            <p style="margin-bottom:4px">• <b>LED:</b> 300-600W реальной мощности</p>
-                            <p style="margin-bottom:4px">• <b>CMH:</b> лучший спектр, но дорого</p>
-                            <p>• <b>PPFD:</b> 600-1000 µmol/m²/s оптимально</p>
-                        </div>
-                        <p style="font-size:6px;color:#58a6ff">💡 LED Full Spectrum — лучший выбор для новичков</p>
-                    `
-                },
-                water: {
-                    title: '💧 Полив и pH',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Правильный полив — это баланс между достатком влаги и кислородом для корней.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 pH и питательные вещества:</b></p>
-                            <p style="margin-bottom:4px">• <b>Оптимальный pH:</b> 6.0-6.5 (грунт), 5.5-6.0 (гидро)</p>
-                            <p style="margin-bottom:4px">• <b>pH &lt;5.5:</b> блокировка N, Mg, Ca</p>
-                            <p style="margin-bottom:4px">• <b>pH &gt;7.0:</b> блокировка Fe, Mn, Zn, B</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(88,166,255,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#58a6ff;margin-bottom:4px">💧 Частота полива:</p>
-                            <p style="margin-bottom:4px"><b>Рассада:</b> раз в 2-3 дня, немного</p>
-                            <p style="margin-bottom:4px"><b>Вегетация:</b> раз в 1-2 дня, 20% runoff</p>
-                            <p><b>Цветение:</b> раз в день, следить за влажностью</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f85149;margin-bottom:4px">⚠️ Признаки проблем:</p>
-                            <p style="margin-bottom:4px"><b>Недолив:</b> листья поникшие, сухие края</p>
-                            <p style="margin-bottom:4px"><b>Перелив:</b> желтеют снизу, корни гниют</p>
-                            <p><b>pH lockout:</b> пятна на листьях, замедленный рост</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">🧪 EC/PPM:</p>
-                            <p style="margin-bottom:4px">• <b>Рассада:</b> 0.4-0.8 EC (200-400 PPM)</p>
-                            <p style="margin-bottom:4px">• <b>Вегетация:</b> 1.0-1.6 EC (500-800 PPM)</p>
-                            <p>• <b>Цветение:</b> 1.6-2.4 EC (800-1200 PPM)</p>
-                        </div>
-                        <p style="font-size:6px;color:#58a6ff">💡 Lift test: подними горшок — лёгкий = пора поливать!</p>
-                    `
-                },
-                nutrients: {
-                    title: '🧪 NPK и удобрения',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Макро- и микроэлементы — питание растения. Баланс важнее количества!</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 NPK — основные элементы:</b></p>
-                            <p style="margin-bottom:4px"><b style="color:#7fff7f">N (Азот)</b> — листья, стебли, вегетация</p>
-                            <p style="margin-bottom:4px"><b style="color:#f0883e">P (Фосфор)</b> — корни, цветы, энергия</p>
-                            <p><b style="color:#a371f7">K (Калий)</b> — иммунитет, транспорт веществ</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">📊 Соотношения NPK:</p>
-                            <p style="margin-bottom:4px"><b>Вегетация:</b> 3-1-2 (больше азота)</p>
-                            <p style="margin-bottom:4px"><b>Цветение:</b> 1-3-2 (больше фосфора)</p>
-                            <p><b>Позднее цветение:</b> 0-2-3 (стоп азот)</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f0883e;margin-bottom:4px">🌿 Микроэлементы:</p>
-                            <p style="margin-bottom:4px"><b>Ca (Кальций)</b> — клеточные стенки</p>
-                            <p style="margin-bottom:4px"><b>Mg (Магний)</b> — хлорофилл</p>
-                            <p style="margin-bottom:4px"><b>Fe (Железо)</b> — фотосинтез</p>
-                            <p><b>S (Сера)</b> — протеины, запах</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f85149;margin-bottom:4px">⚠️ Дефициты:</p>
-                            <p style="margin-bottom:4px"><b>N:</b> пожелтение снизу вверх</p>
-                            <p style="margin-bottom:4px"><b>Mg:</b> жёлтые пятна между жилками</p>
-                            <p><b>Ca:</b> коричневые кончики, слабые стебли</p>
-                        </div>
-                        <p style="font-size:6px;color:#7fff7f">💡 Начинай с 1/2 дозы удобрений, постепенно увеличивай!</p>
-                    `
-                },
-                training: {
-                    title: '🌿 Тренировка растений',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Тренировка (LST/HST) увеличивает урожай и контролирует форму растения.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Принцип:</b> больше света = больше почек</p>
-                            <p style="margin-bottom:4px">• Кона (колы) — верхушечные почки получают больше света</p>
-                            <p>• Тренировка выравнивает крону, все почки становятся «колами»</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">🌿 LST (Low Stress Training):</p>
-                            <p style="margin-bottom:4px">• Аккуратное сгибание ветвей</p>
-                            <p style="margin-bottom:4px">• Не травмирует растение</p>
-                            <p style="margin-bottom:4px">• Можно делать на любой стадии</p>
-                            <p>• Используй мягкую проволоку</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f0883e;margin-bottom:4px">✂️ HST (High Stress Training):</p>
-                            <p style="margin-bottom:4px"><b>Topping</b> — срез верхушки над 5-6 узлом</p>
-                            <p style="margin-bottom:4px"><b>FIM</b> — срез 80% верхушки</p>
-                            <p><b>Main-lining</b> — создание симметричной структуры</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#a371f7;margin-bottom:4px">⏰ Timing:</p>
-                            <p style="margin-bottom:4px">• <b>Topping:</b> после 5-6 узла, за 2+ нед до цветения</p>
-                            <p style="margin-bottom:4px">• <b>LST:</b> вегетация, до пре-цветения</p>
-                            <p>• <b>NO stress</b> после 2-3 недели цветения!</p>
-                        </div>
-                        <p style="font-size:6px;color:#7fff7f">💡 Scrog (Screen of Green) — используй сетку для равномерного распределения!</p>
-                    `
-                },
-                flowering: {
-                    title: '🌸 Цветение и трихомы',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Цветение — финальная стадия. Здесь формируются смолистые соцветия.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Физиология цветения:</b></p>
-                            <p style="margin-bottom:4px">• Гормон флориген запускает цветение</p>
-                            <p style="margin-bottom:4px">• Растение тратит энергию на репродукцию</p>
-                            <p>• Трихомы вырабатывают смолу</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f85149;margin-bottom:4px">⚠️ Определение пола:</p>
-                            <p style="margin-bottom:4px"><b>♀ Женские:</b> белые пестики, грушевидные узлы</p>
-                            <p style="margin-bottom:4px"><b>♂ Мужские:</b> банановидные мешочки, удалять!</p>
-                            <p><b>☿ Гермафродиты:</b> оба признака, изолировать</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">🔍 Трихомы (индикаторы зрелости):</p>
-                            <p style="margin-bottom:4px"><b style="color:#fff">Прозрачные</b> — не готово, эффект cerebral</p>
-                            <p style="margin-bottom:4px"><b style="color:rgba(240,240,240,0.7)">Мутные/белые</b> — пик THC, сильный эффект</p>
-                            <p><b style="color:rgba(200,150,100,0.8)">Янтарные</b> — CBN, расслабляющий эффект</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f0883e;margin-bottom:4px">📊 Стадии цветения:</p>
-                            <p style="margin-bottom:4px"><b>Нед 1-2:</b> пре-цветение, растяжение</p>
-                            <p style="margin-bottom:4px"><b>Нед 3-4:</b> формирование почек</p>
-                            <p style="margin-bottom:4px"><b>Нед 5-6:</b> утолщение, запах</p>
-                            <p><b>Нед 7-8+:</b> созревание трихом</p>
-                        </div>
-                        <p style="font-size:6px;color:#f0883e">💡 Лупа 30-60x — смотри трихомы, не календарь!</p>
-                    `
-                },
-                harvest: {
-                    title: '✂️ Сбор и сушка',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Правильный сбор и сушка определяют вкус, запах и качество конечного продукта.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Химия процесса:</b></p>
-                            <p style="margin-bottom:4px">• Хлорофилл разлагается → уходит «травяной» вкус</p>
-                            <p style="margin-bottom:4px">• THCA декарбоксилирует → THC (психоактивность)</p>
-                            <p>• Терпены развиваются → аромат и вкус</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">✂️ Подготовка к сбору:</p>
-                            <p style="margin-bottom:4px">• <b>Flushing:</b> чистая вода 7-14 дней до сбора</p>
-                            <p style="margin-bottom:4px">• <b>Темнота:</b> 48ч перед сбором (увеличивает смолу)</p>
-                            <p>• <b>Сухие листья:</b> удалить большие fan leaves</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(88,166,255,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#58a6ff;margin-bottom:4px">🌬️ Сушка (7-14 дней):</p>
-                            <p style="margin-bottom:4px">• <b>Температура:</b> 15-21°C (60-70°F)</p>
-                            <p style="margin-bottom:4px">• <b>Влажность:</b> 45-55%</p>
-                            <p style="margin-bottom:4px">• <b>Темнота:</b> 100%</p>
-                            <p>• <b>Вентиляция:</b> мягкая, без прямого потока</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#a371f7;margin-bottom:4px">📦 Пролечка (Curing, 2-8 недель):</p>
-                            <p style="margin-bottom:4px">• Стеклянные банки, открыто 1ч/день первую неделю</p>
-                            <p style="margin-bottom:4px">• Бурление = выход CO₂</p>
-                            <p>• 2+ недели = заметно лучше</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f85149;margin-bottom:4px">⚠️ Ошибки:</p>
-                            <p style="margin-bottom:4px">• Слишком быстро = хрупкая, резкий вкус</p>
-                            <p style="margin-bottom:4px">• Слишком влажно = плесень</p>
-                            <p>• Слишком тепло = теряет терпены</p>
-                        </div>
-                        <p style="font-size:6px;color:#7fff7f">💡 Stem snap test: стебель хрустит, не гнётся = готово!</p>
-                    `
-                },
-                breeding: {
-                    title: '🧬 Генетика и скрещивание',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Селекция каннабиса основана на менделевской генетике с полиплоидией.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Основы генетики:</b></p>
-                            <p style="margin-bottom:4px">• Каннабис имеет 20 хромосом (2n=20)</p>
-                            <p style="margin-bottom:4px">• ~30,000 генов в геноме</p>
-                            <p>• Наследование: менделевское + полигенное</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#a371f7;margin-bottom:4px">📊 Признаки (Traits):</p>
-                            <p style="margin-bottom:4px"><b>THC</b> — полигенное наследование</p>
-                            <p style="margin-bottom:4px"><b>CBD</b> — рецессивный (нужны 2 копии)</p>
-                            <p style="margin-bottom:4px"><b>Урожайность</b> — полигенное + окружение</p>
-                            <p style="margin-bottom:4px"><b>Скорость</b> — полигенное</p>
-                            <p><b>Устойчивость</b> — доминантное</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">🔬 F1, F2, стабилизация:</p>
-                            <p style="margin-bottom:4px"><b>F1</b> — первое поколение, гибридная сила</p>
-                            <p style="margin-bottom:4px"><b>F2</b> — расщепление, вариативность</p>
-                            <p style="margin-bottom:4px"><b>F3-F5</b> — стабилизация признаков</p>
-                            <p><b>IBL</b> — Inbred Line, стабилизированный сорт</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f0883e;margin-bottom:4px">🧬 Процесс скрещивания:</p>
-                            <p style="margin-bottom:4px">1. Выбери родительские растения с желаемыми признаками</p>
-                            <p style="margin-bottom:4px">2. Собери пыльцу с мужского или используй гормии</p>
-                            <p style="margin-bottom:4px">3. Опыли женское растение кисточкой</p>
-                            <p>4. Вырасти F1, отбери лучшие, повтори</p>
-                        </div>
-                        <p style="font-size:6px;color:#a371f7">💡 Punnett Square — калькулятор вероятностей наследования!</p>
-                    `
-                },
-                advanced: {
-                    title: '🔬 Продвинутые техники',
-                    body: `
-                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Для продвинутых гроверов — техники максимальной эффективности.</p>
-                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
-                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 CO₂ enrichment:</b></p>
-                            <p style="margin-bottom:4px">• Оптимальный уровень: <b>1200-1500 ppm</b></p>
-                            <p style="margin-bottom:4px">• Увеличивает урожай на <b>20-30%</b></p>
-                            <p>• Требует герметичной комнаты и вентиляции</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(88,166,255,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#58a6ff;margin-bottom:4px">💧 Гидропоника:</p>
-                            <p style="margin-bottom:4px"><b>DWC</b> — Deep Water Culture, простая</p>
-                            <p style="margin-bottom:4px"><b>NFT</b> — Nutrient Film Technique</p>
-                            <p style="margin-bottom:4px"><b>Ebb & Flow</b> — прилив-отлив</p>
-                            <p><b>Aeroponics</b> — корни в тумане, макс. O₂</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#7fff7f;margin-bottom:4px">🌿 Monstercropping:</p>
-                            <p style="margin-bottom:4px">• Клон с цветущего растения</p>
-                            <p style="margin-bottom:4px">• «Монстрозные» мутации</p>
-                            <p>• Не стабильно, но интересно</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#f0883e;margin-bottom:4px">🔥 Living Soil:</p>
-                            <p style="margin-bottom:4px">• Почвенная микробиота (микориза, бактерии)</p>
-                            <p style="margin-bottom:4px">• Органические удобрения</p>
-                            <p>• No-till, минимальное вмешательство</p>
-                        </div>
-                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
-                            <p style="color:#a371f7;margin-bottom:4px">⚡ Вега → Цветение трюки:</p>
-                            <p style="margin-bottom:4px"><b>Dark period</b> — 24-48ч темноты перед цветением</p>
-                            <p style="margin-bottom:4px"><b>Red spectrum</b> — только красный свет в конце</p>
-                            <p><b>Cold night</b> — низкая t° ночью = фиолетовый</p>
-                        </div>
-                        <p style="font-size:6px;color:#f0883e">💡 VPD (Vapor Pressure Deficit) — оптимизируй транспирацию!</p>
-                    `
+                
+                const seed = e.target.closest('[data-seed]');
+                if (seed) plantSeed(seed.dataset.seed);
+                
+                const nut = e.target.closest('[data-nut]');
+                if (nut) {
+                    const id = nut.dataset.nut;
+                    const n = { grow: 5, bloom: 3, calmag: 2, pk: 1 }[id];
+                    if (!S.inv[id]) { toast('❌', 'Купи в магазине'); return; }
+                    if (S.selected !== null) {
+                        const p = S.plants.find(x => x.slot === S.selected);
+                        if (p) { S.inv[id]--; p.health = Math.min(100, p.health + 15); toast('🧪', 'Применено'); save(); }
+                    }
+                    document.getElementById('nutrModal').classList.remove('open');
                 }
-            };
-            
-            document.getElementById('content').addEventListener('click', e => {
+                
+                const res = e.target.closest('[data-res]');
+                if (res) {
+                    const r = S.research[parseInt(res.dataset.res)];
+                    if (S.xp < r.cost) { toast('❌', 'Не хватает XP'); return; }
+                    S.xp -= r.cost;
+                    r.done = true;
+                    toast('🔬', r.name);
+                    render('research');
+                    save();
+                }
+                
                 const lesson = e.target.closest('[data-lesson]');
                 if (lesson && !lesson.style.opacity) {
-                    const id = lesson.dataset.lesson;
-                    const content = lessonContent[id];
-                    if (content) {
-                        document.getElementById('lessonTitle').textContent = content.title;
-                        document.getElementById('lessonBody').innerHTML = content.body;
+                    const lessons = {
+                        basics: { title: '🌱 Основы гровинга', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">Каннабис (Cannabis) — растение с фотопериодизмом. Зацветает при 12ч света.</p><p style="font-size:6px;line-height:1.5">• <b>Вегетация:</b> 18-24ч света<br>• <b>Цветение:</b> 12/12 света<br>• <b>THC</b> — психоактивное вещество<br>• <b>CBD</b> — медицинское</p>' },
+                        germ: { title: '🌰 Проращивание', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">Оптимальные условия для семян:</p><p style="font-size:6px;line-height:1.5">• Температура: <b>20-26°C</b><br>• Влажность: <b>70-90%</b><br>• pH воды: <b>6.0-6.5</b><br>• Всхожесть: 60-90%</p><p style="font-size:6px;color:#7fff7f;margin-top:8px">💡 Показался корешок? Сажай вниз!</p>' },
+                        light: { title: '💡 Свет', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">Спектр света важен для разных стадий:</p><p style="font-size:6px;line-height:1.5">• <b style="color:#58a6ff">Синий (400-500nm)</b> — вегетация<br>• <b style="color:#f0883e">Красный (600-700nm)</b> — цветение<br>• <b>PPFD:</b> 600-1000 µmol/m²/s</p>' },
+                        water: { title: '💧 Полив', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">pH и полив — основа здоровья:</p><p style="font-size:6px;line-height:1.5">• <b>pH грунт:</b> 6.0-6.5<br>• <b>pH гидро:</b> 5.5-6.0<br>• <b>Lift test:</b> лёгкий горшок = пора поливать</p>' },
+                        npk: { title: '🧪 NPK', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">Макроэлементы для роста:</p><p style="font-size:6px;line-height:1.5">• <b style="color:#7fff7f">N (Азот)</b> — листья, вегетация<br>• <b style="color:#f0883e">P (Фосфор)</b> — корни, цветы<br>• <b style="color:#a371f7">K (Калий)</b> — иммунитет</p>' },
+                        train: { title: '🌿 Тренировка', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">LST и topping увеличивают урожай:</p><p style="font-size:6px;line-height:1.5">• <b>LST</b> — низкий стресс, bend & tie<br>• <b>Topping</b> — срез верхушки над 5-6 узлом<br>• <b>Scrog</b> — сетка для ровной кроны</p>' },
+                        flower: { title: '🌸 Цветение', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">Определение готовности по трихомам:</p><p style="font-size:6px;line-height:1.5">• <b style="color:#fff">Прозрачные</b> — не готово<br>• <b style="color:#ddd">Мутные</b> — пик THC<br>• <b style="color:#c8a">Янтарные</b> — расслабляющий эффект</p>' },
+                        harvest: { title: '✂️ Сбор', body: '<p style="font-size:7px;color:#8f8;margin-bottom:8px">Правильная сушка и пролечка:</p><p style="font-size:6px;line-height:1.5">• <b>Сушка:</b> 15-21°C, 45-55% RH, 7-14 дней<br>• <b>Curing:</b> стеклянные банки, 2-8 недель<br>• <b>Stem snap:</b> стебель хрустит = готово</p>' }
+                    };
+                    const l = lessons[e.target.dataset.lesson];
+                    if (l) {
+                        document.getElementById('lessonContent').innerHTML = `<div style="font-size:10px;color:var(--gold);margin-bottom:8px">${l.title}</div>${l.body}`;
                         document.getElementById('lessonContent').style.display = 'block';
                         S.xp += 10;
-                        toast('📚', '+10 XP за урок!');
+                        toast('📚', '+10 XP');
                         save();
                     }
                 }
+                
+                const b0 = e.target.closest('#b0');
+                const b1 = e.target.closest('#b1');
+                if (b0 || b1) {
+                    const idx = b0 ? 0 : 1;
+                    const avail = S.plants.filter(p => p.stage >= 6);
+                    if (avail.length === 0) { toast('❌', 'Нет harvest'); return; }
+                    S.breed[idx] = avail[idx === 0 ? 0 : Math.min(1, avail.length - 1)];
+                    const el = document.getElementById('b' + idx);
+                    el.innerHTML = `<div class="ii">${S.breed[idx].strain.icon}</div><div class="in">${S.breed[idx].strain.name.slice(0, 6)}</div>`;
+                }
+                
+                if (e.target.closest('#breedBtn')) {
+                    if (!S.breed[0] || !S.breed[1]) { toast('❌', 'Выбери обоих'); return; }
+                    if (S.plants.length >= S.slots) { toast('❌', 'Нет места'); return; }
+                    const p1 = S.breed[0], p2 = S.breed[1];
+                    const inh = (a, b) => a[Math.floor(Math.random() * 2)] + b[Math.floor(Math.random() * 2)];
+                    S.plants.push({
+                        slot: S.plants.length, strain: { id: 'c' + Date.now(), name: p1.strain.name.split(' ')[0] + '×' + p2.strain.name.split(' ')[0], type: 'Hybrid', icon: '🧬', thc: 20, yld: 450 },
+                        genes: { t: inh(p1.genes.t, p2.genes.t), c: inh(p1.genes.c, p2.genes.c), y: inh(p1.genes.y, p2.genes.y), s: inh(p1.genes.s, p2.genes.s), r: inh(p1.genes.r, p2.genes.r) },
+                        progress: 0, stage: 0, health: 100, water: 70
+                    });
+                    S.stats.bred++;
+                    S.xp += 50;
+                    S.breed = [null, null];
+                    toast('🧬', 'Новый сорт!');
+                    render('breed');
+                    save();
+                }
             });
             
-            render('grow'); update();
+            document.querySelectorAll('[data-c]').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.c).classList.remove('open')));
+            document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
+            
+            render('grow');
+            update();
         });
     </script>
 </body>
