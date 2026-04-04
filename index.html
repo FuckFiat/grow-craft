@@ -508,6 +508,7 @@
             <button class="tab" data-t="research">🔬 Исследования</button>
             <button class="tab" data-t="env">🌡️ Среда</button>
             <button class="tab" data-t="box">📦 Гроубокс</button>
+            <button class="tab" data-t="learn">📚 Обучение</button>
             <button class="tab" data-t="stats">📊 Статистика</button>
         </div>
 
@@ -819,6 +820,31 @@
                 const box = growboxes.find(b => b.id === S.growbox);
                 c.innerHTML = `<div class="card"><div class="card-t">📊 Прогресс</div><div style="margin-bottom:8px;font-size:7px">Уровень ${S.level} • ${S.xp}/${need} XP</div><div style="height:6px;background:#000;border-radius:3px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#238636,#f0883e);width:${(S.xp/need)*100}%"></div></div></div><div class="card"><div class="card-t">📈 Статистика</div><div class="card-r"><span>🌱 Посажено</span><span>${S.stats.planted}</span></div><div class="card-r"><span>✂️ Урожаев</span><span>${S.stats.harvests}</span></div><div class="card-r"><span>💰 Баланс</span><span>${S.money}</span></div><div class="card-r"><span>📦 Гроубокс</span><span>${box.name}</span></div></div>`;
             }
+            else if (tab === 'learn') {
+                const lessons = [
+                    { id: 'basics', title: '🌱 Основы гровинга', icon: '🌱', unlocked: true },
+                    { id: 'germination', title: '🌱 Проращивание семян', icon: '🌰', unlocked: S.stats.planted >= 1 },
+                    { id: 'light', title: '💡 Фотопериод и спектр', icon: '💡', unlocked: S.stats.planted >= 2 },
+                    { id: 'water', title: '💧 Полив и pH', icon: '💧', unlocked: S.stats.planted >= 3 },
+                    { id: 'nutrients', title: '🧪 NPK и удобрения', icon: '🧪', unlocked: S.stats.planted >= 4 },
+                    { id: 'training', title: '🌿 Тренировка растений', icon: '🌿', unlocked: S.stats.harvests >= 1 },
+                    { id: 'flowering', title: '🌸 Цветение и трихомы', icon: '🌸', unlocked: S.stats.harvests >= 2 },
+                    { id: 'harvest', title: '✂️ Сбор и сушка', icon: '✂️', unlocked: S.stats.harvests >= 5 },
+                    { id: 'breeding', title: '🧬 Генетика и скрещивание', icon: '🧬', unlocked: S.stats.bred >= 1 },
+                    { id: 'advanced', title: '🔬 Продвинутые техники', icon: '🔬', unlocked: S.stats.harvests >= 10 }
+                ];
+                
+                c.innerHTML = '<div class="card"><div class="card-t">📚 Академия Гровинга</div></div>';
+                lessons.forEach(l => {
+                    const locked = !l.unlocked;
+                    c.innerHTML += `<div class="card ${locked ? 'opacity:0.5' : ''}" style="display:flex;justify-content:space-between;align-items:center;cursor:${locked ? 'not-allowed' : 'pointer'}" data-lesson="${l.id}">
+                        <div><span style="font-size:14px;margin-right:8px">${l.icon}</span><span style="font-size:8px">${l.title}</span></div>
+                        ${locked ? '<span style="font-size:6px;color:#8f8">🔒</span>' : '<span style="font-size:6px;color:#7fff7f">▶</span>'}
+                    </div>`;
+                });
+                
+                c.innerHTML += '<div class="card" id="lessonContent" style="display:none;margin-top:8px"><div class="card-t" id="lessonTitle"></div><div id="lessonBody"></div></div>';
+            }
         }
 
         function renderBreed() {
@@ -904,6 +930,340 @@
             document.querySelectorAll('[data-c]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.c)));
             document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
             document.getElementById('plantModal').addEventListener('click', e => { if (e.target.id === 'plantModal') document.getElementById('plantModal').classList.remove('open'); });
+            
+            // Lessons
+            const lessonContent = {
+                basics: {
+                    title: '🌱 Основы гровинга',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Каннабис (Cannabis sativa/indica) — однолетнее растение семейства Коноплёвые.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Научные факты:</b></p>
+                            <p style="margin-bottom:6px">• <b>Фотопериодизм</b> — растение зацветает при 12ч света и меньше</p>
+                            <p style="margin-bottom:6px">• <b>Автоцветущие</b> сорта цветут по возрасту (2-4 недели)</p>
+                            <p style="margin-bottom:6px">• <b>THC</b> (тетрагидроканнабинол) — психоактивное вещество</p>
+                            <p style="margin-bottom:6px">• <b>CBD</b> (каннабидиол) — медицинский компонент</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">📊 Стадии роста:</p>
+                            <p>1. Проращивание (1-7 дней)</p>
+                            <p>2. Рассада (2-3 недели)</p>
+                            <p>3. Вегетация (4-8 недель)</p>
+                            <p>4. Пре-цветение (1-2 недели)</p>
+                            <p>5. Цветение (6-12 недель)</p>
+                        </div>
+                        <p style="font-size:6px;color:#f0883e">💡 Совет: Начни с автоцветущего сорта для первого раза</p>
+                    `
+                },
+                germination: {
+                    title: '🌰 Проращивание семян',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Проращивание — критический этап. Успех зависит от влажности, температуры и качества семян.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Научные данные:</b></p>
+                            <p style="margin-bottom:4px">• Оптимальная температура: <b>20-26°C</b></p>
+                            <p style="margin-bottom:4px">• Влажность: <b>70-90%</b></p>
+                            <p style="margin-bottom:4px">• pH воды: <b>6.0-6.5</b></p>
+                            <p style="margin-bottom:4px">• Всхожесть: <b>60-90%</b> зависит от качества</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f0883e;margin-bottom:4px">📦 Методы проращивания:</p>
+                            <p style="margin-bottom:4px"><b>1. Бумажное полотенце</b> — 2-7 дней</p>
+                            <p style="margin-bottom:4px"><b>2. Стакан воды</b> — 24-48ч + полотенце</p>
+                            <p style="margin-bottom:4px"><b>3. Прямо в грунт</b> — проще, но медленнее</p>
+                            <p><b>4. Rockwool кубики</b> — для гидропоники</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f85149;margin-bottom:4px">⚠️ Частые ошибки:</p>
+                            <p>• Слишком глубокая посадка (&gt;2см)</p>
+                            <p>• Перелив (гниль корней)</p>
+                            <p>• Холодная вода (&lt;18°C)</p>
+                            <p>• Трогать корень руками</p>
+                        </div>
+                        <p style="font-size:6px;color:#7fff7f">💡 Показался корешок 2-5мм? Сажай корнем вниз!</p>
+                    `
+                },
+                light: {
+                    title: '💡 Фотопериод и спектр',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Свет — главный драйвер роста. Качество света напрямую влияет на урожайность и качество.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Фотопериодизм:</b></p>
+                            <p style="margin-bottom:4px">• <b>Вегетация:</b> 18-24ч света / 0-6ч тьмы</p>
+                            <p style="margin-bottom:4px">• <b>Цветение:</b> 12ч света / 12ч тьмы</p>
+                            <p style="margin-bottom:4px">• <b>Переключение:</b> резкое, без плавного перехода</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f0883e;margin-bottom:4px">🌈 Спектр света:</p>
+                            <p style="margin-bottom:4px"><b style="color:#58a6ff">Синий (400-500nm)</b> — вегетация, рост листьев</p>
+                            <p style="margin-bottom:4px"><b style="color:#f0883e">Красный (600-700nm)</b> — цветение, соцветия</p>
+                            <p><b style="color:#a371f7">UV-B (280-315nm)</b> — увеличивает THC</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">📊 Интенсивность света:</p>
+                            <p style="margin-bottom:4px">• <b>HPS:</b> 100-150W/м² (классика)</p>
+                            <p style="margin-bottom:4px">• <b>LED:</b> 300-600W реальной мощности</p>
+                            <p style="margin-bottom:4px">• <b>CMH:</b> лучший спектр, но дорого</p>
+                            <p>• <b>PPFD:</b> 600-1000 µmol/m²/s оптимально</p>
+                        </div>
+                        <p style="font-size:6px;color:#58a6ff">💡 LED Full Spectrum — лучший выбор для новичков</p>
+                    `
+                },
+                water: {
+                    title: '💧 Полив и pH',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Правильный полив — это баланс между достатком влаги и кислородом для корней.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 pH и питательные вещества:</b></p>
+                            <p style="margin-bottom:4px">• <b>Оптимальный pH:</b> 6.0-6.5 (грунт), 5.5-6.0 (гидро)</p>
+                            <p style="margin-bottom:4px">• <b>pH &lt;5.5:</b> блокировка N, Mg, Ca</p>
+                            <p style="margin-bottom:4px">• <b>pH &gt;7.0:</b> блокировка Fe, Mn, Zn, B</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(88,166,255,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#58a6ff;margin-bottom:4px">💧 Частота полива:</p>
+                            <p style="margin-bottom:4px"><b>Рассада:</b> раз в 2-3 дня, немного</p>
+                            <p style="margin-bottom:4px"><b>Вегетация:</b> раз в 1-2 дня, 20% runoff</p>
+                            <p><b>Цветение:</b> раз в день, следить за влажностью</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f85149;margin-bottom:4px">⚠️ Признаки проблем:</p>
+                            <p style="margin-bottom:4px"><b>Недолив:</b> листья поникшие, сухие края</p>
+                            <p style="margin-bottom:4px"><b>Перелив:</b> желтеют снизу, корни гниют</p>
+                            <p><b>pH lockout:</b> пятна на листьях, замедленный рост</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">🧪 EC/PPM:</p>
+                            <p style="margin-bottom:4px">• <b>Рассада:</b> 0.4-0.8 EC (200-400 PPM)</p>
+                            <p style="margin-bottom:4px">• <b>Вегетация:</b> 1.0-1.6 EC (500-800 PPM)</p>
+                            <p>• <b>Цветение:</b> 1.6-2.4 EC (800-1200 PPM)</p>
+                        </div>
+                        <p style="font-size:6px;color:#58a6ff">💡 Lift test: подними горшок — лёгкий = пора поливать!</p>
+                    `
+                },
+                nutrients: {
+                    title: '🧪 NPK и удобрения',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Макро- и микроэлементы — питание растения. Баланс важнее количества!</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 NPK — основные элементы:</b></p>
+                            <p style="margin-bottom:4px"><b style="color:#7fff7f">N (Азот)</b> — листья, стебли, вегетация</p>
+                            <p style="margin-bottom:4px"><b style="color:#f0883e">P (Фосфор)</b> — корни, цветы, энергия</p>
+                            <p><b style="color:#a371f7">K (Калий)</b> — иммунитет, транспорт веществ</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">📊 Соотношения NPK:</p>
+                            <p style="margin-bottom:4px"><b>Вегетация:</b> 3-1-2 (больше азота)</p>
+                            <p style="margin-bottom:4px"><b>Цветение:</b> 1-3-2 (больше фосфора)</p>
+                            <p><b>Позднее цветение:</b> 0-2-3 (стоп азот)</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f0883e;margin-bottom:4px">🌿 Микроэлементы:</p>
+                            <p style="margin-bottom:4px"><b>Ca (Кальций)</b> — клеточные стенки</p>
+                            <p style="margin-bottom:4px"><b>Mg (Магний)</b> — хлорофилл</p>
+                            <p style="margin-bottom:4px"><b>Fe (Железо)</b> — фотосинтез</p>
+                            <p><b>S (Сера)</b> — протеины, запах</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f85149;margin-bottom:4px">⚠️ Дефициты:</p>
+                            <p style="margin-bottom:4px"><b>N:</b> пожелтение снизу вверх</p>
+                            <p style="margin-bottom:4px"><b>Mg:</b> жёлтые пятна между жилками</p>
+                            <p><b>Ca:</b> коричневые кончики, слабые стебли</p>
+                        </div>
+                        <p style="font-size:6px;color:#7fff7f">💡 Начинай с 1/2 дозы удобрений, постепенно увеличивай!</p>
+                    `
+                },
+                training: {
+                    title: '🌿 Тренировка растений',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Тренировка (LST/HST) увеличивает урожай и контролирует форму растения.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Принцип:</b> больше света = больше почек</p>
+                            <p style="margin-bottom:4px">• Кона (колы) — верхушечные почки получают больше света</p>
+                            <p>• Тренировка выравнивает крону, все почки становятся «колами»</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">🌿 LST (Low Stress Training):</p>
+                            <p style="margin-bottom:4px">• Аккуратное сгибание ветвей</p>
+                            <p style="margin-bottom:4px">• Не травмирует растение</p>
+                            <p style="margin-bottom:4px">• Можно делать на любой стадии</p>
+                            <p>• Используй мягкую проволоку</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f0883e;margin-bottom:4px">✂️ HST (High Stress Training):</p>
+                            <p style="margin-bottom:4px"><b>Topping</b> — срез верхушки над 5-6 узлом</p>
+                            <p style="margin-bottom:4px"><b>FIM</b> — срез 80% верхушки</p>
+                            <p><b>Main-lining</b> — создание симметричной структуры</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#a371f7;margin-bottom:4px">⏰ Timing:</p>
+                            <p style="margin-bottom:4px">• <b>Topping:</b> после 5-6 узла, за 2+ нед до цветения</p>
+                            <p style="margin-bottom:4px">• <b>LST:</b> вегетация, до пре-цветения</p>
+                            <p>• <b>NO stress</b> после 2-3 недели цветения!</p>
+                        </div>
+                        <p style="font-size:6px;color:#7fff7f">💡 Scrog (Screen of Green) — используй сетку для равномерного распределения!</p>
+                    `
+                },
+                flowering: {
+                    title: '🌸 Цветение и трихомы',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Цветение — финальная стадия. Здесь формируются смолистые соцветия.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Физиология цветения:</b></p>
+                            <p style="margin-bottom:4px">• Гормон флориген запускает цветение</p>
+                            <p style="margin-bottom:4px">• Растение тратит энергию на репродукцию</p>
+                            <p>• Трихомы вырабатывают смолу</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f85149;margin-bottom:4px">⚠️ Определение пола:</p>
+                            <p style="margin-bottom:4px"><b>♀ Женские:</b> белые пестики, грушевидные узлы</p>
+                            <p style="margin-bottom:4px"><b>♂ Мужские:</b> банановидные мешочки, удалять!</p>
+                            <p><b>☿ Гермафродиты:</b> оба признака, изолировать</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">🔍 Трихомы (индикаторы зрелости):</p>
+                            <p style="margin-bottom:4px"><b style="color:#fff">Прозрачные</b> — не готово, эффект cerebral</p>
+                            <p style="margin-bottom:4px"><b style="color:rgba(240,240,240,0.7)">Мутные/белые</b> — пик THC, сильный эффект</p>
+                            <p><b style="color:rgba(200,150,100,0.8)">Янтарные</b> — CBN, расслабляющий эффект</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f0883e;margin-bottom:4px">📊 Стадии цветения:</p>
+                            <p style="margin-bottom:4px"><b>Нед 1-2:</b> пре-цветение, растяжение</p>
+                            <p style="margin-bottom:4px"><b>Нед 3-4:</b> формирование почек</p>
+                            <p style="margin-bottom:4px"><b>Нед 5-6:</b> утолщение, запах</p>
+                            <p><b>Нед 7-8+:</b> созревание трихом</p>
+                        </div>
+                        <p style="font-size:6px;color:#f0883e">💡 Лупа 30-60x — смотри трихомы, не календарь!</p>
+                    `
+                },
+                harvest: {
+                    title: '✂️ Сбор и сушка',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Правильный сбор и сушка определяют вкус, запах и качество конечного продукта.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Химия процесса:</b></p>
+                            <p style="margin-bottom:4px">• Хлорофилл разлагается → уходит «травяной» вкус</p>
+                            <p style="margin-bottom:4px">• THCA декарбоксилирует → THC (психоактивность)</p>
+                            <p>• Терпены развиваются → аромат и вкус</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">✂️ Подготовка к сбору:</p>
+                            <p style="margin-bottom:4px">• <b>Flushing:</b> чистая вода 7-14 дней до сбора</p>
+                            <p style="margin-bottom:4px">• <b>Темнота:</b> 48ч перед сбором (увеличивает смолу)</p>
+                            <p>• <b>Сухие листья:</b> удалить большие fan leaves</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(88,166,255,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#58a6ff;margin-bottom:4px">🌬️ Сушка (7-14 дней):</p>
+                            <p style="margin-bottom:4px">• <b>Температура:</b> 15-21°C (60-70°F)</p>
+                            <p style="margin-bottom:4px">• <b>Влажность:</b> 45-55%</p>
+                            <p style="margin-bottom:4px">• <b>Темнота:</b> 100%</p>
+                            <p>• <b>Вентиляция:</b> мягкая, без прямого потока</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#a371f7;margin-bottom:4px">📦 Пролечка (Curing, 2-8 недель):</p>
+                            <p style="margin-bottom:4px">• Стеклянные банки, открыто 1ч/день первую неделю</p>
+                            <p style="margin-bottom:4px">• Бурление = выход CO₂</p>
+                            <p>• 2+ недели = заметно лучше</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(248,81,73,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f85149;margin-bottom:4px">⚠️ Ошибки:</p>
+                            <p style="margin-bottom:4px">• Слишком быстро = хрупкая, резкий вкус</p>
+                            <p style="margin-bottom:4px">• Слишком влажно = плесень</p>
+                            <p>• Слишком тепло = теряет терпены</p>
+                        </div>
+                        <p style="font-size:6px;color:#7fff7f">💡 Stem snap test: стебель хрустит, не гнётся = готово!</p>
+                    `
+                },
+                breeding: {
+                    title: '🧬 Генетика и скрещивание',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Селекция каннабиса основана на менделевской генетике с полиплоидией.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 Основы генетики:</b></p>
+                            <p style="margin-bottom:4px">• Каннабис имеет 20 хромосом (2n=20)</p>
+                            <p style="margin-bottom:4px">• ~30,000 генов в геноме</p>
+                            <p>• Наследование: менделевское + полигенное</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#a371f7;margin-bottom:4px">📊 Признаки (Traits):</p>
+                            <p style="margin-bottom:4px"><b>THC</b> — полигенное наследование</p>
+                            <p style="margin-bottom:4px"><b>CBD</b> — рецессивный (нужны 2 копии)</p>
+                            <p style="margin-bottom:4px"><b>Урожайность</b> — полигенное + окружение</p>
+                            <p style="margin-bottom:4px"><b>Скорость</b> — полигенное</p>
+                            <p><b>Устойчивость</b> — доминантное</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">🔬 F1, F2, стабилизация:</p>
+                            <p style="margin-bottom:4px"><b>F1</b> — первое поколение, гибридная сила</p>
+                            <p style="margin-bottom:4px"><b>F2</b> — расщепление, вариативность</p>
+                            <p style="margin-bottom:4px"><b>F3-F5</b> — стабилизация признаков</p>
+                            <p><b>IBL</b> — Inbred Line, стабилизированный сорт</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f0883e;margin-bottom:4px">🧬 Процесс скрещивания:</p>
+                            <p style="margin-bottom:4px">1. Выбери родительские растения с желаемыми признаками</p>
+                            <p style="margin-bottom:4px">2. Собери пыльцу с мужского или используй гормии</p>
+                            <p style="margin-bottom:4px">3. Опыли женское растение кисточкой</p>
+                            <p>4. Вырасти F1, отбери лучшие, повтори</p>
+                        </div>
+                        <p style="font-size:6px;color:#a371f7">💡 Punnett Square — калькулятор вероятностей наследования!</p>
+                    `
+                },
+                advanced: {
+                    title: '🔬 Продвинутые техники',
+                    body: `
+                        <p style="font-size:7px;color:#8f8;margin-bottom:8px">Для продвинутых гроверов — техники максимальной эффективности.</p>
+                        <div style="font-size:6px;line-height:1.6;margin-bottom:12px">
+                            <p style="margin-bottom:8px"><b style="color:#7fff7f">🔬 CO₂ enrichment:</b></p>
+                            <p style="margin-bottom:4px">• Оптимальный уровень: <b>1200-1500 ppm</b></p>
+                            <p style="margin-bottom:4px">• Увеличивает урожай на <b>20-30%</b></p>
+                            <p>• Требует герметичной комнаты и вентиляции</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(88,166,255,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#58a6ff;margin-bottom:4px">💧 Гидропоника:</p>
+                            <p style="margin-bottom:4px"><b>DWC</b> — Deep Water Culture, простая</p>
+                            <p style="margin-bottom:4px"><b>NFT</b> — Nutrient Film Technique</p>
+                            <p style="margin-bottom:4px"><b>Ebb & Flow</b> — прилив-отлив</p>
+                            <p><b>Aeroponics</b> — корни в тумане, макс. O₂</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(35,134,54,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#7fff7f;margin-bottom:4px">🌿 Monstercropping:</p>
+                            <p style="margin-bottom:4px">• Клон с цветущего растения</p>
+                            <p style="margin-bottom:4px">• «Монстрозные» мутации</p>
+                            <p>• Не стабильно, но интересно</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(240,136,62,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#f0883e;margin-bottom:4px">🔥 Living Soil:</p>
+                            <p style="margin-bottom:4px">• Почвенная микробиота (микориза, бактерии)</p>
+                            <p style="margin-bottom:4px">• Органические удобрения</p>
+                            <p>• No-till, минимальное вмешательство</p>
+                        </div>
+                        <div style="font-size:6px;background:rgba(163,113,247,0.2);padding:8px;border-radius:4px;margin-bottom:8px">
+                            <p style="color:#a371f7;margin-bottom:4px">⚡ Вега → Цветение трюки:</p>
+                            <p style="margin-bottom:4px"><b>Dark period</b> — 24-48ч темноты перед цветением</p>
+                            <p style="margin-bottom:4px"><b>Red spectrum</b> — только красный свет в конце</p>
+                            <p><b>Cold night</b> — низкая t° ночью = фиолетовый</p>
+                        </div>
+                        <p style="font-size:6px;color:#f0883e">💡 VPD (Vapor Pressure Deficit) — оптимизируй транспирацию!</p>
+                    `
+                }
+            };
+            
+            document.getElementById('content').addEventListener('click', e => {
+                const lesson = e.target.closest('[data-lesson]');
+                if (lesson && !lesson.style.opacity) {
+                    const id = lesson.dataset.lesson;
+                    const content = lessonContent[id];
+                    if (content) {
+                        document.getElementById('lessonTitle').textContent = content.title;
+                        document.getElementById('lessonBody').innerHTML = content.body;
+                        document.getElementById('lessonContent').style.display = 'block';
+                        S.xp += 10;
+                        toast('📚', '+10 XP за урок!');
+                        save();
+                    }
+                }
+            });
+            
             render('grow'); update();
         });
     </script>
