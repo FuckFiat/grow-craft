@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Cannabis Growth Stages - 50 Sprites</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d1117; color: #c9d1d9; font-family: monospace; padding: 20px; }
+        h1 { text-align: center; color: #7fff7f; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; max-width: 1200px; margin: 0 auto; }
+        
+        .stage { 
+            background: linear-gradient(135deg, #5d3a1a 0%, #8b4513 50%, #5d3a1a 100%);
+            border: 3px solid #3d2914;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-radius: 0;
+        }
+        
+        .pot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: linear-gradient(135deg, #3d2914 0%, #5d3a1a 50%, #4a3520 100%);
+            border-radius: 4px;
+            border: 2px solid #2d1f0f;
+        }
+        
+        .plant { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        
+        .label { position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-size: 8px; color: #fff; text-shadow: 1px 1px 0 #000; }
+        
+        /* Stage 1-5: Seed to Sprout */
+        .s1 { width: 8px; height: 10px; background: radial-gradient(ellipse 4px 5px at center, #8b6914 0%, #5d4a0f 100%); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; }
+        
+        .s2 { width: 10px; height: 12px; background: radial-gradient(ellipse 5px 6px at center, #9b7924 0%, #6d5a1f 100%); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: inset -1px -1px 0 rgba(0,0,0,0.3); }
+        
+        .s3 { width: 12px; height: 6px; background: linear-gradient(90deg, #4a8 0%, #3a7a3a 100%); border-radius: 2px; position: relative; }
+        
+        .s4 { width: 16px; height: 8px; background: linear-gradient(90deg, #4a8 0%, #3a7a3a 100%); border-radius: 3px; position: relative; }
+        .s4::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 2px; height: 8px; background: #3a7a3a; }
+        
+        .s5 { width: 20px; height: 20px; position: relative; }
+        .s5::before, .s5::after { content: ''; position: absolute; width: 10px; height: 14px; background: linear-gradient(135deg, #5aaa5a 0%, #3a8a3a 100%); clip-path: polygon(50% 0%, 60% 30%, 90% 20%, 70% 50%, 100% 50%, 70% 80%, 80% 100%, 50% 70%, 20% 100%, 30% 80%, 0% 50%, 30% 50%, 10% 20%, 40% 30%); }
+        .s5::before { left: 0; transform: rotate(-10deg); }
+        .s5::after { right: 0; transform: rotate(10deg); }
+        
+        /* Stage 6-10: Seedling */
+        .s6 { width: 24px; height: 24px; position: relative; }
+        .s6::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 22px; height: 22px; background: radial-gradient(ellipse 11px 11px at center, #5a9a5a 0%, #3a8a3a 100%); clip-path: polygon(50% 0%, 55% 20%, 75% 15%, 65% 35%, 90% 30%, 80% 55%, 100% 50%, 85% 70%, 95% 90%, 70% 80%, 65% 100%, 50% 85%, 35% 100%, 30% 80%, 5% 90%, 15% 70%, 0% 50%, 20% 55%, 10% 30%, 35% 35%, 25% 15%, 45% 20%); }
+        
+        .s7 { width: 28px; height: 28px; background: radial-gradient(ellipse 14px 14px at center, #6aba6a 0%, #4a9a4a 60%, #3a8a3a 100%); border-radius: 6px; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2); }
+        
+        .s8 { width: 32px; height: 32px; background: radial-gradient(ellipse 16px 16px at center, #6aba6a 0%, #4a9a4a 50%, #3a8a3a 100%); border-radius: 8px; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.05); }
+        
+        .s9 { width: 36px; height: 36px; background: radial-gradient(ellipse 18px 18px at center, #7aca7a 0%, #5aaa5a 50%, #4a9a4a 100%); border-radius: 10px; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.08); }
+        
+        .s10 { width: 40px; height: 40px; background: radial-gradient(ellipse 20px 20px at center, #7aca7a 0%, #5aaa5a 40%, #4a9a4a 80%, #3a8a3a 100%); border-radius: 12px; box-shadow: inset -3px -3px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.08); }
+        
+        /* Stage 11-20: Vegetative */
+        .s11 { width: 44px; height: 44px; background: radial-gradient(ellipse 22px 22px at center, #6aba6a 0%, #4a9a4a 35%, #3a8a3a 70%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -3px -3px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.08); }
+        
+        .s12 { width: 48px; height: 48px; background: radial-gradient(ellipse 24px 24px at center, #7aca7a 0%, #5aaa5a 40%, #4a9a4a 80%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -3px -3px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.08); position: relative; }
+        .s12::before { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 36px; height: 36px; background: radial-gradient(ellipse 18px 18px at center, #8ada8a 0%, #6aba6a 60%, #5aaa5a 100%); border-radius: 45%; }
+        
+        .s13 { width: 52px; height: 52px; background: radial-gradient(ellipse 26px 26px at center, #6aba6a 0%, #4a9a4a 30%, #3a8a3a 60%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -4px -4px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.08); position: relative; }
+        .s13::before { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: radial-gradient(ellipse 20px 20px at center, #8ada8a 0%, #6aba6a 50%, #5aaa5a 100%); border-radius: 45%; }
+        
+        .s14 { width: 56px; height: 56px; background: radial-gradient(ellipse 28px 28px at center, #7aca7a 0%, #5aaa5a 35%, #4a9a4a 70%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -4px -4px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.08); position: relative; }
+        .s14::before { content: ''; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 44px; height: 44px; background: radial-gradient(ellipse 22px 22px at center, #9aeba9a 0%, #7aca7a 50%, #6aba6a 100%); border-radius: 45%; }
+        
+        .s15 { width: 60px; height: 60px; background: radial-gradient(ellipse 30px 30px at center, #6aba6a 0%, #4a9a4a 25%, #3a8a3a 50%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -4px -4px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.08); position: relative; }
+        .s15::before { content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; background: radial-gradient(ellipse 24px 24px at center, #9aea9a 0%, #7aca7a 40%, #6aba6a 80%, #5aaa5a 100%); border-radius: 45%; }
+        
+        .s16 { width: 64px; height: 64px; background: radial-gradient(ellipse 32px 32px at center, #7aca7a 0%, #5aaa5a 30%, #4a9a4a 60%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -5px -5px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s16::before { content: ''; position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 52px; height: 52px; background: radial-gradient(ellipse 26px 26px at center, #aaeaaa 0%, #8ada8a 50%, #7aca7a 100%); border-radius: 45%; }
+        
+        .s17 { width: 68px; height: 68px; background: radial-gradient(ellipse 34px 34px at center, #6aba6a 0%, #4a9a4a 20%, #3a8a3a 40%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -5px -5px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s17::before { content: ''; position: absolute; top: 16px; left: 50%; transform: translateX(-50%); width: 56px; height: 56px; background: radial-gradient(ellipse 28px 28px at center, #bafaba 0%, #9aeba9a 50%, #8ada8a 100%); border-radius: 45%; }
+        
+        .s18 { width: 72px; height: 72px; background: radial-gradient(ellipse 36px 36px at center, #7aca7a 0%, #5aaa5a 25%, #4a9a4a 50%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -5px -5px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s18::before { content: ''; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: radial-gradient(ellipse 30px 30px at center, #cafbca 0%, #aafaaa 50%, #9aea9a 100%); border-radius: 45%; }
+        
+        .s19 { width: 76px; height: 76px; background: radial-gradient(ellipse 38px 38px at center, #6aba6a 0%, #4a9a4a 20%, #3a8a3a 40%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -6px -6px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s19::before { content: ''; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 64px; height: 64px; background: radial-gradient(ellipse 32px 32px at center, #dafcda 0%, #bafaba 50%, #aafaaa 100%); border-radius: 45%; }
+        
+        .s20 { width: 80px; height: 80px; background: radial-gradient(ellipse 40px 40px at center, #7aca7a 0%, #5aaa5a 20%, #4a9a4a 40%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -6px -6px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s20::before { content: ''; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 68px; height: 68px; background: radial-gradient(ellipse 34px 34px at center, #eafdea 0%, #cafbca 50%, #bafaba 100%); border-radius: 45%; }
+        
+        /* Stage 21-30: Pre-flowering with pistils */
+        .s21 { width: 82px; height: 82px; background: radial-gradient(ellipse 41px 41px at center, #6aba6a 0%, #4a9a4a 25%, #3a8a3a 50%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -6px -6px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s21::before { content: ''; position: absolute; top: 16px; left: 50%; transform: translateX(-50%); width: 70px; height: 70px; background: radial-gradient(ellipse 35px 35px at center, #8ada8a 0%, #6aba6a 50%, #5aaa5a 100%); border-radius: 45%; }
+        .s21::after { content: ''; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; background: radial-gradient(ellipse 10px 10px at center, rgba(255,182,193,0.8) 0%, rgba(255,150,170,0.5) 100%); border-radius: 50%; box-shadow: 0 0 5px rgba(255,150,170,0.4); }
+        
+        .s22 { width: 84px; height: 84px; background: radial-gradient(ellipse 42px 42px at center, #7aca7a 0%, #5aaa5a 30%, #4a9a4a 60%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -6px -6px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s22::before { content: ''; position: absolute; top: 17px; left: 50%; transform: translateX(-50%); width: 72px; height: 72px; background: radial-gradient(ellipse 36px 36px at center, #9aeba9a 0%, #7aca7a 50%, #6aba6a 100%); border-radius: 45%; }
+        .s22::after { content: ''; position: absolute; top: 19px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background: radial-gradient(ellipse 12px 12px at center, rgba(255,182,193,0.85) 0%, rgba(255,150,170,0.6) 100%); border-radius: 50%; box-shadow: 0 0 8px rgba(255,150,170,0.5); }
+        
+        .s23 { width: 86px; height: 86px; background: radial-gradient(ellipse 43px 43px at center, #6aba6a 0%, #4a9a4a 20%, #3a8a3a 40%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -7px -7px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08); position: relative; }
+        .s23::before { content: ''; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 74px; height: 74px; background: radial-gradient(ellipse 37px 37px at center, #aafaaa 0%, #8ada8a 50%, #7aca7a 100%); border-radius: 45%; }
+        .s23::after { content: ''; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; background: radial-gradient(ellipse 14px 14px at center, rgba(255,182,193,0.9) 0%, rgba(255,130,150,0.6) 100%); border-radius: 50%; box-shadow: 0 0 10px rgba(255,130,150,0.6); }
+        
+        .s24 { width: 88px; height: 88px; background: radial-gradient(ellipse 44px 44px at center, #7aca7a 0%, #5aaa5a 25%, #4a9a4a 50%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -7px -7px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.08); position: relative; }
+        .s24::before { content: ''; position: absolute; top: 19px; left: 50%; transform: translateX(-50%); width: 76px; height: 76px; background: radial-gradient(ellipse 38px 38px at center, #bafaba 0%, #9aeba9a 50%, #8ada8a 100%); border-radius: 45%; }
+        .s24::after { content: ''; position: absolute; top: 21px; left: 50%; transform: translateX(-50%); width: 32px; height: 32px; background: radial-gradient(ellipse 16px 16px at center, rgba(255,160,180,0.9) 0%, rgba(255,120,140,0.6) 100%); border-radius: 50%; box-shadow: 0 0 12px rgba(255,120,140,0.6); }
+        
+        .s25 { width: 90px; height: 90px; background: radial-gradient(ellipse 45px 45px at center, #6aba6a 0%, #4a9a4a 20%, #3a8a3a 40%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -7px -7px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.08); position: relative; }
+        .s25::before { content: ''; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 78px; height: 78px; background: radial-gradient(ellipse 39px 39px at center, #cafbca 0%, #aafaaa 50%, #9aeba9a 100%); border-radius: 45%; }
+        .s25::after { content: ''; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 36px; height: 36px; background: radial-gradient(ellipse 18px 18px at center, rgba(255,170,190,0.95) 0%, rgba(255,110,130,0.7) 100%); border-radius: 50%; box-shadow: 0 0 15px rgba(255,110,130,0.7); }
+        
+        .s26 { width: 92px; height: 92px; background: radial-gradient(ellipse 46px 46px at center, #7aca7a 0%, #5aaa5a 25%, #4a9a4a 50%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -7px -7px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.08); position: relative; }
+        .s26::before { content: ''; position: absolute; top: 21px; left: 50%; transform: translateX(-50%); width: 80px; height: 80px; background: radial-gradient(ellipse 40px 40px at center, #dafcda 0%, #bafaba 50%, #aafaaa 100%); border-radius: 45%; }
+        .s26::after { content: ''; position: absolute; top: 23px; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: radial-gradient(ellipse 20px 20px at center, rgba(255,180,200,0.95) 0%, rgba(255,100,120,0.7) 100%); border-radius: 50%; box-shadow: 0 0 18px rgba(255,100,120,0.7); }
+        
+        .s27 { width: 94px; height: 94px; background: radial-gradient(ellipse 47px 47px at center, #6aba6a 0%, #4a9a4a 20%, #3a8a3a 40%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -8px -8px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.08); position: relative; }
+        .s27::before { content: ''; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 82px; height: 82px; background: radial-gradient(ellipse 41px 41px at center, #eafdea 0%, #cafbca 50%, #bafaba 100%); border-radius: 45%; }
+        .s27::after { content: ''; position: absolute; top: 24px; left: 50%; transform: translateX(-50%); width: 44px; height: 44px; background: radial-gradient(ellipse 22px 22px at center, rgba(255,190,210,0.95) 0%, rgba(255,90,110,0.7) 100%); border-radius: 50%; box-shadow: 0 0 20px rgba(255,90,110,0.7); }
+        
+        .s28 { width: 96px; height: 96px; background: radial-gradient(ellipse 48px 48px at center, #7aca7a 0%, #5aaa5a 25%, #4a9a4a 50%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -8px -8px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.08); position: relative; }
+        .s28::before { content: ''; position: absolute; top: 23px; left: 50%; transform: translateX(-50%); width: 84px; height: 84px; background: radial-gradient(ellipse 42px 42px at center, #f0fff0 0%, #dafcda 50%, #cafbca 100%); border-radius: 45%; }
+        .s28::after { content: ''; position: absolute; top: 25px; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; background: radial-gradient(ellipse 24px 24px at center, rgba(255,200,220,0.95) 0%, rgba(255,80,100,0.7) 100%); border-radius: 50%; box-shadow: 0 0 22px rgba(255,80,100,0.7); }
+        
+        .s29 { width: 98px; height: 98px; background: radial-gradient(ellipse 49px 49px at center, #6aba6a 0%, #4a9a4a 20%, #3a8a3a 40%, #2d7a2d 100%); border-radius: 45%; box-shadow: inset -8px -8px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.08); position: relative; }
+        .s29::before { content: ''; position: absolute; top: 24px; left: 50%; transform: translateX(-50%); width: 86px; height: 86px; background: radial-gradient(ellipse 43px 43px at center, #fff 0%, #eafdea 50%, #dafcda 100%); border-radius: 45%; }
+        .s29::after { content: ''; position: absolute; top: 26px; left: 50%; transform: translateX(-50%); width: 52px; height: 52px; background: radial-gradient(ellipse 26px 26px at center, rgba(255,210,230,0.95) 0%, rgba(255,70,90,0.7) 100%); border-radius: 50%; box-shadow: 0 0 25px rgba(255,70,90,0.7); }
+        
+        .s30 { width: 100px; height: 100px; background: radial-gradient(ellipse 50px 50px at center, #7aca7a 0%, #5aaa5a 25%, #4a9a4a 50%, #3a8a3a 100%); border-radius: 45%; box-shadow: inset -8px -8px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.08); position: relative; }
+        .s30::before { content: ''; position: absolute; top: 25px; left: 50%; transform: translateX(-50%); width: 88px; height: 88px; background: radial-gradient(ellipse 44px 44px at center, #fff 0%, #f0fff0 50%, #eafdea 100%); border-radius: 45%; }
+        .s30::after { content: ''; position: absolute; top: 27px; left: 50%; transform: translateX(-50%); width: 56px; height: 56px; background: radial-gradient(ellipse 28px 28px at center, rgba(255,220,240,0.95) 0%, rgba(255,60,80,0.7) 100%); border-radius: 50%; box-shadow: 0 0 28px rgba(255,60,80,0.7); }
+        
+        /* Stage 31-40: Flowering - large buds */
+        .s31 { width: 102px; height: 102px; background: radial-gradient(ellipse 51px 51px at center, #5aba5a 0%, #3a8a3a 30%, #2a7a2a 60%, #1d6a1d 100%); border-radius: 45%; box-shadow: inset -9px -9px 0 rgba(0,0,0,0.25), inset 4px 4px 0 rgba(255,255,255,0.06), 0 0 8px rgba(255,255,255,0.1); position: relative; }
+        .s31::before { content: ''; position: absolute; top: 26px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; background: radial-gradient(ellipse 45px 45px at center, #6aba6a 0%, #4a9a4a 40%, #3a8a3a 100%); border-radius: 45%; }
+        .s31::after { content: ''; position: absolute; top: 28px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: radial-gradient(ellipse 30px 30px at center, rgba(255,150,170,0.95) 0%, rgba(240,100,140,0.8) 70%); border-radius: 50%; box-shadow: 0 0 20px rgba(255,100,130,0.5); }
+        
+        .s32 { width: 104px; height: 104px; background: radial-gradient(ellipse 52px 52px at center, #5a9a5a 0%, #3a7a3a 30%, #2a6a2a 60%, #1d5a1d 100%); border-radius: 45%; box-shadow: inset -9px -9px 0 rgba(0,0,0,0.25), inset 4px 4px 0 rgba(255,255,255,0.06), 0 0 10px rgba(255,255,255,0.15); position: relative; animation: sway 3s ease-in-out infinite; }
+        .s32::before { content: ''; position: absolute; top: 27px; left: 50%; transform: translateX(-50%); width: 92px; height: 92px; background: radial-gradient(ellipse 46px 46px at center, #6aaa6a 0%, #4a8a4a 40%, #3a7a3a 100%); border-radius: 45%; }
+        .s32::after { content: ''; position: absolute; top: 29px; left: 50%; transform: translateX(-50%); width: 64px; height: 64px; background: radial-gradient(ellipse 32px 32px at center, rgba(255,140,160,0.95) 0%, rgba(240,90,130,0.8) 70%); border-radius: 50%; box-shadow: 0 0 25px rgba(255,90,120,0.6); }
+        
+        .s33 { width: 106px; height: 106px; background: radial-gradient(ellipse 53px 53px at center, #4a8a4a 0%, #2a6a2a 30%, #1a5a1a 60%, #0d4a0d 100%); border-radius: 45%; box-shadow: inset -10px -10px 0 rgba(0,0,0,0.25), inset 4px 4px 0 rgba(255,255,255,0.05), 0 0 12px rgba(255,255,255,0.2); position: relative; animation: sway 2.8s ease-in-out infinite; }
+        .s33::before { content: ''; position: absolute; top: 28px; left: 50%; transform: translateX(-50%); width: 94px; height: 94px; background: radial-gradient(ellipse 47px 47px at center, #5a9a5a 0%, #3a7a3a 40%, #2a6a2a 100%); border-radius: 45%; }
+        .s33::after { content: ''; position: absolute; top: 30px; left: 50%; transform: translateX(-50%); width: 68px; height: 68px; background: radial-gradient(ellipse 34px 34px at center, rgba(255,130,150,0.95) 0%, rgba(240,80,120,0.8) 70%); border-radius: 50%; box-shadow: 0 0 30px rgba(255,80,110,0.7); }
+        
+        .s34 { width: 108px; height: 108px; background: radial-gradient(ellipse 54px 54px at center, #4a7a4a 0%, #2a5a2a 30%, #1a4a1a 60%, #0d3a0d 100%); border-radius: 45%; box-shadow: inset -10px -10px 0 rgba(0,0,0,0.25), inset 4px 4px 0 rgba(255,255,255,0.05), 0 0 15px rgba(255,255,255,0.25); position: relative; animation: sway 2.6s ease-in-out infinite; }
+        .s34::before { content: ''; position: absolute; top: 29px; left: 50%; transform: translateX(-50%); width: 96px; height: 96px; background: radial-gradient(ellipse 48px 48px at center, #5a8a5a 0%, #3a6a3a 40%, #2a5a2a 100%); border-radius: 45%; }
+        .s34::after { content: ''; position: absolute; top: 31px; left: 50%; transform: translateX(-50%); width: 72px; height: 72px; background: radial-gradient(ellipse 36px 36px at center, rgba(255,120,140,0.95) 0%, rgba(240,70,110,0.8) 70%); border-radius: 50%; box-shadow: 0 0 35px rgba(255,70,100,0.8); }
+        
+        .s35 { width: 110px; height: 110px; background: radial-gradient(ellipse 55px 55px at center, #3a6a3a 0%, #1a4a1a 30%, #0a3a0a 60%, #002a00 100%); border-radius: 45%; box-shadow: inset -11px -11px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.04), 0 0 18px rgba(255,255,255,0.3); position: relative; animation: sway 2.4s ease-in-out infinite; }
+        .s35::before { content: ''; position: absolute; top: 30px; left: 50%; transform: translateX(-50%); width: 98px; height: 98px; background: radial-gradient(ellipse 49px 49px at center, #4a7a4a 0%, #2a5a2a 40%, #1a4a1a 100%); border-radius: 45%; }
+        .s35::after { content: ''; position: absolute; top: 32px; left: 50%; transform: translateX(-50%); width: 76px; height: 76px; background: radial-gradient(ellipse 38px 38px at center, rgba(255,110,130,0.95) 0%, rgba(240,60,100,0.8) 70%); border-radius: 50%; box-shadow: 0 0 40px rgba(255,60,90,0.9); }
+        
+        .s36 { width: 112px; height: 112px; background: radial-gradient(ellipse 56px 56px at center, #3a5a3a 0%, #1a3a1a 30%, #0a2a0a 60%, #001a00 100%); border-radius: 45%; box-shadow: inset -11px -11px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.04), 0 0 20px rgba(255,255,255,0.35); position: relative; animation: sway 2.2s ease-in-out infinite; }
+        .s36::before { content: ''; position: absolute; top: 31px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; background: radial-gradient(ellipse 50px 50px at center, #4a6a4a 0%, #2a4a2a 40%, #1a3a1a 100%); border-radius: 45%; }
+        .s36::after { content: ''; position: absolute; top: 33px; left: 50%; transform: translateX(-50%); width: 80px; height: 80px; background: radial-gradient(ellipse 40px 40px at center, rgba(255,100,120,0.95) 0%, rgba(240,50,90,0.8) 70%); border-radius: 50%; box-shadow: 0 0 45px rgba(255,50,80,1); }
+        
+        .s37 { width: 114px; height: 114px; background: radial-gradient(ellipse 57px 57px at center, #2a4a2a 0%, #0a2a0a 30%, #001a00 60%, #000a00 100%); border-radius: 45%; box-shadow: inset -12px -12px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.04), 0 0 22px rgba(255,255,255,0.4); position: relative; animation: sway 2s ease-in-out infinite; }
+        .s37::before { content: ''; position: absolute; top: 32px; left: 50%; transform: translateX(-50%); width: 102px; height: 102px; background: radial-gradient(ellipse 51px 51px at center, #3a5a3a 0%, #1a3a1a 40%, #0a2a0a 100%); border-radius: 45%; }
+        .s37::after { content: ''; position: absolute; top: 34px; left: 50%; transform: translateX(-50%); width: 84px; height: 84px; background: radial-gradient(ellipse 42px 42px at center, rgba(255,90,110,0.95) 0%, rgba(240,40,80,0.8) 70%); border-radius: 50%; box-shadow: 0 0 50px rgba(255,40,70,1); }
+        
+        .s38 { width: 116px; height: 116px; background: radial-gradient(ellipse 58px 58px at center, #2a3a2a 0%, #0a1a0a 30%, #000a00 60%, #000000 100%); border-radius: 45%; box-shadow: inset -12px -12px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.04), 0 0 25px rgba(255,255,255,0.45); position: relative; animation: sway 1.8s ease-in-out infinite; }
+        .s38::before { content: ''; position: absolute; top: 33px; left: 50%; transform: translateX(-50%); width: 104px; height: 104px; background: radial-gradient(ellipse 52px 52px at center, #3a4a3a 0%, #1a2a1a 40%, #0a1a0a 100%); border-radius: 45%; }
+        .s38::after { content: ''; position: absolute; top: 35px; left: 50%; transform: translateX(-50%); width: 88px; height: 88px; background: radial-gradient(ellipse 44px 44px at center, rgba(255,80,100,0.95) 0%, rgba(240,30,70,0.8) 70%); border-radius: 50%; box-shadow: 0 0 55px rgba(255,30,60,1); }
+        
+        .s39 { width: 118px; height: 118px; background: radial-gradient(ellipse 59px 59px at center, #1a2a1a 0%, #000a00 30%, #000000 60%, #000000 100%); border-radius: 45%; box-shadow: inset -13px -13px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.04), 0 0 28px rgba(255,255,255,0.5); position: relative; animation: sway 1.6s ease-in-out infinite; }
+        .s39::before { content: ''; position: absolute; top: 34px; left: 50%; transform: translateX(-50%); width: 106px; height: 106px; background: radial-gradient(ellipse 53px 53px at center, #2a3a2a 0%, #0a1a0a 40%, #000a00 100%); border-radius: 45%; }
+        .s39::after { content: ''; position: absolute; top: 36px; left: 50%; transform: translateX(-50%); width: 92px; height: 92px; background: radial-gradient(ellipse 46px 46px at center, rgba(255,70,90,0.95) 0%, rgba(240,20,60,0.8) 70%); border-radius: 50%; box-shadow: 0 0 60px rgba(255,20,50,1); }
+        
+        .s40 { width: 120px; height: 120px; background: radial-gradient(ellipse 60px 60px at center, #0a1a0a 0%, #000000 30%, #000000 60%, #000000 100%); border-radius: 45%; box-shadow: inset -13px -13px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.04), 0 0 30px rgba(255,255,255,0.55); position: relative; animation: sway 1.4s ease-in-out infinite; }
+        .s40::before { content: ''; position: absolute; top: 35px; left: 50%; transform: translateX(-50%); width: 108px; height: 108px; background: radial-gradient(ellipse 54px 54px at center, #1a2a1a 0%, #000a00 40%, #000000 100%); border-radius: 45%; }
+        .s40::after { content: ''; position: absolute; top: 37px; left: 50%; transform: translateX(-50%); width: 96px; height: 96px; background: radial-gradient(ellipse 48px 48px at center, rgba(255,60,80,0.95) 0%, rgba(240,10,50,0.8) 70%); border-radius: 50%; box-shadow: 0 0 65px rgba(255,10,40,1); }
+        
+        /* Stage 41-50: Harvest - crystal-covered buds */
+        .s41 { width: 122px; height: 122px; background: radial-gradient(ellipse 61px 61px at center, #3a6a3a 0%, #2a5a2a 25%, #1a4a1a 50%, #0d3a0d 100%); border-radius: 45%; box-shadow: inset -14px -14px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 35px rgba(255,255,255,0.3); position: relative; animation: harvest 4s ease-in-out infinite; }
+        .s41::before { content: ''; position: absolute; top: 36px; left: 50%; transform: translateX(-50%); width: 110px; height: 110px; background: radial-gradient(ellipse 55px 55px at center, #4a7a4a 0%, #3a6a3a 40%, #2a5a2a 100%); border-radius: 45%; }
+        .s41::after { content: ''; position: absolute; top: 38px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; background: radial-gradient(ellipse 50px 50px at center, rgba(255,100,130,0.95) 0%, rgba(240,70,110,0.8) 70%); border-radius: 50%; box-shadow: 0 0 70px rgba(255,70,100,1); }
+        .crystals { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; background: radial-gradient(ellipse 45px 45px at center, transparent 0%, transparent 100%); pointer-events: none; animation: crystals 1.5s ease-in-out infinite; }
+        .crystals::before, .crystals::after { content: ''; position: absolute; width: 4px; height: 4px; background: rgba(255,255,255,0.9); border-radius: 50%; box-shadow: 10px 5px 0 rgba(255,255,255,0.8), 20px 2px 0 rgba(255,255,255,0.9), 30px 8px 0 rgba(255,255,255,0.7), 40px 3px 0 rgba(255,255,255,0.9), 50px 10px 0 rgba(255,255,255,0.8), 5px 15px 0 rgba(255,255,255,0.7), 15px 20px 0 rgba(255,255,255,0.9), 25px 18px 0 rgba(255,255,255,0.8), 35px 22px 0 rgba(255,255,255,0.9), 45px 17px 0 rgba(255,255,255,0.7); }
+        
+        @keyframes sway { 0%, 100% { transform: translate(-50%, -50%) rotate(-0.5deg); } 50% { transform: translate(-50%, -50%) rotate(0.5deg); } }
+        @keyframes harvest { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.02); } }
+        @keyframes crystals { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        
+        .s42 { width: 124px; height: 124px; background: radial-gradient(ellipse 62px 62px at center, #3a5a3a 0%, #2a4a2a 25%, #1a3a1a 50%, #0d2a0d 100%); border-radius: 45%; box-shadow: inset -14px -14px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 38px rgba(255,255,255,0.35); position: relative; animation: harvest 3.8s ease-in-out infinite; }
+        .s42::before { content: ''; position: absolute; top: 37px; left: 50%; transform: translateX(-50%); width: 112px; height: 112px; background: radial-gradient(ellipse 56px 56px at center, #4a6a4a 0%, #3a5a3a 40%, #2a4a2a 100%); border-radius: 45%; }
+        .s42::after { content: ''; position: absolute; top: 39px; left: 50%; transform: translateX(-50%); width: 104px; height: 104px; background: radial-gradient(ellipse 52px 52px at center, rgba(255,90,120,0.95) 0%, rgba(240,60,100,0.8) 70%); border-radius: 50%; box-shadow: 0 0 75px rgba(255,60,90,1); }
+        
+        .s43 { width: 126px; height: 126px; background: radial-gradient(ellipse 63px 63px at center, #2a4a2a 0%, #1a3a1a 25%, #0a2a0a 50%, #001a00 100%); border-radius: 45%; box-shadow: inset -15px -15px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 40px rgba(255,255,255,0.4); position: relative; animation: harvest 3.6s ease-in-out infinite; }
+        .s43::before { content: ''; position: absolute; top: 38px; left: 50%; transform: translateX(-50%); width: 114px; height: 114px; background: radial-gradient(ellipse 57px 57px at center, #3a5a3a 0%, #2a4a2a 40%, #1a3a1a 100%); border-radius: 45%; }
+        .s43::after { content: ''; position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 108px; height: 108px; background: radial-gradient(ellipse 54px 54px at center, rgba(255,80,110,0.95) 0%, rgba(240,50,90,0.8) 70%); border-radius: 50%; box-shadow: 0 0 80px rgba(255,50,80,1); }
+        
+        .s44 { width: 128px; height: 128px; background: radial-gradient(ellipse 64px 64px at center, #2a3a2a 0%, #1a2a1a 25%, #0a1a0a 50%, #000a00 100%); border-radius: 45%; box-shadow: inset -15px -15px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 45px rgba(255,255,255,0.45); position: relative; animation: harvest 3.4s ease-in-out infinite; }
+        .s44::before { content: ''; position: absolute; top: 39px; left: 50%; transform: translateX(-50%); width: 116px; height: 116px; background: radial-gradient(ellipse 58px 58px at center, #3a4a3a 0%, #2a3a2a 40%, #1a2a1a 100%); border-radius: 45%; }
+        .s44::after { content: ''; position: absolute; top: 41px; left: 50%; transform: translateX(-50%); width: 112px; height: 112px; background: radial-gradient(ellipse 56px 56px at center, rgba(255,70,100,0.95) 0%, rgba(240,40,80,0.8) 70%); border-radius: 50%; box-shadow: 0 0 85px rgba(255,40,70,1); }
+        
+        .s45 { width: 130px; height: 130px; background: radial-gradient(ellipse 65px 65px at center, #1a2a1a 0%, #0a1a0a 25%, #000a00 50%, #000000 100%); border-radius: 45%; box-shadow: inset -16px -16px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 48px rgba(255,255,255,0.5); position: relative; animation: harvest 3.2s ease-in-out infinite; }
+        .s45::before { content: ''; position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 118px; height: 118px; background: radial-gradient(ellipse 59px 59px at center, #2a3a2a 0%, #1a2a1a 40%, #0a1a0a 100%); border-radius: 45%; }
+        .s45::after { content: ''; position: absolute; top: 42px; left: 50%; transform: translateX(-50%); width: 116px; height: 116px; background: radial-gradient(ellipse 58px 58px at center, rgba(255,60,90,0.95) 0%, rgba(240,30,70,0.8) 70%); border-radius: 50%; box-shadow: 0 0 90px rgba(255,30,60,1); }
+        
+        .s46 { width: 132px; height: 132px; background: radial-gradient(ellipse 66px 66px at center, #0a1a0a 0%, #000a00 25%, #000000 50%, #000000 100%); border-radius: 45%; box-shadow: inset -16px -16px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 50px rgba(255,255,255,0.55); position: relative; animation: harvest 3s ease-in-out infinite; }
+        .s46::before { content: ''; position: absolute; top: 41px; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; background: radial-gradient(ellipse 60px 60px at center, #1a2a1a 0%, #0a1a0a 40%, #000a00 100%); border-radius: 45%; }
+        .s46::after { content: ''; position: absolute; top: 43px; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; background: radial-gradient(ellipse 60px 60px at center, rgba(255,50,80,0.95) 0%, rgba(240,20,60,0.8) 70%); border-radius: 50%; box-shadow: 0 0 95px rgba(255,20,50,1); }
+        
+        .s47 { width: 134px; height: 134px; background: radial-gradient(ellipse 67px 67px at center, #0a0a0a 0%, #000000 25%, #000000 50%, #000000 100%); border-radius: 45%; box-shadow: inset -17px -17px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 55px rgba(255,255,255,0.6); position: relative; animation: harvest 2.8s ease-in-out infinite; }
+        .s47::before { content: ''; position: absolute; top: 42px; left: 50%; transform: translateX(-50%); width: 122px; height: 122px; background: radial-gradient(ellipse 61px 61px at center, #0a1a0a 0%, #000a00 40%, #000000 100%); border-radius: 45%; }
+        .s47::after { content: ''; position: absolute; top: 44px; left: 50%; transform: translateX(-50%); width: 124px; height: 124px; background: radial-gradient(ellipse 62px 62px at center, rgba(255,40,70,0.95) 0%, rgba(240,10,50,0.8) 70%); border-radius: 50%; box-shadow: 0 0 100px rgba(255,10,40,1); }
+        
+        .s48 { width: 136px; height: 136px; background: radial-gradient(ellipse 68px 68px at center, #000000 0%, #000000 25%, #000000 50%, #000000 100%); border-radius: 45%; box-shadow: inset -17px -17px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 60px rgba(255,255,255,0.65); position: relative; animation: harvest 2.6s ease-in-out infinite; }
+        .s48::before { content: ''; position: absolute; top: 43px; left: 50%; transform: translateX(-50%); width: 124px; height: 124px; background: radial-gradient(ellipse 62px 62px at center, #0a0a0a 0%, #000000 40%, #000000 100%); border-radius: 45%; }
+        .s48::after { content: ''; position: absolute; top: 45px; left: 50%; transform: translateX(-50%); width: 128px; height: 128px; background: radial-gradient(ellipse 64px 64px at center, rgba(255,30,60,0.95) 0%, rgba(240,0,40,0.8) 70%); border-radius: 50%; box-shadow: 0 0 110px rgba(255,0,30,1); }
+        
+        .s49 { width: 138px; height: 138px; background: radial-gradient(ellipse 69px 69px at center, #000000 0%, #000000 25%, #000000 50%, #000000 100%); border-radius: 45%; box-shadow: inset -18px -18px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 65px rgba(255,255,255,0.7); position: relative; animation: harvest 2.4s ease-in-out infinite; }
+        .s49::before { content: ''; position: absolute; top: 44px; left: 50%; transform: translateX(-50%); width: 126px; height: 126px; background: radial-gradient(ellipse 63px 63px at center, #000000 0%, #000000 40%, #000000 100%); border-radius: 45%; }
+        .s49::after { content: ''; position: absolute; top: 46px; left: 50%; transform: translateX(-50%); width: 132px; height: 132px; background: radial-gradient(ellipse 66px 66px at center, rgba(255,20,50,0.95) 0%, rgba(230,0,30,0.8) 70%); border-radius: 50%; box-shadow: 0 0 120px rgba(230,0,20,1); }
+        
+        .s50 { width: 140px; height: 140px; background: radial-gradient(ellipse 70px 70px at center, #000000 0%, #000000 25%, #000000 50%, #000000 100%); border-radius: 45%; box-shadow: inset -18px -18px 0 rgba(0,0,0,0.25), inset 5px 5px 0 rgba(255,255,255,0.05), 0 0 70px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.5); position: relative; animation: harvest 2s ease-in-out infinite; }
+        .s50::before { content: ''; position: absolute; top: 45px; left: 50%; transform: translateX(-50%); width: 128px; height: 128px; background: radial-gradient(ellipse 64px 64px at center, #000000 0%, #000000 40%, #000000 100%); border-radius: 45%; }
+        .s50::after { content: ''; position: absolute; top: 47px; left: 50%; transform: translateX(-50%); width: 136px; height: 136px; background: radial-gradient(ellipse 68px 68px at center, rgba(255,10,40,0.95) 0%, rgba(220,0,20,0.8) 70%); border-radius: 50%; box-shadow: 0 0 130px rgba(220,0,10,1), 0 0 50px rgba(255,100,120,0.8); }
+        .s50 .crystals-50 { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; pointer-events: none; }
+        .s50 .crystals-50::before, .s50 .crystals-50::after { content: ''; position: absolute; width: 5px; height: 5px; background: rgba(255,255,255,1); border-radius: 50%; box-shadow: 15px 8px 0 rgba(255,255,255,0.9), 30px 4px 0 rgba(255,255,255,1), 45px 12px 0 rgba(255,255,255,0.8), 60px 6px 0 rgba(255,255,255,1), 75px 15px 0 rgba(255,255,255,0.9), 90px 10px 0 rgba(255,255,255,1), 105px 18px 0 rgba(255,255,255,0.8), 8px 25px 0 rgba(255,255,255,0.9), 23px 30px 0 rgba(255,255,255,1), 38px 28px 0 rgba(255,255,255,0.8), 53px 35px 0 rgba(255,255,255,1), 68px 32px 0 rgba(255,255,255,0.9), 83px 40px 0 rgba(255,255,255,1), 98px 38px 0 rgba(255,255,255,0.8), 5px 45px 0 rgba(255,255,255,1), 20px 50px 0 rgba(255,255,255,0.9), 35px 48px 0 rgba(255,255,255,1), 50px 55px 0 rgba(255,255,255,0.8), 65px 52px 0 rgba(255,255,255,1), 80px 60px 0 rgba(255,255,255,0.9), 95px 58px 0 rgba(255,255,255,1), 110px 65px 0 rgba(255,255,255,0.8), 10px 65px 0 rgba(255,255,255,1), 25px 70px 0 rgba(255,255,255,0.9), 40px 68px 0 rgba(255,255,255,1), 55px 75px 0 rgba(255,255,255,0.8), 70px 72px 0 rgba(255,255,255,1), 85px 80px 0 rgba(255,255,255,0.9), 100px 78px 0 rgba(255,255,255,1), 115px 85px 0 rgba(255,255,255,0.8); animation: crystals 1s ease-in-out infinite; }
+        .s50 .crystals-50::after { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <h1>🌿 Cannabis Growth Stages - 50 Sprites</h1>
+    <div class="grid">
+        <!-- Stages 1-50 -->
+        <div class="stage"><div class="pot"></div><div class="plant s1"></div><div class="label">1</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s2"></div><div class="label">2</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s3"></div><div class="label">3</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s4"></div><div class="label">4</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s5"></div><div class="label">5</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s6"></div><div class="label">6</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s7"></div><div class="label">7</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s8"></div><div class="label">8</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s9"></div><div class="label">9</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s10"></div><div class="label">10</div></div>
+        
+        <div class="stage"><div class="pot"></div><div class="plant s11"></div><div class="label">11</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s12"></div><div class="label">12</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s13"></div><div class="label">13</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s14"></div><div class="label">14</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s15"></div><div class="label">15</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s16"></div><div class="label">16</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s17"></div><div class="label">17</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s18"></div><div class="label">18</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s19"></div><div class="label">19</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s20"></div><div class="label">20</div></div>
+        
+        <div class="stage"><div class="pot"></div><div class="plant s21"></div><div class="label">21</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s22"></div><div class="label">22</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s23"></div><div class="label">23</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s24"></div><div class="label">24</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s25"></div><div class="label">25</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s26"></div><div class="label">26</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s27"></div><div class="label">27</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s28"></div><div class="label">28</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s29"></div><div class="label">29</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s30"></div><div class="label">30</div></div>
+        
+        <div class="stage"><div class="pot"></div><div class="plant s31"></div><div class="label">31</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s32"></div><div class="label">32</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s33"></div><div class="label">33</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s34"></div><div class="label">34</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s35"></div><div class="label">35</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s36"></div><div class="label">36</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s37"></div><div class="label">37</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s38"></div><div class="label">38</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s39"></div><div class="label">39</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s40"></div><div class="label">40</div></div>
+        
+        <div class="stage"><div class="pot"></div><div class="plant s41"><div class="crystals"></div></div><div class="label">41</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s42"></div><div class="label">42</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s43"></div><div class="label">43</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s44"></div><div class="label">44</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s45"></div><div class="label">45</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s46"></div><div class="label">46</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s47"></div><div class="label">47</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s48"></div><div class="label">48</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s49"></div><div class="label">49</div></div>
+        <div class="stage"><div class="pot"></div><div class="plant s50"><div class="crystals-50"></div></div><div class="label">50</div></div>
+    </div>
+</body>
+</html>
