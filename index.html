@@ -46,30 +46,15 @@
         /* Content */
         .content { flex: 1; overflow-y: auto; padding: 8px; padding-bottom: 65px; background: linear-gradient(180deg, #0d2810 0%, #0d1117 100%); }
         
-        /* Environment panel */
-        .env-panel { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 8px; margin-bottom: 8px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .env-item { text-align: center; padding: 6px; background: rgba(0,0,0,0.3); border-radius: 4px; }
-        .env-icon { font-size: 16px; margin-bottom: 2px; }
-        .env-value { font-size: 9px; color: #7fff7f; }
-        .env-label { font-size: 6px; color: #8f8; }
-        .env-bar { height: 4px; background: #1a1a1a; border-radius: 2px; margin-top: 4px; overflow: hidden; }
-        .env-bar-fill { height: 100%; transition: width 0.3s; }
-        .env-bar-fill.good { background: linear-gradient(90deg, #238636, #4a8a4a); }
-        .env-bar-fill.warn { background: linear-gradient(90deg, #f0883e, #ffa500); }
-        .env-bar-fill.bad { background: linear-gradient(90deg, #8b0000, #ff4444); }
-        
-        /* Light visualization */
-        .light-panel { position: relative; background: linear-gradient(180deg, #0a1a0a 0%, #0d2810 100%); border: 2px solid #2d5a2d; padding: 8px; margin-bottom: 8px; }
-        .light-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-        .light-zone { position: relative; height: 60px; border: 2px solid #2d5a2d; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        .light-zone::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top, rgba(255,200,50,var(--light-intensity, 0)) 0%, transparent 70%); pointer-events: none; transition: all 0.5s; }
-        .light-zone.on::before { --light-intensity: 0.3; }
-        .light-zone.high::before { --light-intensity: 0.6; background: radial-gradient(ellipse at top, rgba(255,220,100,var(--light-intensity)) 0%, transparent 70%); }
-        .light-icon { font-size: 20px; z-index: 1; text-shadow: 0 0 10px currentColor; }
-        .light-zone.on .light-icon { color: #ffd700; }
-        .light-zone.off .light-icon { color: #444; }
-        .light-label { font-size: 6px; color: #8f8; z-index: 1; }
-        .light-ppfd { font-size: 7px; color: #7fff7f; z-index: 1; }
+        /* Environment panel (compact) */
+        .env-compact { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 6px; }
+        .env-stat { background: rgba(0,0,0,0.4); border: 1px solid #2d5a2d; padding: 4px; text-align: center; border-radius: 4px; }
+        .env-stat-icon { font-size: 12px; }
+        .env-stat-value { font-size: 8px; color: #7fff7f; }
+        .env-stat-label { font-size: 5px; color: #8f8; }
+        .env-stat.good { border-color: #238636; }
+        .env-stat.warn { border-color: #f0883e; }
+        .env-stat.bad { border-color: #8b0000; }
         
         /* Room */
         .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -84,32 +69,19 @@
         .pot.dry { border-color: #8b4513; }
         .pot.sick { border-color: #8b0000; animation: pot-sick 0.5s infinite; }
         .pot.overwatered { border-color: #1e90ff; }
+        .pot.needtrim { border-color: #a371f7; }
         @keyframes pot-sick { 0%, 100% { box-shadow: 0 0 5px #8b0000; } 50% { box-shadow: 0 0 10px #8b0000; } }
         
-        /* Status bars overlay */
-        .status-overlay { position: absolute; top: 2px; left: 2px; right: 2px; bottom: 2px; pointer-events: none; }
-        
-        /* Mini bars top */
+        /* Mini bars */
         .mini-bars { position: absolute; top: 2px; left: 2px; right: 2px; display: flex; flex-direction: column; gap: 1px; }
         .mini-bar { height: 3px; background: rgba(0,0,0,0.7); border-radius: 1px; overflow: hidden; }
         .mini-bar-fill { height: 100%; transition: width 0.3s; }
         .mini-bar-fill.water { background: linear-gradient(90deg, #1e90ff, #00bfff); }
         .mini-bar-fill.health { background: linear-gradient(90deg, #238636, #4a8a4a); }
-        .mini-bar-fill.light { background: linear-gradient(90deg, #ffd700, #ffff00); }
         .mini-bar-fill.nutri { background: linear-gradient(90deg, #a371f7, #c084fc); }
-        .mini-bar-fill.temp { background: linear-gradient(90deg, #f0883e, #ff6b35); }
-        .mini-bar-fill.humid { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
         
         /* Soil */
         .pot-soil { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 75%; height: 75%; background: radial-gradient(ellipse at center, #3d2914 0%, #2d1f0f 70%, #1a120a 100%); border-radius: 50% 50% 45% 45%; border: 2px solid #1a120a; }
-        
-        /* Water droplets animation */
-        .pot.watered::after { content: ''; position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; background: radial-gradient(ellipse at center, rgba(30,144,255,0.8), transparent); border-radius: 50%; animation: water-drop 0.5s ease-out forwards; pointer-events: none; }
-        @keyframes water-drop { 0% { opacity: 1; transform: translateX(-50%) scale(0.5); } 100% { opacity: 0; transform: translateX(-50%) translateY(50px) scale(1.5); } }
-        
-        /* Nutrient particles */
-        .pot.nutrient::after { content: ''; position: absolute; top: 30%; left: 50%; transform: translateX(-50%); width: 30px; height: 30px; background: radial-gradient(ellipse at center, rgba(163,113,247,0.6), transparent); border-radius: 50%; animation: nutrient-glow 0.8s ease-out forwards; pointer-events: none; }
-        @keyframes nutrient-glow { 0% { opacity: 1; transform: translateX(-50%) scale(0.3); } 50% { opacity: 0.8; } 100% { opacity: 0; transform: translateX(-50%) scale(2); } }
         
         /* Plants */
         .plant-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; height: 90%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
@@ -158,14 +130,15 @@
         .pot-info { position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-size: 5px; color: #fff; text-shadow: 1px 1px 0 #000; background: rgba(0,0,0,0.6); padding: 1px; }
         .pot-progress { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; font-size: 7px; color: #7fff7f; text-shadow: 1px 1px 0 #000; }
         
+        /* Status icons */
+        .pot-status { position: absolute; top: 20px; right: 2px; display: flex; flex-direction: column; gap: 2px; }
+        .status-icon { font-size: 10px; }
+        
         /* Actions */
-        .actions { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border-top: 2px solid #2d5a2d; padding: 6px; display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
+        .actions { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border-top: 2px solid #2d5a2d; padding: 4px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
         .act { background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%); border: 2px solid #3d5a3d; padding: 4px 2px; display: flex; flex-direction: column; align-items: center; gap: 1px; color: #fff; text-shadow: 1px 1px 0 #000; font-size: 5px; }
         .act:active { transform: translateY(1px); }
         .act .i { font-size: 14px; }
-        .act.water { background: linear-gradient(180deg, #1e4a6a 0%, #0d2a4a 100%); border-color: #2e5a7a; }
-        .act.nutri { background: linear-gradient(180deg, #4a2a5a 0%, #2a1a3a 100%); border-color: #5a3a6a; }
-        .act.trim { background: linear-gradient(180deg, #4a3a2a 0%, #2a1a0a 100%); border-color: #5a4a3a; }
         
         /* Cards */
         .card { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 10px; margin-bottom: 8px; }
@@ -208,15 +181,26 @@
         .mclose { background: #8b0000; border: 2px solid #5a0000; color: #fff; font-size: 12px; width: 24px; height: 24px; cursor: pointer; }
         .mbody { padding: 10px; }
         
-        /* Progress */
-        .prog { height: 6px; background: #000; border-radius: 3px; overflow: hidden; border: 1px solid #333; }
-        .prog-f { height: 100%; background: linear-gradient(90deg, #238636, #f0883e); transition: width 0.3s; }
+        /* Plant interaction modal */
+        .interact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+        .interact-btn { background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%); border: 2px solid #3d5a3d; padding: 10px; text-align: center; cursor: pointer; }
+        .interact-btn:hover { border-color: #6aba6a; }
+        .interact-btn.disabled { opacity: 0.5; pointer-events: none; }
+        .interact-btn .icon { font-size: 20px; margin-bottom: 4px; }
+        .interact-btn .name { font-size: 8px; color: #f0f6fc; }
+        .interact-btn .desc { font-size: 6px; color: #8f8; margin-top: 2px; }
+        .interact-btn .cost { font-size: 7px; color: #f0883e; margin-top: 4px; }
         
-        /* Lesson */
-        .lesson { background: linear-gradient(180deg, #1a2d1a 0%, #0d1a0d 100%); border: 2px solid #2d5a2d; padding: 10px; margin-bottom: 6px; cursor: pointer; }
-        .lesson:hover { border-color: #4a8a4a; }
-        .lesson h3 { font-size: 9px; color: #7fff7f; margin-bottom: 5px; }
-        .lesson p { font-size: 7px; color: #c9d1d9; line-height: 1.4; }
+        /* Light zone */
+        .light-zone { position: relative; height: 60px; border: 2px solid #2d5a2d; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .light-zone::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top, rgba(255,200,50,var(--light-intensity, 0)) 0%, transparent 70%); pointer-events: none; transition: all 0.5s; border-radius: 4px; }
+        .light-zone.on::before { --light-intensity: 0.3; }
+        .light-zone.high::before { --light-intensity: 0.6; background: radial-gradient(ellipse at top, rgba(255,220,100,var(--light-intensity)) 0%, transparent 70%); }
+        .light-icon { font-size: 20px; z-index: 1; }
+        .light-zone.on .light-icon { color: #ffd700; }
+        .light-zone.off .light-icon { color: #444; }
+        .light-label { font-size: 6px; color: #8f8; z-index: 1; }
+        .light-ppfd { font-size: 7px; color: #7fff7f; z-index: 1; }
         
         /* Toast */
         .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(180deg, #2d5a2d 0%, #1a3d1a 100%); border: 2px solid #4a8a4a; padding: 10px; text-align: center; z-index: 2000; display: none; }
@@ -267,7 +251,7 @@
         <div class="tut-g">
             <div class="tut-b"><h2>🌱</h2><p>Выращивай</p></div>
             <div class="tut-b"><h2>💧</h2><p>Поливай</p></div>
-            <div class="tut-b"><h2>✂️</h2><p>Тримминг</p></div>
+            <div class="tut-b"><h2>✂️</h2><p>Тренируй</p></div>
             <div class="tut-b"><h2>🧬</h2><p>Скрещивай</p></div>
             <div class="tut-b"><h2>🔬</h2><p>Исследуй</p></div>
             <div class="tut-b"><h2>🏆</h2><p>Достижения</p></div>
@@ -310,10 +294,8 @@
             <button class="act" data-a="plant"><span class="i">🌱</span><span>Посадить</span></button>
             <button class="act water" data-a="water"><span class="i">💧</span><span>Полив</span></button>
             <button class="act nutri" data-a="nutri"><span class="i">🧪</span><span>Удобрение</span></button>
-            <button class="act" data-a="light"><span class="i">💡</span><span>Свет</span></button>
-            <button class="act trim" data-a="trim"><span class="i">✂️</span><span>Тримминг</span></button>
+            <button class="act" data-a="interact"><span class="i">✋</span><span>Действия</span></button>
             <button class="act" data-a="harvest"><span class="i">🌾</span><span>Сбор</span></button>
-            <button class="act" data-a="climate"><span class="i">🌡️</span><span>Климат</span></button>
             <button class="act" data-a="save"><span class="i">💾</span><span>Сохранить</span></button>
         </div>
     </div>
@@ -321,69 +303,15 @@
     <!-- Modals -->
     <div class="modal" id="seedModal"><div class="box"><div class="mhead"><div class="mtit">🌱 Семена</div><button class="mclose" data-c="seedModal">✕</button></div><div class="mbody"><div class="grid" id="seedGrid"></div></div></div></div>
     <div class="modal" id="nutrModal"><div class="box"><div class="mhead"><div class="mtit">🧪 Удобрения</div><button class="mclose" data-c="nutrModal">✕</button></div><div class="mbody"><div class="grid" id="nutrGrid"></div></div></div></div>
+    <div class="modal" id="interactModal"><div class="box"><div class="mhead"><div class="mtit" id="interactTit">✋ Действия</div><button class="mclose" data-c="interactModal">✕</button></div><div class="mbody" id="interactBody"></div></div></div>
     <div class="modal" id="lightModal"><div class="box"><div class="mhead"><div class="mtit">💡 Освещение</div><button class="mclose" data-c="lightModal">✕</button></div><div class="mbody" id="lightBody"></div></div></div>
-    <div class="modal" id="climateModal"><div class="box"><div class="mhead"><div class="mtit">🌡️ Климат</div><button class="mclose" data-c="climateModal">✕</button></div><div class="mbody" id="climateBody"></div></div></div>
     <div class="toast" id="toast"><div class="toast-t" id="tt"></div><div class="toast-x" id="tx"></div></div>
 
     <script>
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.expand(); tg.ready(); }
         
-        // Lessons
-        const lessons = [
-            { id: 'intro', title: '🌱 Введение в каннабис', unlocked: true, content: [
-                { title: 'Биология', text: 'Cannabis sativa и Cannabis indica — два основных вида. Сатива = энергия, индика = релакс.' },
-                { title: 'Фотопериодизм', text: 'Каннабис — короткодневное растение. 12/12 для цветения, 18/6 для вегетации.' },
-                { title: 'Химия', text: 'THC — психоактивность. CBD — медицина. Терпены — аромат и эффект.' }
-            ]},
-            { id: 'germ', title: '🌰 Проращивание', unlocked: true, content: [
-                { title: 'Условия', text: 'Температура: 20-26°C. Влажность: 70-90%. pH воды: 6.0-6.5.' },
-                { title: 'Методы', text: 'Бумажное полотенце или прямо в субстрат на 1-2 см.' },
-                { title: 'Признаки', text: 'Корешок 2-5 мм за 2-7 дней. Не трогай корень!' }
-            ]},
-            { id: 'light', title: '💡 Освещение', unlocked: true, content: [
-                { title: 'Спектр', text: 'Синий (400-500nm) — вегетация. Красный (600-700nm) — цветение. Полный спектр — оптимально.' },
-                { title: 'PPFD', text: 'Вегетация: 600-1000 µmol/m²/s. Цветение: 1000-1500 µmol/m²/s.' },
-                { title: 'Типы', text: 'LED — 2.5-3.0 µmol/J эффективность. HPS — классика. CMH — естественный спектр.' }
-            ]},
-            { id: 'water', title: '💧 Полив и pH', unlocked: true, content: [
-                { title: 'pH', text: 'Грунт: 6.0-7.0. Гидропоника: 5.5-6.5. Выше 7.0 = блокировка питания.' },
-                { title: 'Lift Test', text: 'Подними горшок. Лёгкий = поливай. Тяжёлый = подожди.' },
-                { title: 'EC/PPM', text: 'Вегетация: EC 1.0-1.6. Цветение: EC 1.6-2.4.' }
-            ]},
-            { id: 'npk', title: '🧪 NPK и питание', unlocked: true, content: [
-                { title: 'Макро', text: 'N (азот) — листья. P (фосфор) — цветы. K (калий) — иммунитет.' },
-                { title: 'Микро', text: 'Mg — хлорофилл. Ca — клеточные стенки. Fe — ферменты. S — аромат.' },
-                { title: 'Дефициты', text: 'Жёлтые низ = N дефицит. Фиолетовые стебли = P дефицит. Коричневые края = K дефицит.' }
-            ]},
-            { id: 'training', title: '🌿 Тренировки', unlocked: false, content: [
-                { title: 'LST', text: 'Low Stress Training — гибка ветвей. +20-40% урожай.' },
-                { title: 'Topping', text: 'Срез верхушки над 5-6 узлом. 2 колы вместо 1.' },
-                { title: 'SCROG', text: 'Screen of Green — сетка для равномерного распределения.' }
-            ]},
-            { id: 'flower', title: '🌸 Цветение', unlocked: false, content: [
-                { title: 'Стадии', text: '1-3 неделя: Растягивание. 4-5: Формирование бутонов. 6-8: Набухание. 9+: Созревание.' },
-                { title: 'Трихомы', text: 'Прозрачные = не готово. Мутные = пик THC. Янтарные = седативный.' },
-                { title: 'Свет', text: '12/12 — классика. 11/13 — для сативы. 10/14 — для автоцветов.' }
-            ]},
-            { id: 'harvest', title: '✂️ Сбор и сушка', unlocked: false, content: [
-                { title: 'Срез', text: 'В темноте. 14 дней промывки без удобрений.' },
-                { title: 'Сушка', text: 'Температура: 15-21°C. Влажность: 45-55%. 7-14 дней.' },
-                { title: 'Curing', text: 'Стеклянные банки. Burping 1-2 раза/день первую неделю.' }
-            ]},
-            { id: 'genetics', title: '🧬 Генетика', unlocked: false, content: [
-                { title: 'Мендель', text: 'Каждый ген — пара аллелей. Доминантные (T, Y) = сильнее.' },
-                { title: '5 генов', text: 'T = THC. C = CBD. Y = урожайность. S = скорость. R = устойчивость.' },
-                { title: 'Скрещивание', text: 'TT × Tt = 50% TT, 50% Tt.' }
-            ]},
-            { id: 'pests', title: '🐛 Вредители', unlocked: false, content: [
-                { title: 'Паутинный клещ', text: 'Микроскопический, оставляет паутину. Neem oil.' },
-                { title: 'Мучнистая роса', text: 'Белый налёт. Высокая влажность + низкая вентиляция.' },
-                { title: 'Корневая гниль', text: 'Коричневые корни. Переувлажнение. H2O2 3%.' }
-            ]}
-        ];
-        
-        // Strains
+        // Game data
         const strains = [
             { id: 'nl', name: 'Northern Lights', type: 'Indica', icon: '🌿', thc: 18, yld: 400, price: 50, speed: 1.0 },
             { id: 'ww', name: 'White Widow', type: 'Hybrid', icon: '🍃', thc: 20, yld: 450, price: 60, speed: 1.1 },
@@ -402,7 +330,6 @@
             { id: 'mh', name: 'Mimosa Haze', type: 'Sativa', icon: '🍊', thc: 27, yld: 460, price: 160, speed: 0.9 }
         ];
         
-        // Nutrients
         const nutrients = [
             { id: 'grow', name: 'Grow Mix', icon: '🟢', desc: 'NPK 3-1-2', price: 25, effect: { health: 15, progress: 2 } },
             { id: 'bloom', name: 'Bloom Mix', icon: '🟣', desc: 'NPK 1-3-2', price: 30, effect: { health: 10, progress: 3, yield: 1.1 } },
@@ -414,7 +341,6 @@
             { id: 'silica', name: 'Silica', icon: '💎', desc: 'Стебли', price: 45, effect: { health: 15, resistance: 1.2 } }
         ];
         
-        // Equipment
         const equipment = [
             { id: 'lamp100', name: 'LED 100W', icon: '💡', desc: 'Базовый', price: 100, bonus: { speed: 1.1, ppfd: 400 }, cat: 'light' },
             { id: 'lamp300', name: 'LED 300W', icon: '💡', desc: 'Средний', price: 300, bonus: { speed: 1.25, ppfd: 700 }, cat: 'light' },
@@ -424,7 +350,7 @@
             { id: 'filter', name: 'Угольный фильтр', icon: '🔲', desc: 'Запах', price: 80, bonus: { stealth: true }, cat: 'climate' },
             { id: 'hygro', name: 'Гигрометр', icon: '📊', desc: 'Климат', price: 30, bonus: { health: 1.08 }, cat: 'climate' },
             { id: 'timer', name: 'Таймер', icon: '⏱️', desc: 'Авто-свет', price: 25, bonus: { speed: 1.05 }, cat: 'climate' },
-            { id: 'ac', name: 'Кондиционер', icon: '❄️', desc: 'Климат-контроль', price: 350, bonus: { health: 1.15, temp: -5 }, cat: 'climate' },
+            { id: 'ac', name: 'Кондиционер', icon: '❄️', desc: 'Климат', price: 350, bonus: { health: 1.15, temp: -5 }, cat: 'climate' },
             { id: 'humidifier', name: 'Увлажнитель', icon: '💨', desc: '+Влажность', price: 120, bonus: { humidity: 20, health: 1.05 }, cat: 'climate' },
             { id: 'dehumid', name: 'Осушитель', icon: '🏜️', desc: '-Влажность', price: 150, bonus: { humidity: -20, health: 1.05 }, cat: 'climate' },
             { id: 'ph', name: 'pH-метр', icon: '⚗️', desc: 'Точный pH', price: 40, bonus: { health: 1.1 }, cat: 'tools' },
@@ -438,34 +364,27 @@
             { id: 'aero', name: 'Аэропоника', icon: '💨', desc: '+80% скорость', price: 1500, bonus: { speed: 1.8, health: 0.9 }, cat: 'system' }
         ];
         
-        // Lab items
         const labItems = [
             { id: 'microscope', name: 'Микроскоп', icon: '🔬', desc: 'Трихомы 60x', price: 150, unlocks: 'trim_quality' },
-            { id: 'cloner', name: 'Клон-машина', icon: '🌱', desc: 'Клоны растений', price: 200, unlocks: 'cloning' },
+            { id: 'cloner', name: 'Клон-машина', icon: '🌱', desc: 'Клоны', price: 200, unlocks: 'cloning' },
             { id: 'dryer', name: 'Сушильный шкаф', icon: '💨', desc: 'Авто-сушка', price: 120, unlocks: 'auto_dry' },
             { id: 'trimmer', name: 'Триммер', icon: '✂️', desc: 'Авто-тримминг', price: 180, unlocks: 'auto_trim' },
-            { id: 'extractor', name: 'Экстрактор', icon: '⚗️', desc: 'Масло/концентрат', price: 300, unlocks: 'extraction' },
+            { id: 'extractor', name: 'Экстрактор', icon: '⚗️', desc: 'Масло', price: 300, unlocks: 'extraction' },
             { id: 'centrifuge', name: 'Центрифуга', icon: '🌀', desc: 'Терпены', price: 450, unlocks: 'terpenes' },
-            { id: 'chromatograph', name: 'Хроматограф', icon: '📊', desc: 'Анализ THC/CBD', price: 600, unlocks: 'analysis' },
-            { id: 'breeder', name: 'Бридинг-станция', icon: '🧬', desc: 'Скрещивание', price: 500, unlocks: 'breeding' }
+            { id: 'chromatograph', name: 'Хроматограф', icon: '📊', desc: 'Анализ THC', price: 600, unlocks: 'analysis' },
+            { id: 'breeder', name: 'Бридинг', icon: '🧬', desc: 'Скрещивание', price: 500, unlocks: 'breeding' }
         ];
         
-        // Achievements
-        const achievements = [
-            { id: 'first_harvest', name: '🌱 Первый урожай', desc: 'Собери первое растение', icon: '🌱', check: s => s.stats.harvests >= 1 },
-            { id: 'ten_harvests', name: '🌾 Опытный гровер', desc: 'Собери 10 растений', icon: '🌾', check: s => s.stats.harvests >= 10 },
-            { id: 'fifty_harvests', name: '🏆 Мастер', desc: 'Собери 50 растений', icon: '🏆', check: s => s.stats.harvests >= 50 },
-            { id: 'hundred_harvests', name: '👑 Легенда', desc: 'Собери 100 растений', icon: '👑', check: s => s.stats.harvests >= 100 },
-            { id: 'first_breed', name: '🧬 Генетик', desc: 'Скрести первые сорта', icon: '🧬', check: s => s.stats.bred >= 1 },
-            { id: 'ten_breeds', name: '🔬 Селекционер', desc: 'Скрести 10 сортов', icon: '🔬', check: s => s.stats.bred >= 10 },
-            { id: 'millionaire', name: '💰 Миллионер', desc: 'Накопи $1,000,000', icon: '💰', check: s => s.money >= 1000000 },
-            { id: 'collector', name: '📦 Коллекционер', desc: 'Купи всё оборудование', icon: '📦', check: s => s.equipment.length >= equipment.length },
-            { id: 'scientist', name: '📚 Учёный', desc: 'Пройди все уроки', icon: '📚', check: s => s.lessonsCompleted >= lessons.length },
-            { id: 'lab_master', name: '⚗️ Лаборатория', desc: 'Купи всё для лабы', icon: '⚗️', check: s => s.lab.length >= labItems.length },
-            { id: 'big_harvest', name: '🌿 Огромный урожай', desc: 'Получи 1000г+ с растения', icon: '🌿', check: s => s.stats.maxYield >= 1000 },
-            { id: 'speed_grow', name: '⚡ Спидран', desc: 'Вырасти за 30 дней', icon: '⚡', check: s => s.stats.fastestGrow <= 30 },
-            { id: 'perfect_grow', name: '⭐ Идеальный гров', desc: '100% здоровье при сборе', icon: '⭐', check: s => s.stats.perfectGrows >= 1 },
-            { id: 'breeder_pro', name: '🧪 Про-бридер', desc: 'Скрести 50 сортов', icon: '🧪', check: s => s.stats.bred >= 50 }
+        // Interactions for plants
+        const interactions = [
+            { id: 'water', name: '💧 Полив', desc: '+30% воды', cost: 0, action: 'water' },
+            { id: 'nutri', name: '🧪 Удобрение', desc: 'Открыть меню', cost: 0, action: 'nutri' },
+            { id: 'trim', name: '✂️ Дефолиация', desc: 'Удалить листья', cost: 0, requires: 'stage>=3', action: 'trim' },
+            { id: 'lst', name: '🌿 LST', desc: 'Низкий стресс', cost: 50, requires: 'stage>=2', effect: { yield: 1.15 }, action: 'lst' },
+            { id: 'topping', name: '✂️ Топпинг', desc: 'Две колы', cost: 100, requires: 'stage>=2&&stage<=3', effect: { yield: 1.25 }, action: 'topping' },
+            { id: 'flush', name: '💧 Промывка', desc: 'Перед сбором', cost: 0, requires: 'stage>=5', effect: { quality: 1.2 }, action: 'flush' },
+            { id: 'check', name: '🔬 Проверка', desc: 'Трихомы', cost: 0, requires: 'lab:chromatograph', action: 'check' },
+            { id: 'clone', name: '🌱 Клон', desc: 'Копия', cost: 200, requires: 'lab:cloner&&stage>=3', action: 'clone' }
         ];
         
         // Game State
@@ -477,16 +396,14 @@
             lab: [],
             drying: [],
             breeding: [null, null],
-            // Environment
             light: { on: true, intensity: 1, schedule: '18/6' },
             climate: { temp: 25, humidity: 60, co2: 400 },
-            lessonsCompleted: 0,
             stats: { harvests: 0, planted: 0, bred: 0, maxYield: 0, fastestGrow: 999, perfectGrows: 0 },
             tutorial: true
         };
         
-        function load() { const s = localStorage.getItem('gc11'); if (s) S = {...S, ...JSON.parse(s)}; }
-        function save() { localStorage.setItem('gc11', JSON.stringify(S)); }
+        function load() { const s = localStorage.getItem('gc12'); if (s) S = {...S, ...JSON.parse(s)}; }
+        function save() { localStorage.setItem('gc12', JSON.stringify(S)); }
         
         function toast(t, x) {
             document.getElementById('tt').textContent = t;
@@ -515,54 +432,33 @@
             S.time += 0.5 * S.speed;
             if (S.time >= 24) { S.time = 0; S.day++; }
             
-            // Light schedule
             const lightHours = S.light.schedule === '18/6' ? 18 : S.light.schedule === '12/12' ? 12 : 24;
             S.light.on = S.time < lightHours;
             
             const bonus = getEquipBonus();
             const labBonus = S.lab.length > 0 ? 1.1 : 1;
             
-            // Plants
             S.plants.forEach(p => {
                 if (p.stage < 6) {
-                    // Light affects growth
                     const lightMult = S.light.on ? S.light.intensity : 0.3;
                     p.progress += (1.5 * S.speed * 0.05) * bonus.speed * labBonus * p.strain.speed * lightMult;
-                    
-                    // Water decreases
                     p.water -= 0.35 * S.speed * (S.light.on ? 1.2 : 0.8);
                     
-                    // Health effects
                     if (p.water < 30) p.health -= 0.25 * S.speed;
                     if (p.water > 85) p.health -= 0.15 * S.speed;
                     if (!S.light.on && p.stage < 4) p.health -= 0.05 * S.speed;
                     
                     p.health = Math.max(0, Math.min(100, p.health * bonus.health));
                     p.stage = p.progress < 5 ? 0 : p.progress < 12 ? 1 : p.progress < 25 ? 2 : p.progress < 45 ? 3 : p.progress < 70 ? 4 : p.progress < 95 ? 5 : 6;
-                    
-                    // Nutrients
-                    if (p.nutrients) {
-                        p.nutrients.forEach(n => {
-                            if (n.duration > 0) {
-                                n.duration -= S.speed * 0.05;
-                                if (n.effect.health) p.health = Math.min(100, p.health + n.effect.health * S.speed * 0.05);
-                                if (n.effect.progress) p.progress += n.effect.progress * S.speed * 0.05;
-                            }
-                        });
-                        p.nutrients = p.nutrients.filter(n => n.duration > 0);
-                    }
                 }
             });
             
-            // Drying
             S.drying.forEach(d => { d.progress += 0.5 * S.speed; });
             S.drying = S.drying.filter(d => d.progress < 100);
             
-            // Climate changes
             S.climate.temp = 25 + Math.sin(S.time / 12 * Math.PI) * 3;
             S.climate.humidity = 60 + Math.cos(S.time / 12 * Math.PI) * 10;
             
-            // Level up
             const need = S.level * 100;
             if (S.xp >= need) { S.xp -= need; S.level++; toast('🎉', 'Уровень ' + S.level); }
             
@@ -582,32 +478,13 @@
             const bonus = getEquipBonus();
             
             if (tab === 'grow') {
-                // Environment panel
-                let html = '<div class="env-panel">';
-                html += `<div class="env-item"><div class="env-icon">💡</div><div class="env-value">${S.light.on ? 'ON' : 'OFF'}</div><div class="env-label">Свет</div><div class="env-bar"><div class="env-bar-fill ${S.light.on ? 'good' : 'bad'}" style="width:${S.light.on ? 100 : 0}%"></div></div></div>`;
-                html += `<div class="env-item"><div class="env-icon">🌡️</div><div class="env-value">${S.climate.temp.toFixed(1)}°C</div><div class="env-label">Температура</div><div class="env-bar"><div class="env-bar-fill ${S.climate.temp >= 20 && S.climate.temp <= 28 ? 'good' : 'warn'}" style="width:${Math.min(100, Math.abs(S.climate.temp - 24) * 10 + 50)}%"></div></div></div>`;
-                html += `<div class="env-item"><div class="env-icon">💧</div><div class="env-value">${S.climate.humidity.toFixed(0)}%</div><div class="env-label">Влажность</div><div class="env-bar"><div class="env-bar-fill ${S.climate.humidity >= 40 && S.climate.humidity <= 70 ? 'good' : 'warn'}" style="width:${S.climate.humidity}%"></div></div></div>`;
-                html += `<div class="env-item"><div class="env-icon">📊</div><div class="env-value">${bonus.ppfd} PPFD</div><div class="env-label">Освещённость</div><div class="env-bar"><div class="env-bar-fill good" style="width:${Math.min(100, bonus.ppfd / 15)}%"></div></div></div>`;
+                // Environment panel (compact)
+                let html = '<div class="env-compact">';
+                html += `<div class="env-stat ${S.light.on ? 'good' : 'bad'}"><div class="env-stat-icon">${S.light.on ? '💡' : '⬛'}</div><div class="env-stat-value">${S.light.on ? 'ON' : 'OFF'}</div><div class="env-stat-label">Свет</div></div>`;
+                html += `<div class="env-stat ${S.climate.temp >= 20 && S.climate.temp <= 28 ? 'good' : 'warn'}"><div class="env-stat-icon">🌡️</div><div class="env-stat-value">${S.climate.temp.toFixed(1)}°</div><div class="env-stat-label">Темп</div></div>`;
+                html += `<div class="env-stat ${S.climate.humidity >= 40 && S.climate.humidity <= 70 ? 'good' : 'warn'}"><div class="env-stat-icon">💧</div><div class="env-stat-value">${S.climate.humidity.toFixed(0)}%</div><div class="env-stat-label">Влаж</div></div>`;
+                html += `<div class="env-stat good"><div class="env-stat-icon">📊</div><div class="env-stat-value">${bonus.ppfd}</div><div class="env-stat-label">PPFD</div></div>`;
                 html += '</div>';
-                
-                // Light visualization
-                html += '<div class="light-panel">';
-                html += '<div style="font-size:8px;color:#8f8;margin-bottom:6px">💡 Освещение гроу-рума</div>';
-                html += '<div class="light-grid">';
-                for (let i = 0; i < 3; i++) {
-                    for (let j = 0; j < 3; j++) {
-                        const idx = i * 3 + j;
-                        const hasLamp = S.equipment.some(e => e.includes('lamp'));
-                        const isOn = S.light.on && hasLamp;
-                        const intensityClass = isOn ? (bonus.ppfd > 1000 ? 'high' : 'on') : 'off';
-                        html += `<div class="light-zone ${intensityClass}">
-                            <div class="light-icon">${isOn ? '💡' : '⬛'}</div>
-                            <div class="light-label">Зона ${idx + 1}</div>
-                            <div class="light-ppfd">${isOn ? Math.floor(bonus.ppfd / 9 * (1 + Math.random() * 0.2)) : 0}</div>
-                        </div>`;
-                    }
-                }
-                html += '</div></div>';
                 
                 // Pots
                 html += '<div class="room">';
@@ -618,6 +495,7 @@
                     const dry = p && p.water < 30 ? 'dry' : '';
                     const sick = p && p.health < 50 ? 'sick' : '';
                     const overwatered = p && p.water > 85 ? 'overwatered' : '';
+                    const needtrim = p && p.trimmed ? '' : '';
                     
                     if (p) {
                         const stageClass = `plant-${p.stage}`;
@@ -625,17 +503,24 @@
                         const pistilsHTML = p.stage === 4 ? '<div class="pistils"></div>' : '';
                         const crystalsHTML = p.stage >= 6 ? '<div class="crystals"></div>' : '';
                         
+                        // Status icons
+                        let statusIcons = '';
+                        if (p.water < 30) statusIcons += '<div class="status-icon">💧</div>';
+                        if (p.health < 50) statusIcons += '<div class="status-icon">❤️</div>';
+                        if (p.stage >= 5 && p.flushed) statusIcons += '<div class="status-icon">✨</div>';
+                        if (p.topping) statusIcons += '<div class="status-icon">✂️</div>';
+                        if (p.lst) statusIcons += '<div class="status-icon">🌿</div>';
+                        
                         html += `<div class="pot ${sel} ${ready} ${dry} ${sick} ${overwatered}" data-slot="${i}">
                             <div class="mini-bars">
                                 <div class="mini-bar"><div class="mini-bar-fill water" style="width:${p.water}%"></div></div>
                                 <div class="mini-bar"><div class="mini-bar-fill health" style="width:${p.health}%"></div></div>
-                                <div class="mini-bar"><div class="mini-bar-fill light" style="width:${S.light.on ? 100 : 0}%"></div></div>
-                                <div class="mini-bar"><div class="mini-bar-fill nutri" style="width:${p.nutrients?.length ? 50 : 0}%"></div></div>
                             </div>
                             <div class="pot-soil"></div>
                             <div class="plant-container">
                                 <div class="plant ${stageClass}">${budsHTML}${pistilsHTML}${crystalsHTML}</div>
                             </div>
+                            ${statusIcons ? `<div class="pot-status">${statusIcons}</div>` : ''}
                             <div class="pot-progress">${Math.floor(p.progress)}%</div>
                             <div class="pot-info">${p.strain.name.slice(0, 8)}</div>
                         </div>`;
@@ -651,7 +536,7 @@
                 // Selected plant info
                 const sp = S.plants.find(x => x.slot === S.selected);
                 if (sp) {
-                    const genes = Object.entries(sp.genes).map(([g, v]) => `${g.toUpperCase()}:${v}`).join(' ');
+                    const genes = Object.entries(sp.genes || {}).map(([g, v]) => `${g.toUpperCase()}:${v}`).join(' ');
                     html += `<div class="card" style="margin-top:8px">
                         <div class="card-t">📊 ${sp.strain.name}</div>
                         <div class="card-r"><span>Тип</span><span>${sp.strain.type}</span></div>
@@ -660,8 +545,10 @@
                         <div class="card-r"><span>Стадия</span><span>${['Семя','Росток','Сеянец','Вегетация','Пре-флавер','Цветение','Harvest'][sp.stage]}</span></div>
                         <div class="card-r"><span>💧 Вода</span><span>${sp.water.toFixed(0)}%</span></div>
                         <div class="card-r"><span>❤️ Здоровье</span><span>${sp.health.toFixed(0)}%</span></div>
-                        <div class="card-r"><span>💡 Свет</span><span>${S.light.on ? 'ON' : 'OFF'}</span></div>
-                        <div class="card-r"><span>🧬 Гены</span><span>${genes}</span></div>
+                        ${sp.topping ? '<div class="card-r"><span>✂️ Топпинг</span><span>Да</span></div>' : ''}
+                        ${sp.lst ? '<div class="card-r"><span>🌿 LST</span><span>Да</span></div>' : ''}
+                        ${sp.flushed ? '<div class="card-r"><span>💧 Промывка</span><span>Да</span></div>' : ''}
+                        ${sp.genes ? `<div class="card-r"><span>🧬 Гены</span><span>${genes}</span></div>` : ''}
                     </div>`;
                 }
                 
@@ -705,15 +592,6 @@
                 });
                 html += '</div></div>';
                 
-                html += `<div class="card" style="margin-top:8px">
-                    <div class="card-t">🧬 Гены</div>
-                    <div class="card-r"><span>T (THC)</span><span>Психоактивность</span></div>
-                    <div class="card-r"><span>C (CBD)</span><span>Медицина</span></div>
-                    <div class="card-r"><span>Y (Yield)</span><span>Урожайность</span></div>
-                    <div class="card-r"><span>S (Speed)</span><span>Скорость</span></div>
-                    <div class="card-r"><span>R (Resistance)</span><span>Устойчивость</span></div>
-                </div>`;
-                
                 c.innerHTML = html;
             }
             else if (tab === 'shop') {
@@ -740,6 +618,7 @@
                     { id: 'system', name: '⚙️ Системы', desc: 'Гидропоника' }
                 ];
                 
+                c.innerHTML = '';
                 categories.forEach(cat => {
                     c.innerHTML += `<div class="section"><span class="section-icon">${cat.name.split(' ')[0]}</span><div><div class="section-title">${cat.name}</div><div class="section-desc">${cat.desc}</div></div></div>`;
                     c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => e.cat === cat.id).map(e => 
@@ -762,29 +641,42 @@
                         <div class="ec">${S.lab.includes(l.id) ? '✅' : '💰 ' + l.price}</div>
                     </div>`
                 ).join('') + '</div>';
-                
-                c.innerHTML += '<div class="card" style="margin-top:10px"><div class="card-t">🔬 Разблокировки</div>';
-                S.lab.forEach(id => {
-                    const l = labItems.find(x => x.id === id);
-                    if (l) c.innerHTML += `<div class="card-r"><span>${l.icon} ${l.name}</span><span>✅</span></div>`;
-                });
-                if (S.lab.length === 0) c.innerHTML += '<div class="card-p">Купи оборудование для разблокировки</div>';
-                c.innerHTML += '</div>';
             }
             else if (tab === 'learn') {
-                c.innerHTML = '<div class="section"><span class="section-icon">📚</span><div><div class="section-title">Академия Гровинга</div><div class="section-desc">Научные данные</div></div></div>';
-                lessons.forEach((l, i) => {
-                    const unlocked = l.unlocked || (l.id === 'training' && S.stats.harvests >= 1) || 
-                                     (l.id === 'flower' && S.stats.harvests >= 3) || 
-                                     (l.id === 'harvest' && S.stats.harvests >= 5) ||
-                                     (l.id === 'genetics' && S.stats.planted >= 10) ||
-                                     (l.id === 'pests' && S.stats.planted >= 20);
-                    c.innerHTML += `<div class="lesson" style="opacity:${unlocked ? 1 : 0.5}" data-lesson="${l.id}">
-                        <h3>${l.title} ${unlocked ? '▶' : '🔒'}</h3>
+                const lessons = [
+                    { id: 'intro', title: '🌱 Введение', unlocked: true },
+                    { id: 'germ', title: '🌰 Проращивание', unlocked: true },
+                    { id: 'light', title: '💡 Освещение', unlocked: true },
+                    { id: 'water', title: '💧 Полив', unlocked: true },
+                    { id: 'npk', title: '🧪 NPK', unlocked: true },
+                    { id: 'training', title: '🌿 Тренировки', unlocked: S.stats.harvests >= 1 },
+                    { id: 'flower', title: '🌸 Цветение', unlocked: S.stats.harvests >= 3 },
+                    { id: 'harvest', title: '✂️ Сбор', unlocked: S.stats.harvests >= 5 },
+                    { id: 'genetics', title: '🧬 Генетика', unlocked: S.stats.planted >= 10 },
+                    { id: 'advanced', title: '🔬 Продвинутое', unlocked: S.equipment.length >= 5 }
+                ];
+                
+                c.innerHTML = '<div class="section"><span class="section-icon">📚</span><div><div class="section-title">Академия</div><div class="section-desc">Научные данные</div></div></div>';
+                lessons.forEach(l => {
+                    c.innerHTML += `<div class="lesson" style="opacity:${l.unlocked ? 1 : 0.5}" data-lesson="${l.id}">
+                        <h3>${l.title} ${l.unlocked ? '▶' : '🔒'}</h3>
                     </div>`;
                 });
             }
             else if (tab === 'achieve') {
+                const achievements = [
+                    { id: 'first_harvest', name: '🌱 Первый урожай', desc: 'Собери первое растение', icon: '🌱', check: s => s.stats.harvests >= 1 },
+                    { id: 'ten_harvests', name: '🌾 Опытный', desc: '10 растений', icon: '🌾', check: s => s.stats.harvests >= 10 },
+                    { id: 'fifty_harvests', name: '🏆 Мастер', desc: '50 растений', icon: '🏆', check: s => s.stats.harvests >= 50 },
+                    { id: 'hundred', name: '👑 Легенда', desc: '100 растений', icon: '👑', check: s => s.stats.harvests >= 100 },
+                    { id: 'first_breed', name: '🧬 Генетик', desc: 'Скрести сорта', icon: '🧬', check: s => s.stats.bred >= 1 },
+                    { id: 'millionaire', name: '💰 Миллионер', desc: '$1,000,000', icon: '💰', check: s => s.money >= 1000000 },
+                    { id: 'collector', name: '📦 Коллекционер', desc: 'Всё оборудование', icon: '📦', check: s => s.equipment.length >= equipment.length },
+                    { id: 'scientist', name: '📚 Учёный', desc: 'Все уроки', icon: '📚', check: s => false },
+                    { id: 'lab_master', name: '⚗️ Лаборатория', desc: 'Всё для лабы', icon: '⚗️', check: s => s.lab.length >= labItems.length },
+                    { id: 'perfect', name: '⭐ Идеальный', desc: '100% здоровье', icon: '⭐', check: s => s.stats.perfectGrows >= 1 }
+                ];
+                
                 c.innerHTML = '<div class="section"><span class="section-icon">🏆</span><div><div class="section-title">Достижения</div><div class="section-desc">Прогресс</div></div></div>';
                 achievements.forEach(a => {
                     const unlocked = a.check(S);
@@ -803,45 +695,129 @@
                 c.innerHTML += `<div class="card-r"><span>✂️ Урожаев</span><span>${S.stats.harvests}</span></div>`;
                 c.innerHTML += `<div class="card-r"><span>🧬 Скрещиваний</span><span>${S.stats.bred}</span></div>`;
                 c.innerHTML += `<div class="card-r"><span>💰 Баланс</span><span>$${S.money}</span></div>`;
-                c.innerHTML += `<div class="card-r"><span>🔧 Оборудования</span><span>${S.equipment.length}/${equipment.length}</span></div>`;
-                c.innerHTML += `<div class="card-r"><span>⚗️ Лаборатория</span><span>${S.lab.length}/${labItems.length}</span></div>`;
                 c.innerHTML += '</div>';
             }
         }
         
-        function showLesson(id) {
-            const l = lessons.find(x => x.id === id);
-            if (!l) return;
-            const unlocked = l.unlocked || (l.id === 'training' && S.stats.harvests >= 1) || 
-                             (l.id === 'flower' && S.stats.harvests >= 3) || 
-                             (l.id === 'harvest' && S.stats.harvests >= 5) ||
-                             (l.id === 'genetics' && S.stats.planted >= 10) ||
-                             (l.id === 'pests' && S.stats.planted >= 20);
-            if (!unlocked) { toast('🔒', 'Разблокируется позже'); return; }
+        function showInteractModal() {
+            const p = S.plants.find(x => x.slot === S.selected);
+            if (!p) { toast('❌', 'Выбери растение'); return; }
             
-            let html = `<div style="font-size:9px;color:#7fff7f;margin-bottom:8px">${l.title}</div>`;
-            l.content.forEach(c => {
-                html += `<div style="margin-bottom:10px">
-                    <div style="font-size:8px;color:#f0883e;margin-bottom:4px">${c.title}</div>
-                    <div style="font-size:7px;color:#c9d1d9;line-height:1.5">${c.text}</div>
+            let html = '<div class="interact-grid">';
+            
+            interactions.forEach(int => {
+                // Check requirements
+                let canUse = true;
+                if (int.requires) {
+                    if (int.requires.includes('stage>=')) {
+                        const minStage = parseInt(int.requires.match(/stage>=(\d)/)?.[1] || 0);
+                        if (p.stage < minStage) canUse = false;
+                    }
+                    if (int.requires.includes('stage<=')) {
+                        const maxStage = parseInt(int.requires.match(/stage<=(\d)/)?.[1] || 99);
+                        if (p.stage > maxStage) canUse = false;
+                    }
+                    if (int.requires.includes('lab:')) {
+                        const labId = int.requires.match(/lab:(\w+)/)?.[1];
+                        if (!S.lab.includes(labId)) canUse = false;
+                    }
+                }
+                if (S.money < int.cost && int.cost > 0) canUse = false;
+                
+                html += `<div class="interact-btn ${canUse ? '' : 'disabled'}" data-interact="${int.id}">
+                    <div class="icon">${int.name.split(' ')[0]}</div>
+                    <div class="name">${int.name.split(' ').slice(1).join(' ')}</div>
+                    <div class="desc">${int.desc}</div>
+                    ${int.cost > 0 ? `<div class="cost">💰 ${int.cost}</div>` : ''}
                 </div>`;
             });
             
-            // Create a card to show lesson content
-            const lessonCard = document.createElement('div');
-            lessonCard.className = 'card';
-            lessonCard.id = 'lessonContent';
-            lessonCard.innerHTML = html;
-            lessonCard.style.display = 'block';
-            lessonCard.style.marginTop = '8px';
+            html += '</div>';
             
-            const existingCard = document.getElementById('lessonContent');
-            if (existingCard) existingCard.remove();
-            document.getElementById('content').appendChild(lessonCard);
+            document.getElementById('interactTit').textContent = `✋ ${p.strain.name}`;
+            document.getElementById('interactBody').innerHTML = html;
+            document.getElementById('interactModal').classList.add('open');
+        }
+        
+        function doInteraction(id) {
+            const p = S.plants.find(x => x.slot === S.selected);
+            if (!p) { toast('❌', 'Выбери растение'); return; }
             
-            S.xp += 15;
-            toast('📚', '+15 XP');
+            const int = interactions.find(x => x.id === id);
+            if (!int) return;
+            
+            if (int.cost > 0 && S.money < int.cost) { toast('❌', 'Не хватает денег'); return; }
+            
+            switch (int.action) {
+                case 'water':
+                    p.water = Math.min(100, p.water + 30);
+                    p.health = Math.min(100, p.health + 2);
+                    toast('💧', 'Полито');
+                    break;
+                case 'nutri':
+                    document.getElementById('interactModal').classList.remove('open');
+                    document.getElementById('nutrModal').classList.add('open');
+                    return;
+                case 'trim':
+                    if (p.stage < 3) { toast('❌', 'Нужно стадия 3+'); return; }
+                    p.health = Math.min(100, p.health + 10);
+                    p.yieldBonus = (p.yieldBonus || 1) * 1.05;
+                    toast('✂️', 'Дефолиация +5% урожай');
+                    break;
+                case 'lst':
+                    if (p.stage < 2) { toast('❌', 'Нужно стадия 2+'); return; }
+                    if (p.lst) { toast('❌', 'Уже сделано'); return; }
+                    S.money -= int.cost;
+                    p.lst = true;
+                    p.yieldBonus = (p.yieldBonus || 1) * 1.15;
+                    toast('🌿', 'LST применён +15% урожай');
+                    break;
+                case 'topping':
+                    if (p.stage < 2 || p.stage > 3) { toast('❌', 'Только стадии 2-3'); return; }
+                    if (p.topping) { toast('❌', 'Уже сделано'); return; }
+                    S.money -= int.cost;
+                    p.topping = true;
+                    p.yieldBonus = (p.yieldBonus || 1) * 1.25;
+                    toast('✂️', 'Топпинг +25% урожай');
+                    break;
+                case 'flush':
+                    if (p.stage < 5) { toast('❌', 'Нужно стадия 5+'); return; }
+                    if (p.flushed) { toast('❌', 'Уже промыто'); return; }
+                    p.flushed = true;
+                    p.qualityBonus = 1.2;
+                    toast('💧', 'Промывка +20% качество');
+                    break;
+                case 'check':
+                    if (p.stage < 5) { toast('❌', 'Нужно стадия 5+'); return; }
+                    const trichomes = ['прозрачные', 'мутные', 'янтарные'][Math.floor(Math.random() * 3)];
+                    const ready = trichomes === 'мутные';
+                    toast('🔬', `Трихомы: ${trichomes}${ready ? ' ✓ Готов!' : ''}`);
+                    break;
+                case 'clone':
+                    if (p.stage < 3) { toast('❌', 'Нужно стадия 3+'); return; }
+                    if (S.money < int.cost) { toast('❌', 'Не хватает денег'); return; }
+                    S.money -= int.cost;
+                    // Add clone as new plant
+                    const emptySlot = [...Array(S.slots).keys()].find(i => !S.plants.find(p => p.slot === i));
+                    if (emptySlot !== undefined) {
+                        S.plants.push({
+                            slot: emptySlot, strain: p.strain,
+                            genes: p.genes,
+                            progress: 0, stage: 0, health: 100, water: 70, startDay: S.day,
+                            topping: false, lst: false, flushed: false, yieldBonus: 1
+                        });
+                        toast('🌱', 'Клон создан!');
+                    } else {
+                        toast('❌', 'Нет свободных слотов');
+                        S.money += int.cost;
+                    }
+                    break;
+            }
+            
+            S.xp += 5;
+            document.getElementById('interactModal').classList.remove('open');
             save();
+            render('grow');
         }
         
         function plantSeed(id) {
@@ -853,7 +829,8 @@
             S.plants.push({
                 slot: S.selected, strain: strain,
                 genes: { t: (Math.random() > 0.5 ? 'T' : 't') + (Math.random() > 0.5 ? 'T' : 't'), c: (Math.random() > 0.7 ? 'C' : 'c') + (Math.random() > 0.7 ? 'C' : 'c'), y: (Math.random() > 0.5 ? 'Y' : 'y') + (Math.random() > 0.5 ? 'Y' : 'y'), s: (Math.random() > 0.5 ? 'S' : 's') + (Math.random() > 0.5 ? 'S' : 's'), r: (Math.random() > 0.5 ? 'R' : 'r') + (Math.random() > 0.5 ? 'R' : 'r') },
-                progress: 0, stage: 0, health: 100, water: 70, startDay: S.day, nutrients: []
+                progress: 0, stage: 0, health: 100, water: 70, startDay: S.day,
+                topping: false, lst: false, flushed: false, yieldBonus: 1
             });
             S.stats.planted++;
             S.xp += 5;
@@ -899,14 +876,15 @@
         
         function harvest(p) {
             const bonus = getEquipBonus();
-            let yld = Math.floor(p.strain.yld * (p.genes.y.includes('Y') ? 1.3 : 0.85) * (p.health / 100) * bonus.yield);
-            if (p.genes.t.includes('T')) yld = Math.floor(yld * 1.1);
+            let yld = Math.floor(p.strain.yld * (p.genes?.y?.includes('Y') ? 1.3 : 0.85) * (p.health / 100) * bonus.yield * (p.yieldBonus || 1));
+            if (p.genes?.t?.includes('T')) yld = Math.floor(yld * 1.1);
+            if (p.flushed) yld = Math.floor(yld * (p.qualityBonus || 1));
             
             S.drying.push({
                 strain: p.strain,
                 weight: yld,
                 progress: 0,
-                quality: p.health * bonus.quality,
+                quality: p.health * bonus.quality * (p.flushed ? 1.2 : 1),
                 genes: p.genes
             });
             
@@ -922,74 +900,6 @@
             toast('✂️', `+${yld}г на сушку`);
             save();
             render('grow');
-        }
-        
-        function waterPlant() {
-            const p = S.plants.find(x => x.slot === S.selected);
-            if (!p) { toast('❌', 'Выбери растение'); return; }
-            p.water = Math.min(100, p.water + 30);
-            p.health = Math.min(100, p.health + 2);
-            toast('💧', 'Полито');
-            render('grow');
-            save();
-        }
-        
-        function useNutrient(id) {
-            const p = S.plants.find(x => x.slot === S.selected);
-            if (!p) { toast('❌', 'Выбери растение'); return; }
-            if (!S.inv[id] || S.inv[id] <= 0) { toast('❌', 'Нет удобрения'); return; }
-            const n = nutrients.find(x => x.id === id);
-            S.inv[id]--;
-            if (!p.nutrients) p.nutrients = [];
-            p.nutrients.push({ ...n.effect, duration: 100 });
-            toast('🧪', 'Удобрено');
-            render('grow');
-            save();
-        }
-        
-        function showLightModal() {
-            const hasLamp = S.equipment.some(e => e.includes('lamp'));
-            let html = '<div style="font-size:8px;color:#8f8;margin-bottom:10px">Настройки освещения</div>';
-            
-            html += `<div class="card-r"><span>Состояние</span><span>${S.light.on ? '💡 ВКЛ' : '⬛ ВЫКЛ'}</span></div>`;
-            html += `<div class="card-r"><span>График</span><span>${S.light.schedule}</span></div>`;
-            html += `<div class="card-r"><span>PPFD</span><span>${getEquipBonus().ppfd} µmol/m²/s</span></div>`;
-            
-            html += '<div style="margin-top:10px">';
-            html += `<button class="breed-btn" style="width:100%;margin-bottom:5px" onclick="S.light.schedule='18/6';render('grow');document.getElementById('lightModal').classList.remove('open')">🌅 18/6 (Вегетация)</button>`;
-            html += `<button class="breed-btn" style="width:100%;margin-bottom:5px" onclick="S.light.schedule='12/12';render('grow');document.getElementById('lightModal').classList.remove('open')">🌙 12/12 (Цветение)</button>`;
-            html += `<button class="breed-btn" style="width:100%;margin-bottom:5px" onclick="S.light.schedule='24/0';render('grow');document.getElementById('lightModal').classList.remove('open')">☀️ 24/0 (Автоцветы)</button>`;
-            html += `<button class="breed-btn" style="width:100%" onclick="S.light.intensity=S.light.intensity===1?0.5:1;render('grow');document.getElementById('lightModal').classList.remove('open')">💡 Интенсивность: ${S.light.intensity * 100}%</button>`;
-            html += '</div>';
-            
-            if (!hasLamp) {
-                html += '<div style="margin-top:10px;font-size:7px;color:#f0883e">⚠️ Купи лампу в разделе Снаряжение</div>';
-            }
-            
-            document.getElementById('lightBody').innerHTML = html;
-            document.getElementById('lightModal').classList.add('open');
-        }
-        
-        function showClimateModal() {
-            let html = '<div style="font-size:8px;color:#8f8;margin-bottom:10px">Контроль климата</div>';
-            
-            html += `<div class="card-r"><span>🌡️ Температура</span><span>${S.climate.temp.toFixed(1)}°C</span></div>`;
-            html += `<div class="card-r"><span>💧 Влажность</span><span>${S.climate.humidity.toFixed(0)}%</span></div>`;
-            html += `<div class="card-r"><span>💨 CO2</span><span>${S.climate.co2} ppm</span></div>`;
-            
-            html += '<div style="margin-top:10px">';
-            html += `<div style="font-size:7px;color:#8f8;margin-bottom:5px">Оптимально: 20-28°C, 40-70% влажность</div>`;
-            
-            const hasClimate = S.equipment.some(e => ['fan', 'ac', 'humidifier', 'dehumid'].includes(e));
-            if (hasClimate) {
-                html += `<button class="breed-btn" style="width:100%" onclick="S.climate.temp=25;S.climate.humidity=55;toast('🌡️','Климат сбалансирован');document.getElementById('climateModal').classList.remove('open')">⚖️ Балансировка</button>`;
-            } else {
-                html += '<div style="font-size:7px;color:#f0883e">⚠️ Купи климат-контроль в разделе Снаряжение</div>';
-            }
-            html += '</div>';
-            
-            document.getElementById('climateBody').innerHTML = html;
-            document.getElementById('climateModal').classList.add('open');
         }
         
         function addToBreed(id) {
@@ -1019,7 +929,7 @@
                 const p2 = S.breeding[1].genes?.[g] || 'XY';
                 const a1 = p1[Math.floor(Math.random() * 2)];
                 const a2 = p2[Math.floor(Math.random() * 2)];
-                newGenes[g] = (a1.toUpperCase() === a1 ? a1 : a1) + (a2.toUpperCase() === a2 ? a2 : a2);
+                newGenes[g] = a1 + a2;
             });
             
             const newStrain = {
@@ -1060,34 +970,11 @@
         document.querySelectorAll('.actions .act').forEach(b => b.onclick = () => {
             const a = b.dataset.a;
             if (a === 'plant') document.getElementById('seedModal').classList.add('open');
-            else if (a === 'water') waterPlant();
-            else if (a === 'nutri') document.getElementById('nutrModal').classList.add('open');
-            else if (a === 'light') showLightModal();
-            else if (a === 'climate') showClimateModal();
+            else if (a === 'interact') showInteractModal();
             else if (a === 'harvest') {
                 const p = S.plants.find(x => x.slot === S.selected);
                 if (p && p.stage >= 6) harvest(p);
                 else toast('❌', 'Выбери готовое растение');
-            }
-            else if (a === 'trim') {
-                if (S.drying.length > 0) {
-                    const readyDrying = S.drying.filter(d => d.progress >= 100);
-                    if (readyDrying.length > 0) {
-                        readyDrying.forEach(d => {
-                            const finalYield = Math.floor(d.weight * (d.quality / 100));
-                            const finalPrice = finalYield * 3;
-                            S.money += finalPrice;
-                            S.xp += 30;
-                        });
-                        S.drying = S.drying.filter(d => d.progress < 100);
-                        toast('✂️', 'Тримминг завершён');
-                        save();
-                    } else {
-                        toast('⏳', 'Сушка ещё не завершена');
-                    }
-                } else {
-                    toast('❌', 'Нет растений на сушке');
-                }
             }
             else if (a === 'save') { save(); toast('💾', 'Сохранено'); }
         });
@@ -1112,8 +999,10 @@
                 if (equip.dataset.equip) buyEquipment(equip.dataset.equip);
                 else if (equip.dataset.lab) buyLab(equip.dataset.lab);
             }
-            const lesson = e.target.closest('.lesson');
-            if (lesson) showLesson(lesson.dataset.lesson);
+            const interactBtn = e.target.closest('.interact-btn');
+            if (interactBtn && !interactBtn.classList.contains('disabled')) {
+                doInteraction(interactBtn.dataset.interact);
+            }
         };
         
         document.getElementById('breedBtn')?.addEventListener('click', breed);
