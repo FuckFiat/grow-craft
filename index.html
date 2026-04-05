@@ -52,11 +52,11 @@
         .content { flex: 1; overflow-y: auto; padding: 8px; padding-bottom: 65px; background: linear-gradient(180deg, #1a3d1a 0%, #0d1117 100%); }
         
         /* Room */
-        .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-        @media (max-width: 320px) { .room { grid-template-columns: repeat(2, 1fr); } }
+        .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 4px; }
+        @media (max-width: 360px) { .room { grid-template-columns: repeat(2, 1fr); } }
         
         /* Pot */
-        .pot { background: linear-gradient(135deg, #5d3a1a 0%, #8b4513 50%, #5d3a1a 100%); border: 3px solid #3d2914; border-top-color: #8b5a2b; border-left-color: #a0522d; border-right-color: #3d2914; border-bottom-color: #2d1f0f; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+        .pot { background: linear-gradient(135deg, #5d3a1a 0%, #8b4513 50%, #5d3a1a 100%); border: 3px solid #3d2914; border-top-color: #8b5a2b; border-left-color: #a0522d; width: 100%; padding-bottom: 100%; position: relative; cursor: pointer; border-radius: 4px; }
         .pot:active { transform: translateY(2px); }
         .pot.sel { border-color: var(--gold); box-shadow: 0 0 12px rgba(240,136,62,0.5); }
         .pot.ready { border-color: var(--green); animation: pot-ready 1.5s infinite; }
@@ -65,17 +65,19 @@
         .pot.sick { border-color: #8b0000; animation: pot-sick 0.5s infinite; }
         @keyframes pot-sick { 0%, 100% { box-shadow: 0 0 5px #8b0000; } 50% { box-shadow: 0 0 10px #8b0000; } }
         
-        .pot-soil { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: linear-gradient(135deg, #3d2914 0%, #5d3a1a 50%, #4a3520 100%); border-radius: 4px; border: 2px solid #2d1f0f; }
+        .pot-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        .pot-soil { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; background: linear-gradient(135deg, #3d2914 0%, #5d3a1a 50%, #4a3520 100%); border-radius: 4px; border: 2px solid #2d1f0f; }
         
         /* Mini bars */
-        .mini-bars { position: absolute; top: 2px; left: 2px; right: 2px; display: flex; flex-direction: column; gap: 1px; }
-        .mini-bar { height: 3px; background: rgba(0,0,0,0.7); border-radius: 1px; overflow: hidden; }
+        .mini-bars { position: absolute; top: 4px; left: 4px; right: 4px; display: flex; flex-direction: column; gap: 2px; z-index: 5; }
+        .mini-bar { height: 4px; background: rgba(0,0,0,0.8); border-radius: 2px; overflow: hidden; }
         .mini-bar-fill { height: 100%; transition: width 0.3s; }
         .mini-bar-fill.water { background: linear-gradient(90deg, #1e90ff, #00bfff); }
         .mini-bar-fill.health { background: linear-gradient(90deg, #238636, #4a8a4a); }
         
         /* Plants - CSS Art */
-        .plant-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+        .plant-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 2; }
         .plant-real { position: relative; }
         
         .plant-0 { width: 12px; height: 12px; background: radial-gradient(ellipse 6px 8px at center, #8b6914 0%, #5d4a0f 100%); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.3); }
@@ -424,7 +426,18 @@
             { id: 'extractor', name: 'Экстрактор', icon: '⚗️', desc: 'Масло', price: 300, bonus: { extraction: true } },
             { id: 'centrifuge', name: 'Центрифуга', icon: '🔄', desc: 'Выделение', price: 500, bonus: { research: true } },
             { id: 'sequencer', name: 'Секвенсер', icon: '🧬', desc: 'Гены', price: 1000, bonus: { genetics: true } },
-            { id: 'incubator', name: 'Инкубатор', icon: '🔬', desc: 'Мутации', price: 800, bonus: { mutation: true } }
+            { id: 'incubator', name: 'Инкубатор', icon: '🔬', desc: 'Мутации', price: 800, bonus: { mutation: true } },
+            // NEW: 10 more lab items
+            { id: 'phmeter', name: 'pH-метр про', icon: '⚗️', desc: 'Авто pH', price: 250, bonus: { health: 1.15 } },
+            { id: 'ecmeter', name: 'EC-метр про', icon: '📊', desc: 'Авто EC', price: 300, bonus: { health: 1.18 } },
+            { id: 'autowater', name: 'Авто-полив', icon: '💧', desc: 'Умный полив', price: 400, bonus: { auto: true, health: 1.1 } },
+            { id: 'co2meter', name: 'CO2-датчик', icon: '💨', desc: 'CO2 контроль', price: 200, bonus: { speed: 1.12 } },
+            { id: 'spectra', name: 'Спектрометр', icon: '🌈', desc: 'Анализ света', price: 600, bonus: { speed: 1.15 } },
+            { id: 'press', name: 'Розин-пресс', icon: '🗜️', desc: 'Концентраты', price: 700, bonus: { extraction: true } },
+            { id: 'vacuum', name: 'Вакуум-сушка', icon: '🌀', desc: '+30% качество', price: 450, bonus: { quality: 1.3 } },
+            { id: 'nitrogen', name: 'Азот-хранение', icon: '❄️', desc: 'Свежесть', price: 350, bonus: { quality: 1.1 } },
+            { id: 'terpenometer', name: 'Терпенометр', icon: '👃', desc: 'Анализ аромата', price: 500, bonus: { quality: 1.12 } },
+            { id: 'autocure', name: 'Авто-curing', icon: '📦', desc: 'Авто-выдержка', price: 550, bonus: { quality: 1.25 } }
         ];
         
         // Research
@@ -435,8 +448,19 @@
             { id: 'speed', name: 'Скорость', desc: '+20% рост', cost: 300, done: false, bonus: { speed: 1.2 } },
             { id: 'quality', name: 'Качество', desc: '+15% THC', cost: 500, done: false, bonus: { thc: 1.15 } },
             { id: 'clone', name: 'Клонирование', desc: 'Разблокирует клоны', cost: 400, done: false },
-            { id: 'monster', name: 'Монстр-растения', desc: 'Разблокирует God Bud, Dragon OG', cost: 800, done: false },
-            { id: 'mega', name: 'Мега-гибриды', desc: 'Разблокирует Super Nova, Cosmic Kush', cost: 1500, done: false }
+            { id: 'monster', name: 'Монстр-растения', desc: 'God Bud, Dragon OG', cost: 800, done: false },
+            { id: 'mega', name: 'Мега-гибриды', desc: 'Super Nova, Cosmic Kush', cost: 1500, done: false },
+            // NEW: 10 more research
+            { id: 'auto', name: 'Автоцветы', desc: 'Автоцветущие сорта', cost: 350, done: false },
+            { id: 'thcmax', name: 'THC Max', desc: '+25% THC потенциал', cost: 700, done: false, bonus: { thc: 1.25 } },
+            { id: 'cbd', name: 'CBD терапия', desc: 'Высокий CBD, медицинское', cost: 550, done: false },
+            { id: 'terpene', name: 'Терпены', desc: '+20% аромат и эффект', cost: 400, done: false },
+            { id: 'resin', name: 'Смолистость', desc: '+40% трихомы', cost: 600, done: false },
+            { id: 'disease', name: 'Иммунитет', desc: 'Устойчивость к болезням', cost: 350, done: false },
+            { id: 'pest', name: 'Вредители', desc: 'Защита от насекомых', cost: 300, done: false },
+            { id: 'autoflower', name: 'Автоцветение', desc: 'Быстрый цикл 60 дней', cost: 500, done: false },
+            { id: 'feminized', name: 'Феминизация', desc: '99% женские растения', cost: 450, done: false },
+            { id: 'organic', name: 'Органика', desc: '+25% качество, органика', cost: 400, done: false }
         ];
         
         // Game State
@@ -512,21 +536,25 @@
                     if (p) {
                         const crystals = p.stage >= 6 ? '<div class="crystals"></div>' : '';
                         html += `<div class="pot ${sel} ${ready} ${dry} ${sick}" data-slot="${i}">
-                            <div class="mini-bars">
-                                <div class="mini-bar"><div class="mini-bar-fill water" style="width:${p.water}%"></div></div>
-                                <div class="mini-bar-fill health" style="width:${p.health}%"></div></div>
+                            <div class="pot-inner">
+                                <div class="mini-bars">
+                                    <div class="mini-bar"><div class="mini-bar-fill water" style="width:${p.water}%"></div></div>
+                                    <div class="mini-bar"><div class="mini-bar-fill health" style="width:${p.health}%"></div></div>
+                                </div>
+                                <div class="pot-soil"></div>
+                                <div class="plant-container">
+                                    <div class="plant-real plant-${p.stage}">${crystals}</div>
+                                </div>
+                                <div class="pot-progress">${Math.floor(p.progress)}%</div>
+                                <div class="pot-name">${p.strain.name.slice(0, 8)}</div>
                             </div>
-                            <div class="pot-soil"></div>
-                            <div class="plant-container">
-                                <div class="plant-real plant-${p.stage}">${crystals}</div>
-                            </div>
-                            <div class="pot-progress">${Math.floor(p.progress)}%</div>
-                            <div class="pot-name">${p.strain.name.slice(0, 8)}</div>
                         </div>`;
                     } else {
                         html += `<div class="pot ${sel}" data-slot="${i}">
-                            <div class="pot-soil"></div>
-                            <div class="pot-name">ПУСТО</div>
+                            <div class="pot-inner">
+                                <div class="pot-soil"></div>
+                                <div class="pot-name">ПУСТО</div>
+                            </div>
                         </div>`;
                     }
                 }
@@ -647,7 +675,7 @@
                 ).join('') + '</div>';
             }
             else if (tab === 'lab') {
-                c.innerHTML = '<div class="section"><span class="section-icon">🔬</span><div><div class="section-title">Лаборатория</div><div class="section-desc">8 предметов</div></div></div>';
+                c.innerHTML = '<div class="section"><span class="section-icon">🔬</span><div><div class="section-title">Лаборатория</div><div class="section-desc">18 предметов</div></div></div>';
                 c.innerHTML += '<div class="equip-grid">' + labItems.map(l => 
                     `<div class="equip-item ${S.lab.includes(l.id) ? 'owned' : ''}" data-lab="${l.id}">
                         <div class="ei">${l.icon}</div>
@@ -657,7 +685,7 @@
                     </div>`
                 ).join('') + '</div>';
                 
-                c.innerHTML += '<div class="section" style="margin-top:16px"><span class="section-icon">🧬</span><div><div class="section-title">Исследования</div><div class="section-desc">🔬 ' + S.sciencePoints + '</div></div></div>';
+                c.innerHTML += '<div class="section" style="margin-top:16px"><span class="section-icon">🧬</span><div><div class="section-title">Исследования</div><div class="section-desc">🔬 ' + S.sciencePoints + ' | 18 исследований</div></div></div>';
                 c.innerHTML += S.research.map(r => 
                     `<div class="research-item ${r.done ? 'done' : ''}" data-research="${r.id}">
                         <h4>${r.done ? '✅' : '🔒'} ${r.name}</h4>
