@@ -13,12 +13,9 @@
         :root {
             --bg: #0d1117;
             --dark: #161b22;
-            --stone: #21262d;
-            --border: #30363d;
             --green: #238636;
             --gold: #f0883e;
             --text: #c9d1d9;
-            --text-bright: #f0f6fc;
             --muted: #8b949e;
         }
         
@@ -28,467 +25,201 @@
         .app { display: flex; flex-direction: column; height: 100%; height: 100dvh; }
         
         /* Header */
-        .head { background: linear-gradient(180deg, #1a472a 0%, #0d2818 100%); border-bottom: 3px solid #2d5a3d; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 6px; }
-        .logo-icon { font-size: 20px; animation: sway-logo 3s ease-in-out infinite; }
+        .head { background: linear-gradient(180deg, #1a472a 0%, #0d2818 100%); border-bottom: 3px solid #2d5a3d; padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; }
+        .logo { display: flex; align-items: center; gap: 4px; }
+        .logo-icon { font-size: 18px; animation: sway-logo 3s ease-in-out infinite; }
         @keyframes sway-logo { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
-        .logo-text { font-size: 12px; color: #7fff7f; text-shadow: 2px 2px 0 #000; }
-        .stats { display: flex; gap: 8px; align-items: center; }
-        .stat { text-align: center; min-width: 40px; }
-        .stat-v { font-size: 11px; color: var(--gold); text-shadow: 1px 1px 0 #000; }
-        .stat-l { font-size: 6px; color: #8f8; }
-        .speed { display: flex; gap: 3px; }
-        .speed button { 
-            width: 28px; height: 24px; font-size: 8px; 
-            background: linear-gradient(180deg, #3d5a3d 0%, #2d4a2d 100%);
-            border: 2px solid #4a7a4a;
-            color: #fff; text-shadow: 1px 1px 0 #000;
-        }
+        .logo-text { font-size: 10px; color: #7fff7f; text-shadow: 2px 2px 0 #000; }
+        .stats { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        .stat { text-align: center; min-width: 32px; }
+        .stat-v { font-size: 10px; color: var(--gold); text-shadow: 1px 1px 0 #000; }
+        .stat-l { font-size: 5px; color: #8f8; }
+        .speed { display: flex; gap: 2px; }
+        .speed button { width: 24px; height: 20px; font-size: 7px; background: linear-gradient(180deg, #3d5a3d 0%, #2d4a2d 100%); border: 2px solid #4a7a4a; color: #fff; }
         .speed button.on { background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 100%); border-color: #6aba6a; }
         
         /* Tabs */
-        .tabs { display: flex; flex-wrap: wrap; justify-content: center; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); padding: 8px; gap: 6px; border-bottom: 3px solid #2d5a2d; }
-        .tab { 
-            padding: 10px 16px; font-size: 9px; 
-            background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%);
-            border: 2px solid #3d5a3d;
-            color: #8f8; text-shadow: 1px 1px 0 #000;
-            min-width: 50px;
-            text-align: center;
-        }
+        .tabs { display: flex; flex-wrap: wrap; justify-content: center; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); padding: 6px; gap: 4px; border-bottom: 3px solid #2d5a2d; }
+        .tab { padding: 8px 12px; font-size: 8px; background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%); border: 2px solid #3d5a3d; color: #8f8; text-shadow: 1px 1px 0 #000; min-width: 40px; text-align: center; }
         .tab.on { background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 100%); border-color: #6aba6a; color: #fff; }
         
         /* Content */
-        .content { flex: 1; overflow-y: auto; padding: 10px; padding-bottom: 70px; background: linear-gradient(180deg, #0d2810 0%, #0d1117 100%); }
+        .content { flex: 1; overflow-y: auto; padding: 8px; padding-bottom: 65px; background: linear-gradient(180deg, #0d2810 0%, #0d1117 100%); }
         
-        /* Grow Room */
-        .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        /* Room */
+        .room { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
         @media (max-width: 320px) { .room { grid-template-columns: repeat(2, 1fr); } }
         
-        /* Pot with realistic plant */
-        .pot { 
-            background: linear-gradient(135deg, #5d3a1a 0%, #8b4513 30%, #6b4423 70%, #4a3520 100%);
-            border: 3px solid #3d2914;
-            border-top-color: #8b5a2b;
-            border-left-color: #a0522d;
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.1);
-        }
+        /* Pot */
+        .pot { background: linear-gradient(135deg, #5d3a1a 0%, #8b4513 30%, #6b4423 70%, #4a3520 100%); border: 2px solid #3d2914; border-top-color: #8b5a2b; border-left-color: #a0522d; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; }
         .pot:active { transform: translateY(2px); }
         .pot.sel { border-color: var(--gold); box-shadow: 0 0 12px rgba(240,136,62,0.5); }
         .pot.ready { border-color: var(--green); animation: pot-ready 1.5s infinite; }
-        @keyframes pot-ready { 0%, 100% { box-shadow: 0 0 5px var(--green); } 50% { box-shadow: 0 0 15px var(--green), 0 0 25px rgba(35,134,54,0.3); } }
+        @keyframes pot-ready { 0%, 100% { box-shadow: 0 0 5px var(--green); } 50% { box-shadow: 0 0 15px var(--green); } }
+        .pot.dry { border-color: #8b4513; opacity: 0.7; }
+        .pot.sick { border-color: #8b0000; animation: pot-sick 0.5s infinite; }
+        @keyframes pot-sick { 0%, 100% { box-shadow: 0 0 5px #8b0000; } 50% { box-shadow: 0 0 10px #8b0000; } }
         
-        /* Soil */
-        .pot-soil {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 75%; height: 75%;
-            background: radial-gradient(ellipse at center, #3d2914 0%, #2d1f0f 70%, #1a120a 100%);
-            border-radius: 50% 50% 45% 45%;
-            border: 2px solid #1a120a;
-            box-shadow: inset 0 -4px 8px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.05);
-        }
+        .pot-soil { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 75%; height: 75%; background: radial-gradient(ellipse at center, #3d2914 0%, #2d1f0f 70%, #1a120a 100%); border-radius: 50% 50% 45% 45%; border: 2px solid #1a120a; }
         
-        /* Realistic Cannabis Plant CSS Art */
-        .plant-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-        }
+        /* Plants */
+        .plant-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; height: 90%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+        .plant { position: relative; transform-origin: center bottom; }
         
-        /* Base plant styles */
-        .plant {
-            position: relative;
-            transform-origin: center bottom;
-        }
-        
-        /* Stage 0: Seed */
-        .plant-0 {
-            width: 14px;
-            height: 10px;
-            background: radial-gradient(ellipse 7px 5px at center, #c4a35a 0%, #8b6914 60%, #5d4a0f 100%);
-            border-radius: 50% 50% 50% 50%;
-            box-shadow: inset -1px -1px 2px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.2);
-            animation: seed-pulse 2s ease-in-out infinite;
-        }
+        .plant-0 { width: 14px; height: 10px; background: radial-gradient(ellipse 7px 5px at center, #c4a35a 0%, #8b6914 60%, #5d4a0f 100%); border-radius: 50%; animation: seed-pulse 2s ease-in-out infinite; }
         @keyframes seed-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         
-        /* Stage 1: Sprout */
-        .plant-1 {
-            width: 30px;
-            height: 25px;
-            animation: sprout-appear 0.5s ease-out, sway 2s ease-in-out infinite;
-        }
-        .plant-1::before, .plant-1::after {
-            content: '';
-            position: absolute;
-            width: 14px;
-            height: 22px;
-            background: linear-gradient(135deg, #6aba6a 0%, #4a9a4a 50%, #3a8a3a 100%);
-            clip-path: polygon(50% 0%, 65% 15%, 85% 8%, 75% 30%, 95% 25%, 85% 45%, 100% 50%, 80% 60%, 90% 80%, 65% 70%, 50% 100%, 35% 70%, 10% 80%, 20% 60%, 0% 50%, 15% 45%, 5% 25%, 25% 30%, 15% 8%, 35% 15%);
-            box-shadow: inset -1px -1px 0 rgba(0,0,0,0.2), inset 1px 1px 0 rgba(255,255,255,0.15);
-        }
+        .plant-1 { width: 30px; height: 25px; animation: sway 2s ease-in-out infinite; }
+        .plant-1::before, .plant-1::after { content: ''; position: absolute; width: 14px; height: 22px; background: linear-gradient(135deg, #6aba6a 0%, #4a9a4a 50%, #3a8a3a 100%); clip-path: polygon(50% 0%, 65% 15%, 85% 8%, 75% 30%, 95% 25%, 85% 45%, 100% 50%, 80% 60%, 90% 80%, 65% 70%, 50% 100%, 35% 70%, 10% 80%, 20% 60%, 0% 50%, 15% 45%, 5% 25%, 25% 30%, 15% 8%, 35% 15%); }
         .plant-1::before { left: 1px; transform: rotate(-20deg); }
         .plant-1::after { right: 1px; transform: rotate(20deg); }
-        @keyframes sprout-appear { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         
-        /* Stage 2: Seedling */
-        .plant-2 {
-            width: 45px;
-            height: 40px;
-            background: radial-gradient(ellipse 22px 18px at center, #7aca7a 0%, #5a9a5a 40%, #4a8a4a 70%, #3a7a3a 100%);
-            clip-path: polygon(50% 0%, 60% 12%, 75% 6%, 70% 24%, 88% 18%, 80% 38%, 100% 42%, 88% 58%, 100% 72%, 82% 68%, 90% 88%, 72% 82%, 65% 100%, 50% 90%, 35% 100%, 28% 82%, 10% 88%, 18% 68%, 0% 72%, 12% 58%, 0% 42%, 20% 38%, 12% 18%, 30% 24%, 25% 6%, 40% 12%);
-            box-shadow: inset -3px -3px 0 rgba(0,0,0,0.15), inset 2px 2px 0 rgba(255,255,255,0.1);
-            animation: sway 2.5s ease-in-out infinite;
-        }
+        .plant-2 { width: 45px; height: 40px; background: radial-gradient(ellipse 22px 18px at center, #7aca7a 0%, #5a9a5a 40%, #4a8a4a 70%, #3a7a3a 100%); clip-path: polygon(50% 0%, 60% 12%, 75% 6%, 70% 24%, 88% 18%, 80% 38%, 100% 42%, 88% 58%, 100% 72%, 82% 68%, 90% 88%, 72% 82%, 65% 100%, 50% 90%, 35% 100%, 28% 82%, 10% 88%, 18% 68%, 0% 72%, 12% 58%, 0% 42%, 20% 38%, 12% 18%, 30% 24%, 25% 6%, 40% 12%); animation: sway 2.5s ease-in-out infinite; }
         
-        /* Stage 3: Vegetative */
-        .plant-3 {
-            width: 55px;
-            height: 50px;
-            position: relative;
-            animation: sway 3s ease-in-out infinite;
-        }
-        .plant-3::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 55px;
-            height: 50px;
-            background: radial-gradient(ellipse 28px 25px at center, #8ada8a 0%, #6aaa6a 35%, #5a9a5a 60%, #4a8a4a 100%);
-            clip-path: polygon(50% 0%, 58% 10%, 72% 5%, 68% 20%, 85% 15%, 80% 32%, 95% 28%, 88% 45%, 100% 48%, 92% 62%, 100% 75%, 85% 72%, 92% 92%, 75% 85%, 68% 100%, 50% 92%, 32% 100%, 25% 85%, 8% 92%, 15% 72%, 0% 75%, 8% 62%, 0% 48%, 12% 45%, 5% 28%, 20% 32%, 15% 15%, 32% 20%, 28% 5%, 42% 10%);
-            box-shadow: inset -3px -3px 0 rgba(0,0,0,0.12), inset 2px 2px 0 rgba(255,255,255,0.08);
-        }
-        .plant-3::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 35px;
-            height: 30px;
-            background: radial-gradient(ellipse 18px 15px at center, #9aea9a 0%, #7aca7a 50%, #6aaa6a 100%);
-            border-radius: 45%;
-            box-shadow: inset -2px -2px 0 rgba(0,0,0,0.1);
-        }
+        .plant-3 { width: 55px; height: 50px; position: relative; animation: sway 3s ease-in-out infinite; }
+        .plant-3::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 55px; height: 50px; background: radial-gradient(ellipse 28px 25px at center, #8ada8a 0%, #6aaa6a 35%, #5a9a5a 60%, #4a8a4a 100%); clip-path: polygon(50% 0%, 58% 10%, 72% 5%, 68% 20%, 85% 15%, 80% 32%, 95% 28%, 88% 45%, 100% 48%, 92% 62%, 100% 75%, 85% 72%, 92% 92%, 75% 85%, 68% 100%, 50% 92%, 32% 100%, 25% 85%, 8% 92%, 15% 72%, 0% 75%, 8% 62%, 0% 48%, 12% 45%, 5% 28%, 20% 32%, 15% 15%, 32% 20%, 28% 5%, 42% 10%); }
+        .plant-3::after { content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 35px; height: 30px; background: radial-gradient(ellipse 18px 15px at center, #9aea9a 0%, #7aca7a 50%, #6aaa6a 100%); border-radius: 45%; }
         
-        /* Stage 4: Pre-flowering */
-        .plant-4 {
-            width: 65px;
-            height: 60px;
-            position: relative;
-            animation: sway 3s ease-in-out infinite;
-        }
-        .plant-4::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 65px;
-            height: 60px;
-            background: radial-gradient(ellipse 32px 28px at center, #8ada8a 0%, #6aaa6a 30%, #5a9a5a 55%, #4a8a4a 80%, #3a7a3a 100%);
-            clip-path: polygon(50% 0%, 58% 8%, 70% 3%, 68% 18%, 82% 12%, 78% 30%, 92% 25%, 88% 42%, 100% 45%, 95% 60%, 100% 75%, 86% 72%, 92% 92%, 78% 88%, 70% 100%, 50% 92%, 30% 100%, 22% 88%, 8% 92%, 14% 72%, 0% 75%, 5% 60%, 0% 45%, 12% 42%, 8% 25%, 22% 30%, 18% 12%, 32% 18%, 30% 3%, 42% 8%);
-            box-shadow: inset -3px -3px 0 rgba(0,0,0,0.12), inset 2px 2px 0 rgba(255,255,255,0.08);
-        }
-        /* Pistils - white hairs */
-        .plant-4 .pistils {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 25px;
-        }
-        .plant-4 .pistils::before,
-        .plant-4 .pistils::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            height: 12px;
-            background: linear-gradient(to top, transparent, rgba(255,255,255,0.9));
-            border-radius: 50%;
-            animation: pistil-grow 1s ease-out forwards;
-        }
+        .plant-4 { width: 65px; height: 60px; position: relative; animation: sway 3s ease-in-out infinite; }
+        .plant-4::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 65px; height: 60px; background: radial-gradient(ellipse 32px 28px at center, #8ada8a 0%, #6aaa6a 30%, #5a9a5a 55%, #4a8a4a 80%, #3a7a3a 100%); clip-path: polygon(50% 0%, 58% 8%, 70% 3%, 68% 18%, 82% 12%, 78% 30%, 92% 25%, 88% 42%, 100% 45%, 95% 60%, 100% 75%, 86% 72%, 92% 92%, 78% 88%, 70% 100%, 50% 92%, 30% 100%, 22% 88%, 8% 92%, 14% 72%, 0% 75%, 5% 60%, 0% 45%, 12% 42%, 8% 25%, 22% 30%, 18% 12%, 32% 18%, 30% 3%, 42% 8%); }
+        .plant-4 .pistils { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 30px; height: 25px; }
+        .plant-4 .pistils::before, .plant-4 .pistils::after { content: ''; position: absolute; width: 3px; height: 12px; background: linear-gradient(to top, transparent, rgba(255,255,255,0.9)); border-radius: 50%; animation: pistil-grow 1s ease-out forwards; }
         .plant-4 .pistils::before { left: 8px; transform: rotate(-25deg); }
-        .plant-4 .pistils::after { right: 8px; transform: rotate(25deg); }
+        .plant-4 .pistils::after { right: 8px; transform: rotate(25deg); animation-delay: 0.3s; }
         @keyframes pistil-grow { 0% { height: 0; } 100% { height: 12px; } }
         
-        /* Stage 5: Flowering */
-        .plant-5 {
-            width: 75px;
-            height: 70px;
-            position: relative;
-            animation: sway 3s ease-in-out infinite, breathe 4s ease-in-out infinite;
-        }
+        .plant-5 { width: 75px; height: 70px; position: relative; animation: sway 3s ease-in-out infinite, breathe 4s ease-in-out infinite; }
         @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-        
-        .plant-5::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 75px;
-            height: 70px;
-            background: radial-gradient(ellipse 38px 34px at center, #7aca7a 0%, #5a9a5a 25%, #4a8a4a 50%, #3a7a3a 75%, #2d6a2d 100%);
-            clip-path: polygon(50% 0%, 57% 7%, 68% 2%, 66% 15%, 78% 10%, 75% 25%, 88% 20%, 85% 38%, 100% 42%, 92% 55%, 100% 65%, 88% 62%, 95% 82%, 80% 78%, 72% 100%, 50% 90%, 28% 100%, 20% 78%, 5% 82%, 12% 62%, 0% 65%, 8% 55%, 0% 42%, 15% 38%, 12% 20%, 25% 25%, 22% 10%, 34% 15%, 32% 2%, 43% 7%);
-            box-shadow: inset -4px -4px 0 rgba(0,0,0,0.15), inset 3px 3px 0 rgba(255,255,255,0.08);
-        }
-        
-        /* Buds */
-        .plant-5 .buds {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 55px;
-            height: 50px;
-        }
-        .plant-5 .buds::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 35px;
-            height: 30px;
-            background: 
-                radial-gradient(ellipse 15px 12px at 30% 40%, rgba(255,100,130,0.85) 0%, rgba(200,60,100,0.6) 100%),
-                radial-gradient(ellipse 14px 11px at 70% 35%, rgba(255,90,120,0.8) 0%, rgba(190,50,90,0.5) 100%),
-                radial-gradient(ellipse 16px 13px at 50% 55%, rgba(255,80,110,0.9) 0%, rgba(180,40,80,0.6) 100%);
-            border-radius: 45%;
-            box-shadow: 0 0 15px rgba(255,80,110,0.4);
-            animation: bud-pulse 2s ease-in-out infinite;
-        }
+        .plant-5::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 75px; height: 70px; background: radial-gradient(ellipse 38px 34px at center, #7aca7a 0%, #5a9a5a 25%, #4a8a4a 50%, #3a7a3a 75%, #2d6a2d 100%); clip-path: polygon(50% 0%, 57% 7%, 68% 2%, 66% 15%, 78% 10%, 75% 25%, 88% 20%, 85% 38%, 100% 42%, 92% 55%, 100% 65%, 88% 62%, 95% 82%, 80% 78%, 72% 100%, 50% 90%, 28% 100%, 20% 78%, 5% 82%, 12% 62%, 0% 65%, 8% 55%, 0% 42%, 15% 38%, 12% 20%, 25% 25%, 22% 10%, 34% 15%, 32% 2%, 43% 7%); }
+        .plant-5 .buds { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 55px; height: 50px; }
+        .plant-5 .buds::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 35px; height: 30px; background: radial-gradient(ellipse 15px 12px at 30% 40%, rgba(255,100,130,0.85), rgba(200,60,100,0.6)), radial-gradient(ellipse 14px 11px at 70% 35%, rgba(255,90,120,0.8), rgba(190,50,90,0.5)), radial-gradient(ellipse 16px 13px at 50% 55%, rgba(255,80,110,0.9), rgba(180,40,80,0.6)); border-radius: 45%; box-shadow: 0 0 15px rgba(255,80,110,0.4); animation: bud-pulse 2s ease-in-out infinite; }
         @keyframes bud-pulse { 0%, 100% { box-shadow: 0 0 15px rgba(255,80,110,0.4); } 50% { box-shadow: 0 0 20px rgba(255,80,110,0.6); } }
         
-        /* Stage 6: Harvest */
-        .plant-6 {
-            width: 85px;
-            height: 80px;
-            position: relative;
-            animation: sway 3s ease-in-out infinite, breathe 4s ease-in-out infinite;
-        }
-        
-        .plant-6::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85px;
-            height: 80px;
-            background: radial-gradient(ellipse 42px 38px at center, #6aaa6a 0%, #5a9a5a 20%, #4a8a4a 40%, #3a7a3a 60%, #2d6a2d 100%);
-            clip-path: polygon(50% 0%, 56% 6%, 66% 1%, 64% 14%, 76% 9%, 74% 24%, 86% 19%, 84% 36%, 100% 40%, 94% 52%, 100% 62%, 88% 60%, 95% 80%, 82% 76%, 75% 100%, 50% 92%, 25% 100%, 18% 76%, 5% 80%, 12% 60%, 0% 62%, 6% 52%, 0% 40%, 16% 36%, 14% 19%, 26% 24%, 24% 9%, 36% 14%, 34% 1%, 44% 6%);
-            box-shadow: 
-                inset -5px -5px 0 rgba(0,0,0,0.2), 
-                inset 3px 3px 0 rgba(255,255,255,0.08),
-                0 0 20px rgba(255,255,255,0.15);
-        }
-        
-        /* Big buds with crystals */
-        .plant-6 .buds {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 65px;
-            height: 60px;
-        }
-        .plant-6 .buds::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 55px;
-            height: 50px;
-            background: 
-                radial-gradient(ellipse 16px 14px at 25% 30%, rgba(255,90,120,0.95) 0%, rgba(220,60,100,0.7) 100%),
-                radial-gradient(ellipse 18px 15px at 75% 28%, rgba(255,85,115,0.95) 0%, rgba(215,55,95,0.7) 100%),
-                radial-gradient(ellipse 20px 17px at 50% 50%, rgba(255,75,105,0.98) 0%, rgba(200,45,85,0.75) 100%),
-                radial-gradient(ellipse 14px 12px at 20% 70%, rgba(255,100,125,0.9) 0%, rgba(210,65,105,0.65) 100%),
-                radial-gradient(ellipse 15px 13px at 80% 72%, rgba(255,95,120,0.9) 0%, rgba(205,60,100,0.65) 100%);
-            border-radius: 42%;
-            box-shadow: 0 0 25px rgba(255,80,100,0.5);
-        }
-        
-        /* Crystals */
-        .plant-6 .crystals {
-            position: absolute;
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 55px;
-            pointer-events: none;
-        }
-        .plant-6 .crystals::before,
-        .plant-6 .crystals::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 50%;
-            box-shadow: 
-                8px 4px 0 rgba(255,255,255,0.9),
-                16px 2px 0 rgba(255,255,255,0.95),
-                24px 6px 0 rgba(255,255,255,0.85),
-                32px 3px 0 rgba(255,255,255,0.9),
-                40px 8px 0 rgba(255,255,255,0.85),
-                48px 5px 0 rgba(255,255,255,0.9),
-                4px 12px 0 rgba(255,255,255,0.8),
-                12px 16px 0 rgba(255,255,255,0.9),
-                20px 14px 0 rgba(255,255,255,0.85),
-                28px 18px 0 rgba(255,255,255,0.9),
-                36px 15px 0 rgba(255,255,255,0.8),
-                44px 20px 0 rgba(255,255,255,0.9),
-                52px 12px 0 rgba(255,255,255,0.85),
-                6px 24px 0 rgba(255,255,255,0.9),
-                14px 28px 0 rgba(255,255,255,0.85),
-                22px 26px 0 rgba(255,255,255,0.9),
-                30px 30px 0 rgba(255,255,255,0.85),
-                38px 28px 0 rgba(255,255,255,0.9),
-                46px 32px 0 rgba(255,255,255,0.8),
-                2px 36px 0 rgba(255,255,255,0.85),
-                10px 40px 0 rgba(255,255,255,0.9),
-                18px 38px 0 rgba(255,255,255,0.85),
-                26px 42px 0 rgba(255,255,255,0.9),
-                34px 40px 0 rgba(255,255,255,0.8),
-                42px 44px 0 rgba(255,255,255,0.85),
-                50px 38px 0 rgba(255,255,255,0.9);
-            animation: crystal-sparkle 1.5s ease-in-out infinite;
-        }
-        .plant-6 .crystals::after {
-            animation-delay: 0.75s;
-        }
+        .plant-6 { width: 85px; height: 80px; position: relative; animation: sway 3s ease-in-out infinite, breathe 4s ease-in-out infinite; }
+        .plant-6::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85px; height: 80px; background: radial-gradient(ellipse 42px 38px at center, #6aaa6a 0%, #5a9a5a 20%, #4a8a4a 40%, #3a7a3a 60%, #2d6a2d 100%); clip-path: polygon(50% 0%, 56% 6%, 66% 1%, 64% 14%, 76% 9%, 74% 24%, 86% 19%, 84% 36%, 100% 40%, 94% 52%, 100% 62%, 88% 60%, 95% 80%, 82% 76%, 75% 100%, 50% 92%, 25% 100%, 18% 76%, 5% 80%, 12% 60%, 0% 62%, 6% 52%, 0% 40%, 16% 36%, 14% 19%, 26% 24%, 24% 9%, 36% 14%, 34% 1%, 44% 6%); box-shadow: inset -5px -5px 0 rgba(0,0,0,0.2), inset 3px 3px 0 rgba(255,255,255,0.08), 0 0 20px rgba(255,255,255,0.15); }
+        .plant-6 .buds { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 65px; height: 60px; }
+        .plant-6 .buds::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 55px; height: 50px; background: radial-gradient(ellipse 16px 14px at 25% 30%, rgba(255,90,120,0.95), rgba(220,60,100,0.7)), radial-gradient(ellipse 18px 15px at 75% 28%, rgba(255,85,115,0.95), rgba(215,55,95,0.7)), radial-gradient(ellipse 20px 17px at 50% 50%, rgba(255,75,105,0.98), rgba(200,45,85,0.75)), radial-gradient(ellipse 14px 12px at 20% 70%, rgba(255,100,125,0.9), rgba(210,65,105,0.65)), radial-gradient(ellipse 15px 13px at 80% 72%, rgba(255,95,120,0.9), rgba(205,60,100,0.65)); border-radius: 42%; box-shadow: 0 0 25px rgba(255,80,100,0.5); }
+        .plant-6 .crystals { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 60px; height: 55px; pointer-events: none; }
+        .plant-6 .crystals::before, .plant-6 .crystals::after { content: ''; position: absolute; width: 3px; height: 3px; background: rgba(255,255,255,0.95); border-radius: 50%; box-shadow: 8px 4px 0 rgba(255,255,255,0.9), 16px 2px 0 rgba(255,255,255,0.95), 24px 6px 0 rgba(255,255,255,0.85), 32px 3px 0 rgba(255,255,255,0.9), 40px 8px 0 rgba(255,255,255,0.85), 48px 5px 0 rgba(255,255,255,0.9), 4px 12px 0 rgba(255,255,255,0.8), 12px 16px 0 rgba(255,255,255,0.9), 20px 14px 0 rgba(255,255,255,0.85), 28px 18px 0 rgba(255,255,255,0.9), 36px 15px 0 rgba(255,255,255,0.8), 44px 20px 0 rgba(255,255,255,0.9), 52px 12px 0 rgba(255,255,255,0.85), 6px 24px 0 rgba(255,255,255,0.9), 14px 28px 0 rgba(255,255,255,0.85), 22px 26px 0 rgba(255,255,255,0.9), 30px 30px 0 rgba(255,255,255,0.85), 38px 28px 0 rgba(255,255,255,0.9), 46px 32px 0 rgba(255,255,255,0.8), 2px 36px 0 rgba(255,255,255,0.85), 10px 40px 0 rgba(255,255,255,0.9), 18px 38px 0 rgba(255,255,255,0.85), 26px 42px 0 rgba(255,255,255,0.9), 34px 40px 0 rgba(255,255,255,0.8), 42px 44px 0 rgba(255,255,255,0.85), 50px 38px 0 rgba(255,255,255,0.9); animation: crystal-sparkle 1.5s ease-in-out infinite; }
+        .plant-6 .crystals::after { animation-delay: 0.75s; }
         @keyframes crystal-sparkle { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
         
-        /* Water droplets animation */
-        .water-drops {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-        }
-        .water-drops::before,
-        .water-drops::after {
-            content: '💧';
-            position: absolute;
-            font-size: 10px;
-            opacity: 0;
-            animation: drop-fall 2s ease-in infinite;
-        }
-        .water-drops::before { left: -15px; animation-delay: 0s; }
-        .water-drops::after { left: 15px; animation-delay: 1s; }
-        @keyframes drop-fall { 0% { top: -20px; opacity: 0; } 10% { opacity: 1; } 100% { top: 40px; opacity: 0; } }
-        
-        /* Plant sway animation */
         @keyframes sway { 0%, 100% { transform: translate(-50%, -50%) rotate(-1.5deg); } 50% { transform: translate(-50%, -50%) rotate(1.5deg); } }
         
-        .pot-name { position: absolute; bottom: 3px; left: 0; right: 0; text-align: center; font-size: 6px; color: #fff; text-shadow: 1px 1px 0 #000; background: rgba(0,0,0,0.5); padding: 2px; }
-        .pot-progress { position: absolute; bottom: 14px; left: 0; right: 0; text-align: center; font-size: 8px; color: #7fff7f; text-shadow: 1px 1px 0 #000; }
-        .pot-water { position: absolute; top: 3px; right: 3px; font-size: 7px; }
+        .pot-info { position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-size: 5px; color: #fff; text-shadow: 1px 1px 0 #000; background: rgba(0,0,0,0.6); padding: 1px; }
+        .pot-progress { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; font-size: 7px; color: #7fff7f; text-shadow: 1px 1px 0 #000; }
         
-        /* Bottom nav */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border-top: 3px solid #2d5a2d; display: flex; justify-content: space-around; padding: 8px 0; }
-        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 6px; color: #8f8; background: none; border: none; cursor: pointer; }
-        .nav-btn.on { color: #7fff7f; }
-        .nav-btn span { font-size: 18px; }
+        /* Status bars */
+        .status-bars { position: absolute; top: 2px; left: 2px; right: 2px; display: flex; flex-direction: column; gap: 1px; }
+        .status-bar { height: 3px; background: rgba(0,0,0,0.5); border-radius: 1px; overflow: hidden; }
+        .status-bar-fill { height: 100%; transition: width 0.3s; }
+        .status-bar-fill.water { background: linear-gradient(90deg, #238636, #4a8a4a); }
+        .status-bar-fill.health { background: linear-gradient(90deg, #f0883e, #ffa500); }
+        .status-bar-fill.nutrients { background: linear-gradient(90deg, #a371f7, #8957e5); }
         
-        /* Modal */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; padding: 10px; z-index: 1000; }
-        .modal.open { display: flex; }
-        .box { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 3px solid #2d5a2d; width: 100%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
-        .mhead { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 2px solid #2d5a2d; }
-        .mtit { font-size: 12px; color: #7fff7f; }
-        .mclose { background: #8b0000; border: 2px solid #5a0000; color: #fff; font-size: 14px; width: 28px; height: 28px; cursor: pointer; }
-        .mbody { padding: 12px; }
+        /* Actions */
+        .actions { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border-top: 2px solid #2d5a2d; padding: 6px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+        .act { background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%); border: 2px solid #3d5a3d; padding: 6px 2px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #fff; text-shadow: 1px 1px 0 #000; font-size: 5px; }
+        .act:active { transform: translateY(1px); }
+        .act .i { font-size: 16px; }
+        .act.dry { background: linear-gradient(180deg, #4a3a2d 0%, #3a2a1a 100%); border-color: #5a4a3d; }
+        .act.trim { background: linear-gradient(180deg, #3a2a4a 0%, #2a1a3a 100%); border-color: #4a3a5a; }
         
-        /* Grid */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .item { background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%); border: 2px solid #3d5a3d; padding: 10px; text-align: center; cursor: pointer; }
-        .item:hover { border-color: #6aba6a; }
-        .item.off { opacity: 0.5; }
-        .item .ii { font-size: 22px; }
-        .item .in { font-size: 8px; margin: 4px 0 2px; color: var(--text-bright); }
-        .item .id { font-size: 7px; color: var(--muted); }
-        .item .ip { font-size: 8px; color: var(--gold); margin-top: 4px; }
-        
-        /* Card */
-        .card { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 12px; margin-bottom: 10px; }
-        .card-t { font-size: 11px; color: #7fff7f; margin-bottom: 8px; }
-        .card-r { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #2d5a2d; font-size: 9px; }
-        .card-p { font-size: 9px; color: #8f8; line-height: 1.6; margin-top: 8px; }
+        /* Cards */
+        .card { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 10px; margin-bottom: 8px; }
+        .card-t { font-size: 10px; color: #7fff7f; margin-bottom: 6px; }
+        .card-r { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #2d5a2d; font-size: 8px; }
+        .card-p { font-size: 8px; color: #8f8; line-height: 1.5; margin-top: 6px; }
         
         /* Section */
-        .section { display: flex; align-items: center; gap: 8px; margin: 12px 0 8px; padding: 10px; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; }
-        .section-icon { font-size: 20px; }
-        .section-title { font-size: 11px; color: #7fff7f; }
-        .section-desc { font-size: 7px; color: #8f8; margin-top: 2px; }
+        .section { display: flex; align-items: center; gap: 6px; margin: 10px 0 6px; padding: 8px; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; }
+        .section-icon { font-size: 18px; }
+        .section-title { font-size: 10px; color: #7fff7f; }
+        .section-desc { font-size: 6px; color: #8f8; margin-top: 2px; }
+        
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .item { background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%); border: 2px solid #3d5a3d; padding: 8px; text-align: center; cursor: pointer; }
+        .item:hover { border-color: #6aba6a; }
+        .item.off { opacity: 0.5; }
+        .item .ii { font-size: 18px; }
+        .item .in { font-size: 7px; margin: 3px 0 2px; color: #f0f6fc; }
+        .item .id { font-size: 6px; color: #8b949e; }
+        .item .ip { font-size: 7px; color: #f0883e; margin-top: 3px; }
+        
+        /* Equip grid */
+        .equip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+        .equip-item { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 8px; cursor: pointer; }
+        .equip-item:hover { border-color: #4a8a4a; }
+        .equip-item.owned { border-color: #238636; background: linear-gradient(180deg, #1a4a2a 0%, #0d2a1a 100%); }
+        .equip-item .ei { font-size: 18px; margin-bottom: 3px; }
+        .equip-item .en { font-size: 8px; color: #7fff7f; }
+        .equip-item .ed { font-size: 6px; color: #8f8; margin: 3px 0; }
+        .equip-item .ec { font-size: 7px; color: #f0883e; }
+        
+        /* Modal */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; padding: 8px; z-index: 1000; }
+        .modal.open { display: flex; }
+        .box { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 3px solid #2d5a2d; width: 100%; max-width: 380px; max-height: 85vh; overflow-y: auto; }
+        .mhead { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 2px solid #2d5a2d; }
+        .mtit { font-size: 11px; color: #7fff7f; }
+        .mclose { background: #8b0000; border: 2px solid #5a0000; color: #fff; font-size: 12px; width: 24px; height: 24px; cursor: pointer; }
+        .mbody { padding: 10px; }
         
         /* Progress */
-        .prog { height: 8px; background: #000; border-radius: 4px; overflow: hidden; border: 1px solid #333; }
+        .prog { height: 6px; background: #000; border-radius: 3px; overflow: hidden; border: 1px solid #333; }
         .prog-f { height: 100%; background: linear-gradient(90deg, #238636, #f0883e); transition: width 0.3s; }
         
         /* Lesson */
-        .lesson { background: linear-gradient(180deg, #1a2d1a 0%, #0d1a0d 100%); border: 2px solid #2d5a2d; padding: 12px; margin-bottom: 8px; cursor: pointer; }
+        .lesson { background: linear-gradient(180deg, #1a2d1a 0%, #0d1a0d 100%); border: 2px solid #2d5a2d; padding: 10px; margin-bottom: 6px; cursor: pointer; }
         .lesson:hover { border-color: #4a8a4a; }
-        .lesson h3 { font-size: 10px; color: #7fff7f; margin-bottom: 6px; }
-        .lesson p { font-size: 8px; color: #c9d1d9; line-height: 1.5; }
-        .lesson .data { background: #0a150a; border: 1px solid #2d5a2d; padding: 8px; margin-top: 8px; }
-        .lesson .data-row { display: flex; justify-content: space-between; font-size: 7px; padding: 3px 0; border-bottom: 1px solid #1a2a1a; }
-        .lesson .data-key { color: #8f8; }
-        .lesson .data-val { color: #7fff7f; }
-        
-        /* Equipment */
-        .equip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        .equip-item { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 10px; cursor: pointer; }
-        .equip-item:hover { border-color: #4a8a4a; }
-        .equip-item.owned { border-color: #238636; }
-        .equip-item .ei { font-size: 20px; margin-bottom: 4px; }
-        .equip-item .en { font-size: 9px; color: #7fff7f; }
-        .equip-item .ed { font-size: 7px; color: #8f8; margin: 4px 0; }
-        .equip-item .ec { font-size: 8px; color: var(--gold); }
+        .lesson h3 { font-size: 9px; color: #7fff7f; margin-bottom: 5px; }
+        .lesson p { font-size: 7px; color: #c9d1d9; line-height: 1.4; }
+        .lesson .data { background: #0a150a; border: 1px solid #2d5a2d; padding: 6px; margin-top: 6px; }
+        .lesson .data-row { display: flex; justify-content: space-between; font-size: 6px; padding: 2px 0; border-bottom: 1px solid #1a2a1a; }
         
         /* Toast */
-        .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(180deg, #2d5a2d 0%, #1a3d1a 100%); border: 2px solid #4a8a4a; padding: 12px; text-align: center; z-index: 2000; display: none; }
+        .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(180deg, #2d5a2d 0%, #1a3d1a 100%); border: 2px solid #4a8a4a; padding: 10px; text-align: center; z-index: 2000; display: none; }
         .toast.show { display: block; animation: toast-in 0.3s ease-out; }
         @keyframes toast-in { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        .toast-t { font-size: 12px; color: #7fff7f; }
-        .toast-x { font-size: 9px; margin-top: 4px; color: #8f8; }
+        .toast-t { font-size: 11px; color: #7fff7f; }
+        .toast-x { font-size: 8px; margin-top: 3px; color: #8f8; }
         
         /* Tutorial */
-        .tut { position: fixed; inset: 0; background: linear-gradient(180deg, #0d2810 0%, #0d1117 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 3000; }
+        .tut { position: fixed; inset: 0; background: linear-gradient(180deg, #0d2810 0%, #0d1117 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; z-index: 3000; }
         .tut.h { display: none; }
-        .tut h1 { font-size: 16px; color: #7fff7f; margin-bottom: 14px; }
-        .tut-g { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 300px; }
-        .tut-b { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 14px; text-align: center; }
-        .tut-b h2 { font-size: 24px; margin-bottom: 6px; }
-        .tut-b p { font-size: 8px; color: #8f8; }
-        .tut-s { background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 100%); border: 2px solid #5aaa5a; color: #fff; font-size: 12px; padding: 12px 30px; margin-top: 18px; cursor: pointer; text-shadow: 1px 1px 0 #000; }
+        .tut h1 { font-size: 14px; color: #7fff7f; margin-bottom: 12px; }
+        .tut-g { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 280px; }
+        .tut-b { background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 12px; text-align: center; }
+        .tut-b h2 { font-size: 20px; margin-bottom: 4px; }
+        .tut-b p { font-size: 7px; color: #8f8; }
+        .tut-s { background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 100%); border: 2px solid #5aaa5a; color: #fff; font-size: 10px; padding: 10px 24px; margin-top: 14px; cursor: pointer; text-shadow: 1px 1px 0 #000; }
         
-        /* Hide content sections */
+        /* Breeding */
+        .breed-pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-bottom: 10px; }
+        .breed-slot { background: linear-gradient(180deg, #2d4a2d 0%, #1a3a1a 100%); border: 2px solid #3d5a3d; padding: 10px; text-align: center; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .breed-arrow { font-size: 20px; color: #f0883e; }
+        .breed-btn { background: linear-gradient(180deg, #4a8a4a 0%, #3a7a3a 100%); border: 2px solid #5aaa5a; color: #fff; padding: 10px 20px; font-size: 9px; cursor: pointer; text-shadow: 1px 1px 0 #000; }
+        .breed-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Drying */
+        .dry-slot { background: linear-gradient(180deg, #3a2a1a 0%, #2a1a0a 100%); border: 2px solid #5a4a3a; padding: 8px; margin-bottom: 6px; }
+        .dry-progress { height: 4px; background: #1a120a; border-radius: 2px; overflow: hidden; margin-top: 4px; }
+        .dry-progress-fill { height: 100%; background: linear-gradient(90deg, #f0883e, #ffa500); }
+        
+        /* Trimming */
+        .trim-plant { background: linear-gradient(180deg, #2a1a3a 0%, #1a0a2a 100%); border: 2px solid #4a3a5a; padding: 10px; text-align: center; margin-bottom: 8px; }
+        
+        /* Achievements */
+        .achievement { display: flex; align-items: center; gap: 8px; background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%); border: 2px solid #2d5a2d; padding: 8px; margin-bottom: 6px; }
+        .achievement.locked { opacity: 0.5; }
+        .achievement-icon { font-size: 20px; }
+        .achievement-info { flex: 1; }
+        .achievement-name { font-size: 8px; color: #7fff7f; }
+        .achievement-desc { font-size: 6px; color: #8f8; }
+        .achievement-progress { font-size: 7px; color: #f0883e; }
+        
+        /* Page hide */
         .page { display: none; }
         .page.on { display: block; }
     </style>
@@ -499,9 +230,11 @@
         <h1>🌿 GROW CRAFT</h1>
         <div class="tut-g">
             <div class="tut-b"><h2>🌱</h2><p>Выращивай</p></div>
-            <div class="tut-b"><h2>📚</h2><p>Изучай науку</p></div>
-            <div class="tut-b"><h2>🔧</h2><p>Оборудование</p></div>
+            <div class="tut-b"><h2>💧</h2><p>Поливай</p></div>
+            <div class="tut-b"><h2>✂️</h2><p>Тримминг</p></div>
             <div class="tut-b"><h2>🧬</h2><p>Скрещивай</p></div>
+            <div class="tut-b"><h2>🔬</h2><p>Исследуй</p></div>
+            <div class="tut-b"><h2>🏆</h2><p>Достижения</p></div>
         </div>
         <button class="tut-s" id="startBtn">▶ НАЧАТЬ</button>
     </div>
@@ -519,33 +252,38 @@
                     <button data-s="2">2x</button>
                     <button data-s="5">5x</button>
                     <button data-s="10">10x</button>
+                    <button data-s="50">50x</button>
                 </div>
             </div>
         </div>
 
         <div class="tabs" id="tabs">
             <button class="tab on" data-t="grow">🌱</button>
+            <button class="tab" data-t="dry">🍂</button>
+            <button class="tab" data-t="breed">🧬</button>
             <button class="tab" data-t="shop">🏪</button>
             <button class="tab" data-t="equip">🔧</button>
-            <button class="tab" data-t="lab">🧪</button>
+            <button class="tab" data-t="lab">⚗️</button>
             <button class="tab" data-t="learn">📚</button>
-            <button class="tab" data-t="stats">📊</button>
+            <button class="tab" data-t="achieve">🏆</button>
         </div>
 
         <div class="content" id="content"></div>
 
-        <div class="nav">
-            <button class="nav-btn on" data-n="grow"><span>🌱</span>Рост</button>
-            <button class="nav-btn" data-n="shop"><span>🏪</span>Магаз</button>
-            <button class="nav-btn" data-n="equip"><span>🔧</span>Снаря</button>
-            <button class="nav-btn" data-n="lab"><span>🧪</span>Лаба</button>
-            <button class="nav-btn" data-n="learn"><span>📚</span>Учёба</button>
+        <div class="actions">
+            <button class="act" data-a="plant"><span class="i">🌱</span><span>Посадить</span></button>
+            <button class="act" data-a="water"><span class="i">💧</span><span>Полив</span></button>
+            <button class="act" data-a="nutri"><span class="i">🧪</span><span>Удобрение</span></button>
+            <button class="act" data-a="trim"><span class="i">✂️</span><span>Тримминг</span></button>
+            <button class="act" data-a="harvest"><span class="i">🌾</span><span>Сбор</span></button>
+            <button class="act" data-a="save"><span class="i">💾</span><span>Сохранить</span></button>
         </div>
     </div>
 
     <!-- Modals -->
     <div class="modal" id="seedModal"><div class="box"><div class="mhead"><div class="mtit">🌱 Семена</div><button class="mclose" data-c="seedModal">✕</button></div><div class="mbody"><div class="grid" id="seedGrid"></div></div></div></div>
     <div class="modal" id="nutrModal"><div class="box"><div class="mhead"><div class="mtit">🧪 Удобрения</div><button class="mclose" data-c="nutrModal">✕</button></div><div class="mbody"><div class="grid" id="nutrGrid"></div></div></div></div>
+    <div class="modal" id="trimModal"><div class="box"><div class="mhead"><div class="mtit">✂️ Тримминг</div><button class="mclose" data-c="trimModal">✕</button></div><div class="mbody" id="trimBody"></div></div></div>
     <div class="modal" id="infoModal"><div class="box"><div class="mhead"><div class="mtit" id="infoTit">Инфо</div><button class="mclose" data-c="infoModal">✕</button></div><div class="mbody" id="infoBody"></div></div></div>
     <div class="toast" id="toast"><div class="toast-t" id="tt"></div><div class="toast-x" id="tx"></div></div>
 
@@ -553,60 +291,67 @@
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.expand(); tg.ready(); }
         
-        // Real cannabis science lessons
+        // Lessons data
         const lessons = [
             { id: 'intro', title: '🌱 Введение в каннабис', unlocked: true, content: [
-                { title: 'Биология растения', text: 'Cannabis sativa и Cannabis indica — два основных вида. Сатива даёт энергию, индика расслабляет. Гибриды сочетают эффекты.' },
-                { title: 'Фотопериодизм', text: 'Каннабис — короткодневное растение. Цветение начинается при 12 часах света. Вегетация требует 18-24 часа света.' },
-                { title: 'Химия', text: 'THC (тетрагидроканнабинол) — психоактивное вещество. CBD (каннабидиол) — медицинский эффект. Терпены дают аромат.' }
+                { title: 'Биология', text: 'Cannabis sativa и Cannabis indica — два основных вида. Сатива = энергия, индика = релакс. Гибриды сочетают.' },
+                { title: 'Фотопериодизм', text: 'Каннабис — короткодневное растение. 12/12 для цветения, 18/6 для вегетации.' },
+                { title: 'Химия', text: 'THC — психоактивность. CBD — медицина. Терпены — аромат и эффект.' }
             ]},
             { id: 'germ', title: '🌰 Проращивание', unlocked: true, content: [
-                { title: 'Условия', text: 'Температура: 20-26°C (68-79°F). Влажность: 70-90%. pH воды: 6.0-6.5. Тёмное место.' },
-                { title: 'Методы', text: 'Метод бумажного полотенца: семя между влажными слоями, в тёмное место. Прямо в субстрат: на глубину 1-2 см.' },
-                { title: 'Признаки успеха', text: 'Корешок 2-5 мм за 2-7 дней. Не трогай корень! Сажай корешком вниз.' }
+                { title: 'Условия', text: 'Температура: 20-26°C. Влажность: 70-90%. pH воды: 6.0-6.5. Тёмное место.' },
+                { title: 'Методы', text: 'Бумажное полотенце: семя между влажными слоями. Прямо в субстрат: 1-2 см глубина.' },
+                { title: 'Признаки', text: 'Корешок 2-5 мм за 2-7 дней. Не трогай корень! Сажай корешком вниз.' }
             ]},
             { id: 'light', title: '💡 Освещение', unlocked: true, content: [
-                { title: 'Спектр света', text: 'Синий (400-500nm) — вегетация, компактность. Красный (600-700nm) — цветение, урожай. Полный спектр — оптимально.' },
-                { title: 'PPFD и DLI', text: 'PPFD: 600-1000 µmol/m²/s для вегетации, 1000-1500 для цветения. DLI: 35-45 моль/день оптимально.' },
-                { title: 'Типы ламп', text: 'LED — эффективность 2.5-3.0 µmol/J. HPS — классика, но греет. CMH — естественный спектр.' }
+                { title: 'Спектр', text: 'Синий (400-500nm) — вегетация. Красный (600-700nm) — цветение. Полный спектр — оптимально.' },
+                { title: 'PPFD', text: 'Вегетация: 600-1000 µmol/m²/s. Цветение: 1000-1500 µmol/m²/s. DLI: 35-45 моль/день.' },
+                { title: 'Типы', text: 'LED — 2.5-3.0 µmol/J эффективность. HPS — классика. CMH — естественный спектр.' }
             ]},
             { id: 'water', title: '💧 Полив и pH', unlocked: true, content: [
-                { title: 'pH критичен', text: 'Грунт: pH 6.0-7.0. Гидропоника: pH 5.5-6.5. Выше 7.0 = блокировка питательных веществ.' },
-                { title: 'Lift Test', text: 'Подними горшок. Лёгкий = пора поливать. Тяжёлый = подожди. Переувлажнение = корневая гниль.' },
+                { title: 'pH', text: 'Грунт: 6.0-7.0. Гидропоника: 5.5-6.5. Выше 7.0 = блокировка питания.' },
+                { title: 'Lift Test', text: 'Подними горшок. Лёгкий = поливай. Тяжёлый = подожди. Переувлажнение = гниль.' },
                 { title: 'EC/PPM', text: 'Вегетация: EC 1.0-1.6. Цветение: EC 1.6-2.4. Высокий EC = сожжённые корни.' }
             ]},
             { id: 'npk', title: '🧪 NPK и питание', unlocked: true, content: [
-                { title: 'Макроэлементы', text: 'N (азот) — листья, вегетация. P (фосфор) — корни, цветы. K (калий) — иммунитет, транспорт.' },
-                { title: 'Микроэлементы', text: 'Mg (магний) — хлорофилл. Ca (кальций) — клеточные стенки. Fe (железо) — ферменты. S (сера) — аромат.' },
-                { title: 'Дефициты', text: 'Жёлтые нижние листья = N дефицит. Фиолетовые стебли = P дефицит. Коричневые края = K дефицит.' }
+                { title: 'Макро', text: 'N (азот) — листья, вегетация. P (фосфор) — корни, цветы. K (калий) — иммунитет.' },
+                { title: 'Микро', text: 'Mg — хлорофилл. Ca — клеточные стенки. Fe — ферменты. S — аромат.' },
+                { title: 'Дефициты', text: 'Жёлтые низ = N дефицит. Фиолетовые стебли = P дефицит. Коричневые края = K дефицит.' }
             ]},
-            { id: 'training', title: '🌿 Тренировки (LST/HST)', unlocked: false, content: [
-                { title: 'LST (Low Stress Training)', text: 'Гибка ветвей без повреждений. Создаёт ровную крону. Увеличивает урожай на 20-40%.' },
-                { title: 'Topping', text: 'Срез верхушки над 5-6 узлом. Создаёт 2 колы вместо 1. Делай за 2 недели до цветения.' },
-                { title: 'FIM', text: 'Срез 75% верхушки. 4 новые колы. Риск ошибки выше, чем topping.' }
+            { id: 'training', title: '🌿 Тренировки', unlocked: false, content: [
+                { title: 'LST', text: 'Low Stress Training — гибка ветвей. Создаёт ровную крону. +20-40% урожай.' },
+                { title: 'Topping', text: 'Срез верхушки над 5-6 узлом. 2 колы вместо 1. За 2 недели до цветения.' },
+                { title: 'FIM', text: 'Срез 75% верхушки. 4 новые колы. Риск ошибки выше.' },
+                { title: 'SCROG', text: 'Screen of Green — сетка для равномерного распределения. Максимум света.' }
             ]},
             { id: 'flower', title: '🌸 Цветение', unlocked: false, content: [
-                { title: 'Стадии цветения', text: 'Неделя 1-3: Растягивание. Неделя 4-5: Формирование бутонов. Неделя 6-8: Набухание. Неделя 9+: Созревание.' },
-                { title: 'Трихомы', text: 'Прозрачные = не готово. Мутные = пик THC. Янтарные = седативный эффект. 70% мутных = оптимально.' },
-                { title: 'Время света', text: '12/12 — классика. 11/13 — для сативы. 10/14 — для автоцветов в конце.' }
+                { title: 'Стадии', text: '1-3 неделя: Растягивание. 4-5: Формирование бутонов. 6-8: Набухание. 9+: Созревание.' },
+                { title: 'Трихомы', text: 'Прозрачные = не готово. Мутные = пик THC. Янтарные = седативный. 70% мутных = оптимально.' },
+                { title: 'Свет', text: '12/12 — классика. 11/13 — для сативы. 10/14 — для автоцветов в конце.' }
             ]},
             { id: 'harvest', title: '✂️ Сбор и сушка', unlocked: false, content: [
-                { title: 'Срез', text: 'Срезай в темноте. Оставляй 14 дней промывки без удобрений. Тримминг влажий или сухой.' },
-                { title: 'Сушка', text: 'Температура: 15-21°C (60-70°F). Влажность: 45-55%. Тёмное место. Вентиляция. 7-14 дней.' },
-                { title: 'Curing', text: 'Стеклянные банки. Burping: открывай 1-2 раза/день первую неделю. 2-8 недель для качества.' }
+                { title: 'Срез', text: 'В темноте. 14 дней промывки без удобрений. Тримминг влажрый или сухой.' },
+                { title: 'Сушка', text: 'Температура: 15-21°C. Влажность: 45-55%. Тёмное место. Вентиляция. 7-14 дней.' },
+                { title: 'Curing', text: 'Стеклянные банки. Burping 1-2 раза/день первую неделю. 2-8 недель для качества.' }
             ]},
             { id: 'genetics', title: '🧬 Генетика', unlocked: false, content: [
-                { title: 'Менделевское наследование', text: 'Каждый ген — пара аллелей. Доминантные (T, Y) = сильнее. Рецессивные (t, y) = слабее.' },
-                { title: '5 ключевых генов', text: 'T = THC потенциал. C = CBD потенциал. Y = урожайность. S = скорость роста. R = устойчивость.' },
-                { title: 'Скрещивание', text: 'Гомозиготные (TT) × гетерозиготные (Tt) = 50% TT, 50% Tt. Скрещивай лучших для лучших потомков.' }
+                { title: 'Мендель', text: 'Каждый ген — пара аллелей. Доминантные (T, Y) = сильнее. Рецессивные (t, y) = слабее.' },
+                { title: '5 генов', text: 'T = THC. C = CBD. Y = урожайность. S = скорость. R = устойчивость.' },
+                { title: 'Скрещивание', text: 'TT × Tt = 50% TT, 50% Tt. Скрещивай лучших для лучших потомков.' }
             ]},
-            { id: 'pests', title: '🐛 Вредители и болезни', unlocked: false, content: [
-                { title: 'Паутинный клещ', text: 'Микроскопический, оставляет паутину. Neem oil — профилактика. Predatory mites — биоконтроль.' },
-                { title: 'Мучнистая роса', text: 'Белый налёт на листьях. Причина: высокая влажность + низкая вентиляция. Sulphur burner — лечение.' },
-                { title: 'Корневая гниль', text: 'Коричневые слизкие корни. Причина: переувлажнение. Hydrogen peroxide 3% — временная помощь.' }
+            { id: 'pests', title: '🐛 Вредители', unlocked: false, content: [
+                { title: 'Паутинный клещ', text: 'Микроскопический, оставляет паутину. Neem oil — профилактика.' },
+                { title: 'Мучнистая роса', text: 'Белый налёт. Причина: высокая влажность + низкая вентиляция.' },
+                { title: 'Корневая гниль', text: 'Коричневые слизкие корни. Переувлажнение. H2O2 3% — временная помощь.' }
+            ]},
+            { id: 'advanced', title: '🔬 Продвинутое', unlocked: false, content: [
+                { title: 'CO2', text: '1200-1500 ppm для роста. Увеличивает урожай на 20-30%. Только при хорошей вентиляции.' },
+                { title: 'Гидропоника', text: 'DWC, NFT, Ebb&Flow. Быстрый рост, точный контроль. pH 5.5-6.5.' },
+                { title: 'Монстры', text: 'Main-lining, manifold, nugbuckets. Продвинутые тренировки для гигантских растений.' }
             ]}
         ];
         
+        // Strains
         const strains = [
             { id: 'nl', name: 'Northern Lights', type: 'Indica', icon: '🌿', thc: 18, yld: 400, price: 50, speed: 1.0 },
             { id: 'ww', name: 'White Widow', type: 'Hybrid', icon: '🍃', thc: 20, yld: 450, price: 60, speed: 1.1 },
@@ -619,54 +364,93 @@
             { id: 'ak', name: 'AK-47', type: 'Hybrid', icon: '🔫', thc: 22, yld: 450, price: 55, speed: 1.2 },
             { id: 'am', name: 'Amnesia Haze', type: 'Sativa', icon: '🌀', thc: 25, yld: 480, price: 90, speed: 0.8 },
             { id: 'pk', name: 'Purple Kush', type: 'Indica', icon: '💜', thc: 24, yld: 380, price: 100, speed: 0.9 },
-            { id: 'sd', name: 'Sour Diesel', type: 'Sativa', icon: '⛽', thc: 26, yld: 520, price: 85, speed: 1.0 }
+            { id: 'sd', name: 'Sour Diesel', type: 'Sativa', icon: '⛽', thc: 26, yld: 520, price: 85, speed: 1.0 },
+            { id: 'gc', name: 'Golden Cookies', type: 'Hybrid', icon: '🍪', thc: 28, yld: 420, price: 200, speed: 0.85 },
+            { id: 'zb', name: 'Zkittlez Berry', type: 'Indica', icon: '🍬', thc: 24, yld: 400, price: 170, speed: 0.95 },
+            { id: 'mh', name: 'Mimosa Haze', type: 'Sativa', icon: '🍊', thc: 27, yld: 460, price: 160, speed: 0.9 }
         ];
         
+        // Nutrients
         const nutrients = [
-            { id: 'grow', name: 'Grow Mix', icon: '🟢', desc: 'NPK 3-1-2', price: 25, inv: 0 },
-            { id: 'bloom', name: 'Bloom Mix', icon: '🟣', desc: 'NPK 1-3-2', price: 30, inv: 0 },
-            { id: 'calmag', name: 'Cal-Mag', icon: '💊', desc: 'Ca+Mg', price: 35, inv: 0 },
-            { id: 'pk', name: 'PK Boost', icon: '⚡', desc: 'P+K', price: 40, inv: 0 },
-            { id: 'root', name: 'Root Boost', icon: '🌿', desc: 'Корни', price: 20, inv: 0 },
-            { id: 'enz', name: 'Enzymes', icon: '🔬', desc: 'Очистка', price: 50, inv: 0 }
+            { id: 'grow', name: 'Grow Mix', icon: '🟢', desc: 'NPK 3-1-2', price: 25, effect: { health: 15, progress: 2 } },
+            { id: 'bloom', name: 'Bloom Mix', icon: '🟣', desc: 'NPK 1-3-2', price: 30, effect: { health: 10, progress: 3, yield: 1.1 } },
+            { id: 'calmag', name: 'Cal-Mag', icon: '💊', desc: 'Ca+Mg', price: 35, effect: { health: 20 } },
+            { id: 'pk', name: 'PK Boost', icon: '⚡', desc: 'P+K мощный', price: 40, effect: { progress: 5, yield: 1.15 } },
+            { id: 'root', name: 'Root Boost', icon: '🌿', desc: 'Корни', price: 20, effect: { health: 10, speed: 1.1 } },
+            { id: 'enz', name: 'Enzymes', icon: '🔬', desc: 'Очистка', price: 50, effect: { health: 25 } },
+            { id: 'co2', name: 'CO2 Tabs', icon: '💨', desc: '+30% рост', price: 80, effect: { progress: 8, speed: 1.3 } },
+            { id: 'silica', name: 'Silica', icon: '💎', desc: 'Стебли', price: 45, effect: { health: 15, resistance: 1.2 } }
         ];
         
+        // Equipment
         const equipment = [
-            { id: 'lamp100', name: 'LED 100W', icon: '💡', desc: 'Базовый', price: 100, bonus: 1.1 },
-            { id: 'lamp300', name: 'LED 300W', icon: '💡', desc: 'Средний', price: 300, bonus: 1.25 },
-            { id: 'lamp600', name: 'LED 600W', icon: '💡', desc: 'Мощный', price: 600, bonus: 1.4 },
-            { id: 'fan', name: 'Вентилятор', icon: '🌀', desc: 'Циркуляция', price: 50, bonus: 1.05 },
-            { id: 'filter', name: 'Угольный фильтр', icon: '🔲', desc: 'Запах', price: 80, bonus: 1.0 },
-            { id: 'hygro', name: 'Гигрометр', icon: '📊', desc: 'Климат', price: 30, bonus: 1.08 },
-            { id: 'timer', name: 'Таймер', icon: '⏱️', desc: 'Авто-свет', price: 25, bonus: 1.05 },
-            { id: 'ph', name: 'pH-метр', icon: '⚗️', desc: 'Точный pH', price: 40, bonus: 1.1 },
-            { id: 'pot5', name: 'Горшок 5L', icon: '🪴', desc: '+1 слот', price: 50, bonus: 0 },
-            { id: 'pot10', name: 'Горшок 10L', icon: '🪴', desc: '+2 слота', price: 100, bonus: 0 },
-            { id: 'tent', name: 'Гроубокс 1x1', icon: '🏠', desc: '+4 слота', price: 200, bonus: 1.2 },
-            { id: 'tent2', name: 'Гроубокс 2x2', icon: '🏠', desc: '+8 слотов', price: 500, bonus: 1.35 }
+            { id: 'lamp100', name: 'LED 100W', icon: '💡', desc: 'Базовый', price: 100, bonus: { speed: 1.1, quality: 1.0 }, cat: 'light' },
+            { id: 'lamp300', name: 'LED 300W', icon: '💡', desc: 'Средний', price: 300, bonus: { speed: 1.25, quality: 1.05 }, cat: 'light' },
+            { id: 'lamp600', name: 'LED 600W', icon: '💡', desc: 'Мощный', price: 600, bonus: { speed: 1.4, quality: 1.1 }, cat: 'light' },
+            { id: 'lamp1000', name: 'LED 1000W', icon: '💡', desc: 'Профи', price: 1200, bonus: { speed: 1.6, quality: 1.2 }, cat: 'light' },
+            { id: 'fan', name: 'Вентилятор', icon: '🌀', desc: 'Циркуляция', price: 50, bonus: { health: 1.05 }, cat: 'climate' },
+            { id: 'filter', name: 'Угольный фильтр', icon: '🔲', desc: 'Запах', price: 80, bonus: { stealth: true }, cat: 'climate' },
+            { id: 'hygro', name: 'Гигрометр', icon: '📊', desc: 'Климат', price: 30, bonus: { health: 1.08 }, cat: 'climate' },
+            { id: 'timer', name: 'Таймер', icon: '⏱️', desc: 'Авто-свет', price: 25, bonus: { speed: 1.05 }, cat: 'climate' },
+            { id: 'ph', name: 'pH-метр', icon: '⚗️', desc: 'Точный pH', price: 40, bonus: { health: 1.1 }, cat: 'tools' },
+            { id: 'ec', name: 'EC-метр', icon: '📏', desc: 'Питание', price: 60, bonus: { yield: 1.1 }, cat: 'tools' },
+            { id: 'thermo', name: 'Термометр', icon: '🌡️', desc: 'Температура', price: 35, bonus: { health: 1.05 }, cat: 'tools' },
+            { id: 'pot5', name: 'Горшок 5L', icon: '🪴', desc: '+1 слот', price: 50, bonus: { slots: 1 }, cat: 'space' },
+            { id: 'pot10', name: 'Горшок 10L', icon: '🪴', desc: '+2 слота', price: 100, bonus: { slots: 2 }, cat: 'space' },
+            { id: 'tent', name: 'Гроубокс 1x1', icon: '🏠', desc: '+4 слота', price: 200, bonus: { slots: 4, stealth: true }, cat: 'space' },
+            { id: 'tent2', name: 'Гроубокс 2x2', icon: '🏠', desc: '+8 слотов', price: 500, bonus: { slots: 8, speed: 1.1 }, cat: 'space' },
+            { id: 'tent4', name: 'Гроубокс 4x4', icon: '🏠', desc: '+16 слотов', price: 1200, bonus: { slots: 16, speed: 1.15, quality: 1.05 }, cat: 'space' },
+            { id: 'hydro', name: 'Гидропоника', icon: '💧', desc: '+50% скорость', price: 800, bonus: { speed: 1.5, health: 0.95 }, cat: 'system' },
+            { id: 'aero', name: 'Аэропоника', icon: '💨', desc: '+80% скорость', price: 1500, bonus: { speed: 1.8, health: 0.9 }, cat: 'system' },
+            { id: 'co2gen', name: 'CO2 генератор', icon: '🔥', desc: '+30% урожай', price: 400, bonus: { yield: 1.3, speed: 1.15 }, cat: 'system' },
+            { id: 'ac', name: 'Кондиционер', icon: '❄️', desc: 'Климат-контроль', price: 350, bonus: { health: 1.15 }, cat: 'climate' }
         ];
         
+        // Lab items
         const labItems = [
-            { id: 'microscope', name: 'Микроскоп', icon: '🔬', desc: 'Трихомы', price: 150 },
-            { id: 'cloner', name: 'Клон-машина', icon: '🌱', desc: 'Клоны', price: 200 },
-            { id: 'dryer', name: 'Сушилка', icon: '💨', desc: 'Качество', price: 120 },
-            { id: 'trimmer', name: 'Триммер', icon: '✂️', desc: 'Скорость', price: 180 },
-            { id: 'extractor', name: 'Экстрактор', icon: '⚗️', desc: 'Масло', price: 300 }
+            { id: 'microscope', name: 'Микроскоп', icon: '🔬', desc: 'Трихомы 60x', price: 150, unlocks: 'trim_quality' },
+            { id: 'cloner', name: 'Клон-машина', icon: '🌱', desc: 'Клоны растений', price: 200, unlocks: 'cloning' },
+            { id: 'dryer', name: 'Сушильный шкаф', icon: '💨', desc: 'Авто-сушка 7 дней', price: 120, unlocks: 'auto_dry' },
+            { id: 'trimmer', name: 'Триммер', icon: '✂️', desc: 'Авто-тримминг', price: 180, unlocks: 'auto_trim' },
+            { id: 'extractor', name: 'Экстрактор', icon: '⚗️', desc: 'Масло/концентрат', price: 300, unlocks: 'extraction' },
+            { id: 'centrifuge', name: 'Центрифуга', icon: '🌀', desc: 'Терпены', price: 450, unlocks: 'terpenes' },
+            { id: 'chromatograph', name: 'Хроматограф', icon: '📊', desc: 'Анализ THC/CBD', price: 600, unlocks: 'analysis' },
+            { id: 'breeder', name: 'Бридинг-станция', icon: '🧬', desc: 'Скрещивание', price: 500, unlocks: 'breeding' }
+        ];
+        
+        // Achievements
+        const achievements = [
+            { id: 'first_harvest', name: '🌱 Первый урожай', desc: 'Собери первое растение', icon: '🌱', check: s => s.stats.harvests >= 1 },
+            { id: 'ten_harvests', name: '🌾 Опытный гровер', desc: 'Собери 10 растений', icon: '🌾', check: s => s.stats.harvests >= 10 },
+            { id: 'fifty_harvests', name: '🏆 Мастер', desc: 'Собери 50 растений', icon: '🏆', check: s => s.stats.harvests >= 50 },
+            { id: 'hundred_harvests', name: '👑 Легенда', desc: 'Собери 100 растений', icon: '👑', check: s => s.stats.harvests >= 100 },
+            { id: 'first_breed', name: '🧬 Генетик', desc: 'Скрести первые сорта', icon: '🧬', check: s => s.stats.bred >= 1 },
+            { id: 'ten_breeds', name: '🔬 Селекционер', desc: 'Скрести 10 сортов', icon: '🔬', check: s => s.stats.bred >= 10 },
+            { id: 'millionaire', name: '💰 Миллионер', desc: 'Накопи $1,000,000', icon: '💰', check: s => s.money >= 1000000 },
+            { id: 'collector', name: '📦 Коллекционер', desc: 'Купи всё оборудование', icon: '📦', check: s => s.equipment.length >= equipment.length },
+            { id: 'scientist', name: '📚 Учёный', desc: 'Пройди все уроки', icon: '📚', check: s => s.lessonsCompleted >= lessons.length },
+            { id: 'lab_master', name: '⚗️ Лаборатория', desc: 'Купи всё для лабы', icon: '⚗️', check: s => s.lab.length >= labItems.length },
+            { id: 'big_harvest', name: '🌿 Огромный урожай', desc: 'Получи 1000г+ с растения', icon: '🌿', check: s => s.stats.maxYield >= 1000 },
+            { id: 'speed_grow', name: '⚡ Спидран', desc: 'Вырасти за 30 дней', icon: '⚡', check: s => s.stats.fastestGrow <= 30 }
         ];
         
         // Game State
         let S = {
             day: 1, time: 6, speed: 1, money: 500, xp: 0, level: 1,
             plants: [], slots: 6, selected: null,
-            inv: { grow: 5, bloom: 3, calmag: 2, pk: 1, root: 0, enz: 0 },
+            inv: { grow: 5, bloom: 3, calmag: 2, pk: 1, root: 0, enz: 0, co2: 0, silica: 0 },
             equipment: [],
             lab: [],
-            stats: { harvests: 0, planted: 0, bred: 0 },
+            drying: [],
+            trimQueue: [],
+            breeding: [null, null],
+            lessonsCompleted: 0,
+            stats: { harvests: 0, planted: 0, bred: 0, maxYield: 0, fastestGrow: 999 },
             tutorial: true
         };
         
-        function load() { const s = localStorage.getItem('gc9'); if (s) S = {...S, ...JSON.parse(s)}; }
-        function save() { localStorage.setItem('gc9', JSON.stringify(S)); }
+        function load() { const s = localStorage.getItem('gc10'); if (s) S = {...S, ...JSON.parse(s)}; }
+        function save() { localStorage.setItem('gc10', JSON.stringify(S)); }
         
         function toast(t, x) {
             document.getElementById('tt').textContent = t;
@@ -676,26 +460,49 @@
             setTimeout(() => el.classList.remove('show'), 1500);
         }
         
+        function getEquipBonus() {
+            let bonus = { speed: 1, health: 1, yield: 1, quality: 1 };
+            S.equipment.forEach(id => {
+                const e = equipment.find(x => x.id === id);
+                if (e?.bonus) {
+                    if (e.bonus.speed) bonus.speed *= e.bonus.speed;
+                    if (e.bonus.health) bonus.health *= e.bonus.health;
+                    if (e.bonus.yield) bonus.yield *= e.bonus.yield;
+                    if (e.bonus.quality) bonus.quality *= e.bonus.quality;
+                }
+            });
+            return bonus;
+        }
+        
         function tick() {
             S.time += 0.5 * S.speed;
             if (S.time >= 24) { S.time = 0; S.day++; }
             
-            const equipBonus = S.equipment.reduce((sum, id) => { const e = equipment.find(x => x.id === id); return sum + (e?.bonus || 0); }, 1);
+            const bonus = getEquipBonus();
             const labBonus = S.lab.length > 0 ? 1.1 : 1;
             
+            // Plants
             S.plants.forEach(p => {
                 if (p.stage < 6) {
-                    p.progress += (1.5 * S.speed * 0.05) * equipBonus * labBonus * p.strain.speed;
-                    p.water -= 0.3 * S.speed;
-                    if (p.water < 30) p.health -= 0.15 * S.speed;
+                    p.progress += (1.5 * S.speed * 0.05) * bonus.speed * labBonus * p.strain.speed;
+                    p.water -= 0.35 * S.speed;
+                    if (p.water < 30) p.health -= 0.2 * S.speed;
                     if (p.water > 85) p.health -= 0.1 * S.speed;
-                    p.health = Math.max(0, Math.min(100, p.health));
+                    p.health = Math.max(0, Math.min(100, p.health * bonus.health));
                     p.stage = p.progress < 5 ? 0 : p.progress < 12 ? 1 : p.progress < 25 ? 2 : p.progress < 45 ? 3 : p.progress < 70 ? 4 : p.progress < 95 ? 5 : 6;
                 }
             });
             
+            // Drying
+            S.drying.forEach(d => {
+                d.progress += 0.5 * S.speed;
+            });
+            S.drying = S.drying.filter(d => d.progress < 100);
+            
+            // Level up
             const need = S.level * 100;
             if (S.xp >= need) { S.xp -= need; S.level++; toast('🎉', 'Уровень ' + S.level); }
+            
             update();
             save();
         }
@@ -716,6 +523,8 @@
                     const p = S.plants.find(x => x.slot === i);
                     const sel = S.selected === i ? 'sel' : '';
                     const ready = p && p.stage >= 6 ? 'ready' : '';
+                    const dry = p && p.water < 30 ? 'dry' : '';
+                    const sick = p && p.health < 50 ? 'sick' : '';
                     
                     if (p) {
                         const stageClass = `plant-${p.stage}`;
@@ -723,19 +532,22 @@
                         const pistilsHTML = p.stage === 4 ? '<div class="pistils"></div>' : '';
                         const crystalsHTML = p.stage >= 6 ? '<div class="crystals"></div>' : '';
                         
-                        html += `<div class="pot ${sel} ${ready}" data-slot="${i}">
+                        html += `<div class="pot ${sel} ${ready} ${dry} ${sick}" data-slot="${i}">
+                            <div class="status-bars">
+                                <div class="status-bar"><div class="status-bar-fill water" style="width:${p.water}%"></div></div>
+                                <div class="status-bar"><div class="status-bar-fill health" style="width:${p.health}%"></div></div>
+                            </div>
                             <div class="pot-soil"></div>
                             <div class="plant-container">
                                 <div class="plant ${stageClass}">${budsHTML}${pistilsHTML}${crystalsHTML}</div>
                             </div>
-                            <div class="pot-water">${p.water.toFixed(0)}%</div>
                             <div class="pot-progress">${Math.floor(p.progress)}%</div>
-                            <div class="pot-name">${p.strain.name.slice(0, 8)}</div>
+                            <div class="pot-info">${p.strain.name.slice(0, 8)}</div>
                         </div>`;
                     } else {
                         html += `<div class="pot ${sel}" data-slot="${i}">
                             <div class="pot-soil"></div>
-                            <div class="pot-name">ПУСТО</div>
+                            <div class="pot-info">ПУСТО</div>
                         </div>`;
                     }
                 }
@@ -744,21 +556,85 @@
                 // Selected plant info
                 const sp = S.plants.find(x => x.slot === S.selected);
                 if (sp) {
-                    html += `<div class="card" style="margin-top:12px">
+                    const genes = Object.entries(sp.genes).map(([g, v]) => `${g.toUpperCase()}:${v}`).join(' ');
+                    html += `<div class="card" style="margin-top:8px">
                         <div class="card-t">📊 ${sp.strain.name}</div>
                         <div class="card-r"><span>Тип</span><span>${sp.strain.type}</span></div>
                         <div class="card-r"><span>THC</span><span>${sp.strain.thc}%</span></div>
                         <div class="card-r"><span>Урожай</span><span>${sp.strain.yld}г</span></div>
-                        <div class="card-r"><span>Здоровье</span><span>${sp.health.toFixed(0)}%</span></div>
+                        <div class="card-r"><span>Стадия</span><span>${['Семя','Росток','Сеянец','Вегетация','Пре-флавер','Цветение','Harvest'][sp.stage]}</span></div>
                         <div class="card-r"><span>Вода</span><span>${sp.water.toFixed(0)}%</span></div>
+                        <div class="card-r"><span>Здоровье</span><span>${sp.health.toFixed(0)}%</span></div>
+                        <div class="card-r"><span>Гены</span><span>${genes}</span></div>
                     </div>`;
                 }
                 
                 c.innerHTML = html;
             }
+            else if (tab === 'dry') {
+                let html = '<div class="section"><span class="section-icon">🍂</span><div><div class="section-title">Сушка и Curing</div><div class="section-desc">7-14 дней для качества</div></div></div>';
+                
+                // Drying plants
+                html += '<div class="card"><div class="card-t">💨 Сушка</div>';
+                if (S.drying.length === 0) {
+                    html += '<div class="card-p">Нет растений на сушке</div>';
+                } else {
+                    S.drying.forEach((d, i) => {
+                        html += `<div class="dry-slot">
+                            <div class="card-r"><span>${d.strain.name}</span><span>${d.weight}г</span></div>
+                            <div class="card-r"><span>Прогресс</span><span>${d.progress.toFixed(0)}%</span></div>
+                            <div class="dry-progress"><div class="dry-progress-fill" style="width:${d.progress}%"></div></div>
+                        </div>`;
+                    });
+                }
+                html += '</div>';
+                
+                // Trim queue
+                html += '<div class="card" style="margin-top:8px"><div class="card-t">✂️ Тримминг</div>';
+                const readyHarvest = S.plants.filter(p => p.stage >= 6);
+                if (readyHarvest.length === 0) {
+                    html += '<div class="card-p">Нет готовых растений</div>';
+                } else {
+                    html += '<div class="card-p">Выбери растение на грядке для сбора</div>';
+                }
+                html += '</div>';
+                
+                c.innerHTML = html;
+            }
+            else if (tab === 'breed') {
+                let html = '<div class="section"><span class="section-icon">🧬</span><div><div class="section-title">Скрещивание</div><div class="section-desc">Менделевское наследование</div></div></div>';
+                
+                html += '<div class="breed-pair">';
+                html += `<div class="breed-slot" id="breedSlot0">${S.breeding[0] ? `<div style="font-size:24px">${S.breeding[0].icon}</div><div style="font-size:7px">${S.breeding[0].name}</div>` : '<div style="font-size:7px">Выбери сорт</div>'}</div>`;
+                html += '<div class="breed-arrow">✕</div>';
+                html += `<div class="breed-slot" id="breedSlot1">${S.breeding[1] ? `<div style="font-size:24px">${S.breeding[1].icon}</div><div style="font-size:7px">${S.breeding[1].name}</div>` : '<div style="font-size:7px">Выбери сорт</div>'}</div>`;
+                html += '</div>';
+                
+                html += `<button class="breed-btn" id="breedBtn" ${S.breeding[0] && S.breeding[1] ? '' : 'disabled'}>🧬 СКРЕСТИТЬ ($500)</button>`;
+                
+                html += '<div class="card" style="margin-top:10px"><div class="card-t">📖 Доступные сорта</div>';
+                html += '<div class="grid">';
+                strains.forEach(s => {
+                    const inBreed = S.breeding[0]?.id === s.id || S.breeding[1]?.id === s.id;
+                    html += `<div class="item ${inBreed ? 'off' : ''}" data-breed="${s.id}"><div class="ii">${s.icon}</div><div class="in">${s.name.slice(0, 8)}</div><div class="id">${s.type}</div></div>`;
+                });
+                html += '</div></div>';
+                
+                // Gene info
+                html += `<div class="card" style="margin-top:8px">
+                    <div class="card-t">🧬 Гены</div>
+                    <div class="card-r"><span>T (THC)</span><span>Психоактивность</span></div>
+                    <div class="card-r"><span>C (CBD)</span><span>Медицина</span></div>
+                    <div class="card-r"><span>Y (Yield)</span><span>Урожайность</span></div>
+                    <div class="card-r"><span>S (Speed)</span><span>Скорость</span></div>
+                    <div class="card-r"><span>R (Resistance)</span><span>Устойчивость</span></div>
+                </div>`;
+                
+                c.innerHTML = html;
+            }
             else if (tab === 'shop') {
                 c.innerHTML = `
-                    <div class="section"><span class="section-icon">🌱</span><div><div class="section-title">Семена</div><div class="section-desc">12 сортов</div></div></div>
+                    <div class="section"><span class="section-icon">🌱</span><div><div class="section-title">Семена</div><div class="section-desc">${strains.length} сортов</div></div></div>
                     <div class="grid" id="seedGrid"></div>
                     <div class="section"><span class="section-icon">🧪</span><div><div class="section-title">Удобрения</div><div class="section-desc">NPK формулы</div></div></div>
                     <div class="grid" id="nutrGrid"></div>`;
@@ -773,32 +649,52 @@
             }
             else if (tab === 'equip') {
                 c.innerHTML = '<div class="section"><span class="section-icon">💡</span><div><div class="section-title">Освещение</div><div class="section-desc">PPFD и спектр</div></div></div>';
-                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => e.id.includes('lamp')).map(e => 
+                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => e.cat === 'light').map(e => 
                     `<div class="equip-item ${S.equipment.includes(e.id) ? 'owned' : ''}" data-equip="${e.id}">
                         <div class="ei">${e.icon}</div>
                         <div class="en">${e.name}</div>
-                        <div class="ed">${e.desc} | +${Math.round((e.bonus - 1) * 100)}%</div>
-                        <div class="ec">${S.equipment.includes(e.id) ? '✅ Установлено' : '💰 ' + e.price}</div>
+                        <div class="ed">${e.desc}${e.bonus.speed ? ' | +' + Math.round((e.bonus.speed - 1) * 100) + '% скорость' : ''}</div>
+                        <div class="ec">${S.equipment.includes(e.id) ? '✅' : '💰 ' + e.price}</div>
                     </div>`
                 ).join('') + '</div>';
                 
                 c.innerHTML += '<div class="section"><span class="section-icon">🌀</span><div><div class="section-title">Климат</div><div class="section-desc">Вентиляция и контроль</div></div></div>';
-                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => ['fan', 'filter', 'hygro', 'timer', 'ph'].includes(e.id)).map(e => 
-                    `<div class="equip-item ${S.equipment.includes(e.id) ? 'owned' : ''}" data-equip="${e.id}">
-                        <div class="ei">${e.icon}</div>
-                        <div class="en">${e.name}</div>
-                        <div class="ed">${e.desc} ${e.bonus > 1 ? '| +' + Math.round((e.bonus - 1) * 100) + '%' : ''}</div>
-                        <div class="ec">${S.equipment.includes(e.id) ? '✅ Установлено' : '💰 ' + e.price}</div>
-                    </div>`
-                ).join('') + '</div>';
-                
-                c.innerHTML += '<div class="section"><span class="section-icon">🏠</span><div><div class="section-title">Гроубоксы</div><div class="section-desc">Больше слотов</div></div></div>';
-                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => ['pot5', 'pot10', 'tent', 'tent2'].includes(e.id)).map(e => 
+                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => e.cat === 'climate').map(e => 
                     `<div class="equip-item ${S.equipment.includes(e.id) ? 'owned' : ''}" data-equip="${e.id}">
                         <div class="ei">${e.icon}</div>
                         <div class="en">${e.name}</div>
                         <div class="ed">${e.desc}</div>
-                        <div class="ec">${S.equipment.includes(e.id) ? '✅ Куплено' : '💰 ' + e.price}</div>
+                        <div class="ec">${S.equipment.includes(e.id) ? '✅' : '💰 ' + e.price}</div>
+                    </div>`
+                ).join('') + '</div>';
+                
+                c.innerHTML += '<div class="section"><span class="section-icon">🔧</span><div><div class="section-title">Инструменты</div><div class="section-desc">Измерения</div></div></div>';
+                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => e.cat === 'tools').map(e => 
+                    `<div class="equip-item ${S.equipment.includes(e.id) ? 'owned' : ''}" data-equip="${e.id}">
+                        <div class="ei">${e.icon}</div>
+                        <div class="en">${e.name}</div>
+                        <div class="ed">${e.desc}</div>
+                        <div class="ec">${S.equipment.includes(e.id) ? '✅' : '💰 ' + e.price}</div>
+                    </div>`
+                ).join('') + '</div>';
+                
+                c.innerHTML += '<div class="section"><span class="section-icon">🏠</span><div><div class="section-title">Пространство</div><div class="section-desc">Гроубоксы</div></div></div>';
+                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => e.cat === 'space').map(e => 
+                    `<div class="equip-item ${S.equipment.includes(e.id) ? 'owned' : ''}" data-equip="${e.id}">
+                        <div class="ei">${e.icon}</div>
+                        <div class="en">${e.name}</div>
+                        <div class="ed">${e.desc}</div>
+                        <div class="ec">${S.equipment.includes(e.id) ? '✅' : '💰 ' + e.price}</div>
+                    </div>`
+                ).join('') + '</div>';
+                
+                c.innerHTML += '<div class="section"><span class="section-icon">⚙️</span><div><div class="section-title">Системы</div><div class="section-desc">Гидропоника</div></div></div>';
+                c.innerHTML += '<div class="equip-grid">' + equipment.filter(e => e.cat === 'system').map(e => 
+                    `<div class="equip-item ${S.equipment.includes(e.id) ? 'owned' : ''}" data-equip="${e.id}">
+                        <div class="ei">${e.icon}</div>
+                        <div class="en">${e.name}</div>
+                        <div class="ed">${e.desc}</div>
+                        <div class="ec">${S.equipment.includes(e.id) ? '✅' : '💰 ' + e.price}</div>
                     </div>`
                 ).join('') + '</div>';
             }
@@ -809,37 +705,55 @@
                         <div class="ei">${l.icon}</div>
                         <div class="en">${l.name}</div>
                         <div class="ed">${l.desc}</div>
-                        <div class="ec">${S.lab.includes(l.id) ? '✅ Куплено' : '💰 ' + l.price}</div>
+                        <div class="ec">${S.lab.includes(l.id) ? '✅' : '💰 ' + l.price}</div>
                     </div>`
                 ).join('') + '</div>';
                 
-                c.innerHTML += '<div class="card" style="margin-top:12px"><div class="card-t">🧬 Генетика</div><div class="card-p">5 генов: T (THC), C (CBD), Y (урожай), S (скорость), R (устойчивость). Менделевское наследование при скрещивании.</div></div>';
+                c.innerHTML += '<div class="card" style="margin-top:10px"><div class="card-t">🔬 Разблокировки</div>';
+                S.lab.forEach(id => {
+                    const l = labItems.find(x => x.id === id);
+                    if (l) c.innerHTML += `<div class="card-r"><span>${l.icon} ${l.name}</span><span>✅</span></div>`;
+                });
+                if (S.lab.length === 0) c.innerHTML += '<div class="card-p">Купи оборудование для разблокировки функций</div>';
+                c.innerHTML += '</div>';
             }
             else if (tab === 'learn') {
                 c.innerHTML = '<div class="section"><span class="section-icon">📚</span><div><div class="section-title">Академия Гровинга</div><div class="section-desc">Научные данные</div></div></div>';
                 lessons.forEach((l, i) => {
                     const unlocked = l.unlocked || (l.id === 'training' && S.stats.harvests >= 1) || 
-                                     (l.id === 'flower' && S.stats.harvests >= 2) || 
+                                     (l.id === 'flower' && S.stats.harvests >= 3) || 
                                      (l.id === 'harvest' && S.stats.harvests >= 5) ||
                                      (l.id === 'genetics' && S.stats.planted >= 10) ||
-                                     (l.id === 'pests' && S.stats.planted >= 15);
+                                     (l.id === 'pests' && S.stats.planted >= 20) ||
+                                     (l.id === 'advanced' && S.equipment.length >= 5);
                     c.innerHTML += `<div class="lesson" style="opacity:${unlocked ? 1 : 0.5}" data-lesson="${l.id}">
                         <h3>${l.title} ${unlocked ? '▶' : '🔒'}</h3>
                     </div>`;
                 });
-                c.innerHTML += '<div class="card" id="lessonContent" style="display:none;margin-top:10px"></div>';
+                c.innerHTML += '<div class="card" id="lessonContent" style="display:none;margin-top:8px"></div>';
             }
-            else if (tab === 'stats') {
-                const need = S.level * 100;
-                c.innerHTML = `<div class="card"><div class="card-t">📊 Прогресс</div><div style="margin-bottom:10px;font-size:9px">Уровень ${S.level} • ${S.xp}/${need} XP</div><div class="prog"><div class="prog-f" style="width:${(S.xp/need)*100}%"></div></div></div>
-                <div class="card"><div class="card-t">📈 Статистика</div>
-                    <div class="card-r"><span>🌱 Посажено</span><span>${S.stats.planted}</span></div>
-                    <div class="card-r"><span>✂️ Урожаев</span><span>${S.stats.harvests}</span></div>
-                    <div class="card-r"><span>🧬 Скрещиваний</span><span>${S.stats.bred}</span></div>
-                    <div class="card-r"><span>🔧 Оборудования</span><span>${S.equipment.length}</span></div>
-                    <div class="card-r"><span>🔬 Лаборатория</span><span>${S.lab.length}</span></div>
-                    <div class="card-r"><span>💰 Баланс</span><span>$${S.money}</span></div>
-                </div>`;
+            else if (tab === 'achieve') {
+                c.innerHTML = '<div class="section"><span class="section-icon">🏆</span><div><div class="section-title">Достижения</div><div class="section-desc">Прогресс</div></div></div>';
+                achievements.forEach(a => {
+                    const unlocked = a.check(S);
+                    c.innerHTML += `<div class="achievement ${unlocked ? '' : 'locked'}">
+                        <div class="achievement-icon">${a.icon}</div>
+                        <div class="achievement-info">
+                            <div class="achievement-name">${a.name}</div>
+                            <div class="achievement-desc">${a.desc}</div>
+                        </div>
+                        <div class="achievement-progress">${unlocked ? '✅' : '🔒'}</div>
+                    </div>`;
+                });
+                
+                c.innerHTML += '<div class="card" style="margin-top:10px"><div class="card-t">📊 Статистика</div>';
+                c.innerHTML += `<div class="card-r"><span>🌱 Посажено</span><span>${S.stats.planted}</span></div>`;
+                c.innerHTML += `<div class="card-r"><span>✂️ Урожаев</span><span>${S.stats.harvests}</span></div>`;
+                c.innerHTML += `<div class="card-r"><span>🧬 Скрещиваний</span><span>${S.stats.bred}</span></div>`;
+                c.innerHTML += `<div class="card-r"><span>💰 Баланс</span><span>$${S.money}</span></div>`;
+                c.innerHTML += `<div class="card-r"><span>🔧 Оборудования</span><span>${S.equipment.length}/${equipment.length}</span></div>`;
+                c.innerHTML += `<div class="card-r"><span>⚗️ Лаборатория</span><span>${S.lab.length}/${labItems.length}</span></div>`;
+                c.innerHTML += '</div>';
             }
         }
         
@@ -847,17 +761,18 @@
             const l = lessons.find(x => x.id === id);
             if (!l) return;
             const unlocked = l.unlocked || (l.id === 'training' && S.stats.harvests >= 1) || 
-                             (l.id === 'flower' && S.stats.harvests >= 2) || 
+                             (l.id === 'flower' && S.stats.harvests >= 3) || 
                              (l.id === 'harvest' && S.stats.harvests >= 5) ||
                              (l.id === 'genetics' && S.stats.planted >= 10) ||
-                             (l.id === 'pests' && S.stats.planted >= 15);
+                             (l.id === 'pests' && S.stats.planted >= 20) ||
+                             (l.id === 'advanced' && S.equipment.length >= 5);
             if (!unlocked) { toast('🔒', 'Разблокируется позже'); return; }
             
-            let html = `<h3 style="font-size:11px;color:#7fff7f;margin-bottom:10px">${l.title}</h3>`;
+            let html = `<h3 style="font-size:10px;color:#7fff7f;margin-bottom:8px">${l.title}</h3>`;
             l.content.forEach(c => {
-                html += `<div style="margin-bottom:12px">
-                    <div style="font-size:10px;color:#f0883e;margin-bottom:5px">${c.title}</div>
-                    <div style="font-size:9px;color:#c9d1d9;line-height:1.6">${c.text}</div>
+                html += `<div style="margin-bottom:10px">
+                    <div style="font-size:9px;color:#f0883e;margin-bottom:4px">${c.title}</div>
+                    <div style="font-size:8px;color:#c9d1d9;line-height:1.5">${c.text}</div>
                 </div>`;
             });
             document.getElementById('lessonContent').innerHTML = html;
@@ -876,7 +791,7 @@
             S.plants.push({
                 slot: S.selected, strain: strain,
                 genes: { t: (Math.random() > 0.5 ? 'T' : 't') + (Math.random() > 0.5 ? 'T' : 't'), c: (Math.random() > 0.7 ? 'C' : 'c') + (Math.random() > 0.7 ? 'C' : 'c'), y: (Math.random() > 0.5 ? 'Y' : 'y') + (Math.random() > 0.5 ? 'Y' : 'y'), s: (Math.random() > 0.5 ? 'S' : 's') + (Math.random() > 0.5 ? 'S' : 's'), r: (Math.random() > 0.5 ? 'R' : 'r') + (Math.random() > 0.5 ? 'R' : 'r') },
-                progress: 0, stage: 0, health: 100, water: 70
+                progress: 0, stage: 0, health: 100, water: 70, startDay: S.day
             });
             S.stats.planted++;
             S.xp += 5;
@@ -901,11 +816,7 @@
             const e = equipment.find(x => x.id === id);
             if (S.money < e.price) { toast('❌', 'Не хватает денег'); return; }
             
-            if (id === 'pot5') { S.slots += 1; }
-            else if (id === 'pot10') { S.slots += 2; }
-            else if (id === 'tent') { S.slots += 4; }
-            else if (id === 'tent2') { S.slots += 8; }
-            
+            if (e.bonus?.slots) { S.slots += e.bonus.slots; }
             S.money -= e.price;
             S.equipment.push(id);
             toast('🔧', e.name);
@@ -925,14 +836,28 @@
         }
         
         function harvest(p) {
-            const yld = Math.floor(p.strain.yld * (p.genes.y.includes('Y') ? 1.3 : 0.85) * (p.health / 100));
-            const bonus = S.equipment.reduce((sum, id) => { const e = equipment.find(x => x.id === id); return sum + (e?.bonus || 0); }, 0) || 1;
-            const money = Math.floor(yld * 2 * bonus);
-            S.money += money;
+            const bonus = getEquipBonus();
+            let yld = Math.floor(p.strain.yld * (p.genes.y.includes('Y') ? 1.3 : 0.85) * (p.health / 100) * bonus.yield);
+            if (p.genes.t.includes('T')) yld = Math.floor(yld * 1.1);
+            
+            // Add to drying
+            S.drying.push({
+                strain: p.strain,
+                weight: yld,
+                progress: 0,
+                quality: p.health * bonus.quality,
+                genes: p.genes
+            });
+            
             S.stats.harvests++;
             S.xp += 50;
+            if (yld > S.stats.maxYield) S.stats.maxYield = yld;
+            
+            const growDays = S.day - p.startDay;
+            if (growDays < S.stats.fastestGrow) S.stats.fastestGrow = growDays;
+            
             S.plants = S.plants.filter(x => x.slot !== p.slot);
-            toast('✂️', `+${yld}г = $${money}`);
+            toast('✂️', `+${yld}г на сушку`);
             save();
             render('grow');
         }
@@ -941,6 +866,7 @@
             const p = S.plants.find(x => x.slot === S.selected);
             if (!p) { toast('❌', 'Выбери растение'); return; }
             p.water = Math.min(100, p.water + 30);
+            p.health = Math.min(100, p.health + 2);
             toast('💧', 'Полито');
             render('grow');
             save();
@@ -950,12 +876,65 @@
             const p = S.plants.find(x => x.slot === S.selected);
             if (!p) { toast('❌', 'Выбери растение'); return; }
             if (!S.inv[id] || S.inv[id] <= 0) { toast('❌', 'Нет удобрения'); return; }
+            const n = nutrients.find(x => x.id === id);
             S.inv[id]--;
-            p.health = Math.min(100, p.health + 20);
-            p.progress += 3;
+            if (n.effect.health) p.health = Math.min(100, p.health + n.effect.health);
+            if (n.effect.progress) p.progress += n.effect.progress;
+            if (n.effect.speed) p.strain = {...p.strain, speed: p.strain.speed * n.effect.speed};
             toast('🧪', 'Удобрено');
             render('grow');
             save();
+        }
+        
+        function addToBreed(id) {
+            const strain = strains.find(s => s.id === id);
+            if (!S.breeding[0]) {
+                S.breeding[0] = strain;
+            } else if (!S.breeding[1] && S.breeding[0].id !== id) {
+                S.breeding[1] = strain;
+            } else {
+                S.breeding[0] = strain;
+                S.breeding[1] = null;
+            }
+            render('breed');
+        }
+        
+        function breed() {
+            if (!S.breeding[0] || !S.breeding[1]) { toast('❌', 'Выбери 2 сорта'); return; }
+            if (S.money < 500) { toast('❌', 'Нужно $500'); return; }
+            
+            S.money -= 500;
+            S.stats.bred++;
+            S.xp += 100;
+            
+            // Mendelian inheritance
+            const newGenes = {};
+            ['t', 'c', 'y', 's', 'r'].forEach(g => {
+                const p1 = S.breeding[0].genes?.[g] || 'XY';
+                const p2 = S.breeding[1].genes?.[g] || 'XY';
+                const a1 = p1[Math.floor(Math.random() * 2)];
+                const a2 = p2[Math.floor(Math.random() * 2)];
+                newGenes[g] = (a1.toUpperCase() === a1 ? a1 : a1) + (a2.toUpperCase() === a2 ? a2 : a2);
+            });
+            
+            const newStrain = {
+                id: 'custom_' + Date.now(),
+                name: S.breeding[0].name.split(' ')[0] + ' x ' + S.breeding[1].name.split(' ')[0],
+                type: Math.random() > 0.5 ? S.breeding[0].type : S.breeding[1].type,
+                icon: '🧬',
+                thc: Math.floor((S.breeding[0].thc + S.breeding[1].thc) / 2 + Math.random() * 5),
+                yld: Math.floor((S.breeding[0].yld + S.breeding[1].yld) / 2 + Math.random() * 100),
+                price: 200,
+                speed: (S.breeding[0].speed + S.breeding[1].speed) / 2,
+                genes: newGenes
+            };
+            
+            strains.push(newStrain);
+            toast('🧬', 'Новый сорт: ' + newStrain.name);
+            
+            S.breeding = [null, null];
+            save();
+            render('breed');
         }
         
         // Event listeners
@@ -973,12 +952,38 @@
             render(t.dataset.t);
         });
         
-        document.querySelectorAll('.nav-btn').forEach(b => b.onclick = () => {
-            document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('on'));
-            b.classList.add('on');
-            const n = b.dataset.n;
-            document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.t === n));
-            render(n);
+        document.querySelectorAll('.actions .act').forEach(b => b.onclick = () => {
+            const a = b.dataset.a;
+            if (a === 'plant') document.getElementById('seedModal').classList.add('open');
+            else if (a === 'water') waterPlant();
+            else if (a === 'nutri') document.getElementById('nutrModal').classList.add('open');
+            else if (a === 'harvest') {
+                const p = S.plants.find(x => x.slot === S.selected);
+                if (p && p.stage >= 6) harvest(p);
+                else toast('❌', 'Выбери готовое растение');
+            }
+            else if (a === 'trim') {
+                if (S.drying.length > 0) {
+                    const readyDrying = S.drying.filter(d => d.progress >= 100);
+                    if (readyDrying.length > 0) {
+                        // Auto-complete drying
+                        readyDrying.forEach(d => {
+                            const finalYield = Math.floor(d.weight * (d.quality / 100));
+                            const finalPrice = finalYield * 3;
+                            S.money += finalPrice;
+                            S.xp += 30;
+                        });
+                        S.drying = S.drying.filter(d => d.progress < 100);
+                        toast('✂️', 'Тримминг завершён');
+                        save();
+                    } else {
+                        toast('⏳', 'Сушка ещё не завершена');
+                    }
+                } else {
+                    toast('❌', 'Нет растений на сушке');
+                }
+            }
+            else if (a === 'save') { save(); toast('💾', 'Сохранено'); }
         });
         
         document.getElementById('content').onclick = (e) => {
@@ -993,16 +998,19 @@
             const item = e.target.closest('.item');
             if (item) {
                 if (item.dataset.seed) plantSeed(item.dataset.seed);
-                if (item.dataset.nut) buyNutrient(item.dataset.nut);
+                else if (item.dataset.nut) buyNutrient(item.dataset.nut);
+                else if (item.dataset.breed) addToBreed(item.dataset.breed);
             }
             const equip = e.target.closest('.equip-item');
             if (equip) {
                 if (equip.dataset.equip) buyEquipment(equip.dataset.equip);
-                if (equip.dataset.lab) buyLab(equip.dataset.lab);
+                else if (equip.dataset.lab) buyLab(equip.dataset.lab);
             }
             const lesson = e.target.closest('.lesson');
             if (lesson) showLesson(lesson.dataset.lesson);
         };
+        
+        document.getElementById('breedBtn')?.addEventListener('click', breed);
         
         document.querySelectorAll('.mclose').forEach(b => b.onclick = () => document.getElementById(b.dataset.c).classList.remove('open'));
         
