@@ -264,6 +264,7 @@
             <button class="act" data-a="plant"><span class="i">🌱</span><span class="t">Посадить</span></button>
             <button class="act" data-a="water"><span class="i">💧</span><span class="t">Полить</span></button>
             <button class="act" data-a="nutrient"><span class="i">🧪</span><span class="t">Удобр</span></button>
+            <button class="act" data-a="actions"><span class="i">✋</span><span class="t">Действия</span></button>
             <button class="act" data-a="harvest"><span class="i">✂️</span><span class="t">Собрать</span></button>
             <button class="act" data-a="quiz"><span class="i">❓</span><span class="t">Квиз</span></button>
             <button class="act" data-a="save"><span class="i">💾</span><span class="t">Сейв</span></button>
@@ -275,6 +276,7 @@
     <div class="modal" id="nutrModal"><div class="box"><div class="mhead"><div class="mtit">🧪 Удобрения</div><button class="mclose" data-c="nutrModal">✕</button></div><div class="mbody"><div class="grid" id="nutrGrid"></div></div></div></div>
     <div class="modal" id="infoModal"><div class="box"><div class="mhead"><div class="mtit" id="infoTit">Инфо</div><button class="mclose" data-c="infoModal">✕</button></div><div class="mbody" id="infoBody"></div></div></div>
     <div class="modal" id="quizModal"><div class="box"><div class="mhead"><div class="mtit" id="quizTit">❓ Квиз</div><button class="mclose" data-c="quizModal">✕</button></div><div class="mbody" id="quizBody"></div></div></div>
+    <div class="modal" id="actionsModal"><div class="box"><div class="mhead"><div class="mtit" id="actionsTit">✋ Действия</div><button class="mclose" data-c="actionsModal">✕</button></div><div class="mbody" id="actionsBody"></div></div></div>
     <div class="toast" id="toast"><div class="toast-t" id="tt"></div><div class="toast-x" id="tx"></div></div>
 
     <script>
@@ -1074,6 +1076,124 @@
             render('breed');
         };
         
+        function showActions(p) {
+            const stageNames = ['Семя', 'Росток', 'Сеянец', 'Вегетация', 'Пре-флавер', 'Цветение', 'Harvest'];
+            
+            let html = `<div style="font-size:10px;color:#7fff7f;margin-bottom:8px">${p.strain.name} — ${stageNames[p.stage]}</div>`;
+            html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;font-size:8px">
+                <div style="background:#1a3d1a;padding:6px;border-radius:4px"><div style="color:#8f8">💧 Вода</div><div style="color:#fff;margin-top:3px">${Math.floor(p.water)}%</div></div>
+                <div style="background:#1a3d1a;padding:6px;border-radius:4px"><div style="color:#8f8">❤️ Здоровье</div><div style="color:#fff;margin-top:3px">${Math.floor(p.health)}%</div></div>
+            </div>`;
+            
+            // 8 actions
+            const actions = [
+                { id: 'trim', icon: '✂️', name: 'Тримминг', desc: 'Удалить лишние листья', stage: [3,4,5], cost: 0, effect: '+5% урожай' },
+                { id: 'lst', icon: '🌿', name: 'LST', desc: 'Низкий стресс (гибка)', stage: [2,3], cost: 50, effect: '+15% урожай' },
+                { id: 'topping', icon: '✂️', name: 'Топпинг', desc: 'Срезать верхушку', stage: [2,3], cost: 0, effect: '+2 колы' },
+                { id: 'flush', icon: '💧', name: 'Промывка', desc: 'Очистить от удобрений', stage: [5,6], cost: 0, effect: '+20% качество' },
+                { id: 'pesticide', icon: '🐛', name: 'Обработка', desc: 'Защита от вредителей', stage: [1,2,3,4,5], cost: 30, effect: '+10% здоровье' },
+                { id: 'fungicide', icon: '🦠', name: 'Фунгицид', desc: 'Защита от плесени', stage: [4,5,6], cost: 40, effect: '+15% здоровье' },
+                { id: 'check', icon: '🔬', name: 'Осмотр', desc: 'Проверить трихомы', stage: [5,6], cost: 0, effect: 'Информация' },
+                { id: 'clone', icon: '🌱', name: 'Клон', desc: 'Создать копию', stage: [3,4], cost: 200, effect: 'Новое растение' }
+            ];
+            
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+            actions.forEach(act => {
+                const canUse = act.stage.includes(p.stage);
+                const canAfford = S.money >= act.cost;
+                const disabled = !canUse || !canAfford ? 'opacity:0.4;cursor:not-allowed' : '';
+                
+                html += `<div style="background:linear-gradient(180deg,#3d2914 0%,#2d1f0f 100%);border:2px solid #5d3a1a;padding:8px;border-radius:4px;${disabled}" 
+                    onclick="${canUse && canAfford ? `doAction('${act.id}', ${S.plants.indexOf(p)})` : ''}">
+                    <div style="font-size:16px;text-align:center">${act.icon}</div>
+                    <div style="font-size:8px;color:#7fff7f;text-align:center;margin-top:4px">${act.name}</div>
+                    <div style="font-size:6px;color:#8f8;text-align:center;margin-top:2px">${act.desc}</div>
+                    <div style="font-size:7px;color:${canUse ? (canAfford ? '#f0883e' : '#8b0000') : '#8b0000'};text-align:center;margin-top:3px">${act.cost > 0 ? '💰' + act.cost : 'Бесплатно'}</div>
+                    <div style="font-size:6px;color:#7fff7f;text-align:center;margin-top:2px">${act.effect}</div>
+                </div>`;
+            });
+            html += '</div>';
+            
+            html += `<div style="margin-top:10px;font-size:7px;color:#8f8;text-align:center">Стадия: ${stageNames[p.stage]} | Действия зависят от стадии</div>`;
+            
+            document.getElementById('actionsTit').textContent = '✋ Действия';
+            document.getElementById('actionsBody').innerHTML = html;
+            document.getElementById('actionsModal').classList.add('open');
+        }
+        
+        window.doAction = function(action, plantIdx) {
+            const p = S.plants[plantIdx];
+            if (!p) return;
+            
+            switch (action) {
+                case 'trim':
+                    p.yieldBonus = (p.yieldBonus || 1) * 1.05;
+                    toast('✂️', 'Тримминг +5% урожай');
+                    break;
+                case 'lst':
+                    if (S.money < 50) { toast('❌', 'Нужно $50'); return; }
+                    S.money -= 50;
+                    p.yieldBonus = (p.yieldBonus || 1) * 1.15;
+                    toast('🌿', 'LST +15% урожай');
+                    break;
+                case 'topping':
+                    p.topped = true;
+                    p.yieldBonus = (p.yieldBonus || 1) * 1.1;
+                    toast('✂️', 'Топпинг! +2 колы');
+                    break;
+                case 'flush':
+                    p.flushed = true;
+                    p.qualityBonus = (p.qualityBonus || 1) * 1.2;
+                    p.water = 100;
+                    toast('💧', 'Промывка +20% качество');
+                    break;
+                case 'pesticide':
+                    if (S.money < 30) { toast('❌', 'Нужно $30'); return; }
+                    S.money -= 30;
+                    p.health = Math.min(100, p.health + 10);
+                    p.pestProtected = true;
+                    toast('🐛', 'Защита от вредителей');
+                    break;
+                case 'fungicide':
+                    if (S.money < 40) { toast('❌', 'Нужно $40'); return; }
+                    S.money -= 40;
+                    p.health = Math.min(100, p.health + 15);
+                    p.fungusProtected = true;
+                    toast('🦠', 'Защита от плесени');
+                    break;
+                case 'check':
+                    const trichomeStatus = p.stage === 6 ? 'Мутые (готов)' : p.stage === 5 ? 'Прозрачные (не готов)' : 'Нет трихом';
+                    toast('🔬', `Трихомы: ${trichomeStatus}`);
+                    document.getElementById('actionsModal').classList.remove('open');
+                    return;
+                case 'clone':
+                    if (S.money < 200) { toast('❌', 'Нужно $200'); return; }
+                    if (!S.research.find(r => r.id === 'clone')?.done) { toast('🔒', 'Исследуй клонирование'); return; }
+                    const emptySlot = [...Array(S.slots).keys()].find(i => !S.plants.find(pl => pl.slot === i));
+                    if (emptySlot === undefined) { toast('❌', 'Нет слотов'); return; }
+                    S.money -= 200;
+                    S.plants.push({
+                        slot: emptySlot,
+                        strain: p.strain,
+                        genes: JSON.parse(JSON.stringify(p.genes)),
+                        progress: 0,
+                        stage: 0,
+                        health: 100,
+                        water: 70,
+                        cloned: true
+                    });
+                    S.stats.clones++;
+                    toast('🌱', 'Клон создан!');
+                    break;
+            }
+            
+            S.xp += 5;
+            save();
+            update();
+            document.getElementById('actionsModal').classList.remove('open');
+            render('grow');
+        };
+        
         // Event listeners
         document.getElementById('startBtn').onclick = () => { S.tutorial = false; document.getElementById('tut').classList.add('h'); save(); };
         
@@ -1103,6 +1223,12 @@
             else if (a === 'nutrient') {
                 if (S.selected === null) toast('❌', 'Выбери растение');
                 else document.getElementById('nutrModal').classList.add('open');
+            }
+            else if (a === 'actions') {
+                if (S.selected === null) { toast('❌', 'Выбери растение'); return; }
+                const p = S.plants.find(x => x.slot === S.selected);
+                if (!p) { toast('❌', 'Пустой слот'); return; }
+                showActions(p);
             }
             else if (a === 'harvest') {
                 if (S.selected === null) toast('❌', 'Выбери растение');
